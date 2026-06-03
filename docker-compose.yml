@@ -7,9 +7,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://YOUR_SUPABASE_URL_HERE
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://your-supabase-url:5432/postgres;DB_PASSWORD=A%haiI31A*&dAjasJ@12#(
       - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=YOUR_SUPABASE_PASSWORD_HERE
+      - SPRING_DATASOURCE_PASSWORD=A%haiI31A*&dAjasJ@12#(
       - SPRING_AI_OLLAMA_BASE_URL=http://host.docker.internal:11434
     extra_hosts:
       - "host.docker.internal:host-gateway" # Allows the container to talk to your local Ollama instance
