@@ -6,10 +6,7 @@ services:
     container_name: pasay-tax-system-container
     ports:
       - "8080:8080"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://your-supabase-url:5432/postgres;DB_PASSWORD=A%haiI31A*&dAjasJ@12#(
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=A%haiI31A*&dAjasJ@12#(
-      - SPRING_AI_OLLAMA_BASE_URL=http://host.docker.internal:11434
+    env_file:
+      - .env
     extra_hosts:
       - "host.docker.internal:host-gateway" # Allows the container to talk to your local Ollama instance

@@ -34,3 +34,6 @@ build/
 
 # Ignore local docker credentials
 docker-compose.yml
+
+# Ignore local environment secrets
+.env
