@@ -52,7 +52,7 @@ public class BusinessModel {
     private List<BranchModel> branches = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "business_database_id", nullable = false)
+    @JoinColumn(name = "taxpayer_id", nullable = false)
     private TaxpayerModel taxpayer;
 
 }

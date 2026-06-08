@@ -8,6 +8,6 @@ public class PortalController {
     
     @GetMapping("/portal")
     public String showPortalLandingPage() {
-        return "client/index";
+        return "/index";
     }
 }

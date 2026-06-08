@@ -23,5 +23,8 @@ public class TaxpayerModel extends User {
     @OneToMany(mappedBy = "taxpayer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<BusinessModel> businesses = new ArrayList<>();
 
+    @OneToMany(mappedBy = "taxpayer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<FeedbackModel> feedback = new ArrayList<>();
+
 
 }
