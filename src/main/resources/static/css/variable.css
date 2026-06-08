@@ -1,0 +1,17 @@
+.root {
+    
+    --main-color1: #FFF2E5;
+    --main-color2: #FFE2E2;
+
+    --secondary-color1: #222245;
+    --secondary-color2: #5B3535;
+
+    --accent-color1: #F98513;
+    --accent-color2: #580B74;
+
+    --font-dark: #151311;
+    --font-light: #FFF2E5;
+    
+    --heading: ;
+    --body: Inter;
+}
