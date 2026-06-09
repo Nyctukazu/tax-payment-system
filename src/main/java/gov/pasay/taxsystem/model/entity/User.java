@@ -1,15 +1,14 @@
 package gov.pasay.taxsystem.model.entity;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-@Entity
+@MappedSuperclass
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +19,8 @@ public abstract class User {
     private Long Id;
     private String firstName;
     private String lastName;
+    private String email;
+    private String password;
 
 
 }
