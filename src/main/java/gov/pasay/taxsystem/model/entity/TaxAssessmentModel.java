@@ -22,6 +22,6 @@ public class TaxAssessmentModel {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name = "business_database_id", nullable = false)
+    @JoinColumn(name = "business_database_id", nullable = false)
     private BusinessModel business;
 }

@@ -4,7 +4,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +21,8 @@ public class BranchModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String managerName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "business_database_id", nullable = false)
