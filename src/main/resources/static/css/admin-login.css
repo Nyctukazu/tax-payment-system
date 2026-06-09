@@ -1,0 +1,212 @@
+/* Root Variables from Figma Palette */
+:root {
+    --main-color1: #FFF2E5;
+    --main-color2: #FFE2E2;
+
+    --secondary-color1: #222245;
+    --secondary-color2: #5B3535;
+
+    --accent-color1: #F98513;
+    --accent-color2: #580B74;
+
+    --font-dark: #151311;
+    --font-light: #FFF2E5;
+
+    --heading: 'Inter', sans-serif;
+    --body: 'Inter', sans-serif;
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--main-color1);
+    font-family: var(--body);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: var(--secondary-color1);
+    color: var(--font-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    font-size: 14px;
+    font-family: var(--heading);
+}
+
+.navbar .logo {
+    font-weight: 600;
+}
+
+.navbar .back-home {
+    color: var(--font-light);
+    text-decoration: none;
+    font-size: 12px;
+    opacity: 0.9;
+    transition: opacity 0.2s;
+}
+
+.navbar .back-home:hover {
+    opacity: 1;
+}
+
+/* Login Container & Card */
+.login-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.login-card {
+    background: linear-gradient(135deg, var(--secondary-color1) 0%, #17132B 100%);
+    width: 100%;
+    max-width: 400px;
+    border-radius: 16px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Icon / Logo inside card */
+.logo-icon {
+    color: #A5A1B8;
+    margin-bottom: 16px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #4A4563;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.login-card h2 {
+    color: var(--font-light);
+    font-family: var(--heading);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.login-card .subtitle {
+    color: #A5A1B8;
+    font-size: 11px;
+    line-height: 1.5;
+    margin-bottom: 30px;
+    padding: 0 10px;
+}
+
+/* Form Controls */
+.input-group {
+    margin-bottom: 16px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: none;
+    background-color: #FFFFFF;
+    font-size: 14px;
+    color: var(--font-dark);
+    outline: none;
+}
+
+.input-group input::placeholder {
+    color: #A5A1B8;
+}
+
+/* Forgot Password Link */
+.forgot-password-container {
+    text-align: right;
+    margin-top: -8px;
+    margin-bottom: 24px;
+}
+
+.forgot-password {
+    color: #A5A1B8;
+    font-size: 11px;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Login Button with variables gradient */
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, var(--accent-color1) 0%, var(--accent-color2) 100%); 
+    color: var(--font-light);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.login-btn:hover {
+    opacity: 0.9;
+}
+
+
+/* Password Box Position Adjustment */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    padding-right: 45px; /* Keeps text from going under the eye */
+}
+
+/* Eye Toggle Button Styling */
+.eye-btn {
+    position: absolute;
+    right: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: var(--secondary-color2); /* Uses your palette tone #5B3535 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+}
+
+.eye-icon {
+    pointer-events: none;
+    display: block;
+    transform-origin: center;
+}
+
+/* Blinking Eyelid Animation */
+.blink-animation {
+    animation: eyeBlink 0.25s ease-in-out;
+}
+
+@keyframes eyeBlink {
+    0% {
+        transform: scaleY(1);
+    }
+    50% {
+        transform: scaleY(0.1); /* Flattens to look like a blink */
+    }
+    100% {
+        transform: scaleY(1);
+    }
+}
