@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "feedbacks")
+@Table(name = "feedback_model")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
