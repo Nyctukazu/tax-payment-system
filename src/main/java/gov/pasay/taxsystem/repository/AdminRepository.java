@@ -5,9 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-import gov.pasay.taxsystem.model.entity.TaxpayerModel;
+import gov.pasay.taxsystem.model.entity.AdminModel;
 
 @Repository
-public interface TaxpayerRepository extends JpaRepository<TaxpayerModel, Long>{
-    Optional<TaxpayerModel> findByEmail(String email);   
+public interface AdminRepository extends JpaRepository<AdminModel, Long>{
+    Optional<AdminModel> findByEmail(String email);
 }

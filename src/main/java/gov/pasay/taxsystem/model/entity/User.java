@@ -1,5 +1,6 @@
 package gov.pasay.taxsystem.model.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,6 +21,8 @@ public abstract class User {
     private String firstName;
     private String lastName;
     private String email;
+
+    @Column(name = "password", nullable = false)
     private String password;
 
 
