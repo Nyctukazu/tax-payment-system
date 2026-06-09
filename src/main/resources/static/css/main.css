@@ -1,5 +1,157 @@
-@import "./variables.css";
+@import "./variable.css";
 
 body {
-    background-color: var(--main-color1);
+    background-image: linear-gradient(to bottom right, var(--main-color1), var(--main-color2));
+    min-height: 100vh; 
+    margin: 0;
+}
+
+.sidebar-container {
+    position: fixed;
+    right: 0;
+    top: 20%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-end;
+    font-family: Arial, sans-serif;
+}
+
+.sidebar-item {
+    display: block;
+    width: 200px;
+    padding: 18px 24px;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+                    
+    background: linear-gradient(to right, #5B3535, #222245);
+                    
+    border-radius: 20px 0 0 20px;
+    box-shadow: -4px 6px 15px rgba(0, 0, 0, 0.15);
+                    
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    opacity: 1;
+}
+
+.sidebar-container:hover .sidebar-item {
+    opacity: 0.5;
+}
+
+.sidebar-container:hover .sidebar-item:hover {
+    opacity: 1;
+    transform: translateX(-8px); /* Optional: slight slide-out effect on hover */
+}
+
+.sidebar-item.active {
+    box-shadow: -4px 6px 5px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.navbar-wrapper {
+    background-color: #161633;
+    height: 80px;
+    padding: 0 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 45px;
+    height: 100%;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    position: relative;
+    height: 100%;
+    width: 70px;
+}
+
+.icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
+}
+
+.icon-circle svg {
+    width: 22px;
+    height: 22px;
+    fill: #535380; /* Elegant dim purple color for unselected icons */
+    transition: fill 0.3s ease;
+}
+
+.nav-label {
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 4px;
+    position: absolute;
+    bottom: 4px;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.icon-glow-ring {
+    position: absolute;
+    top: -15px; /* Pulls the aura upwards past the top border line */
+    width: 80px;
+    height: 75px;
+    background: radial-gradient(circle, rgba(219, 102, 53, 0.4) 0%, rgba(34, 34, 69, 0) 70%);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+                
+.nav-item.active .icon-circle {
+    background: #ffffff;
+    transform: translateY(-12px); /* Moves icon upward inside the glowing arc zone */
+    box-shadow: 0 10px 20px rgba(219, 102, 53, 0.3);
+}
+
+.nav-item.active .icon-circle svg {
+    fill: #161633; /* Dark fill counter-color inside white active circle */
+}
+
+.nav-item.active .nav-label {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.nav-item.active .icon-glow-ring {
+    opacity: 1;
+}
+
+.nav-item:not(.active):hover .icon-circle svg {
+    fill: #ffffff;
+    transform: scale(1.1);
 }
