@@ -8,7 +8,16 @@ public class PortalController {
     
     @GetMapping("/portal")
     public String showPortalLandingPage() {
+        return "index";
+    }
+
+    @GetMapping("/admin-login")
+    public String adminLogin() {
         return "admin/admin-login";
     }
 
+    @GetMapping("/client-login")
+    public String ClientLogin() {
+        return "client/client-login";
+    }
 }
