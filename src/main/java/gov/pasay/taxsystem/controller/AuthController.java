@@ -15,6 +15,7 @@ import gov.pasay.taxsystem.model.entity.AdminModel;
 import gov.pasay.taxsystem.model.entity.TaxpayerModel;
 import gov.pasay.taxsystem.service.AuthService;
 import gov.pasay.taxsystem.dto.LoginRequest;
+import gov.pasay.taxsystem.dto.RegisterRequest;
 
 @RestController
 @RequestMapping("/api/auth")   
@@ -28,5 +29,17 @@ public class AuthController {
         return authService.login(request.email(), request.password())
                 .<ResponseEntity<?>>map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password"));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+        try {
+            String message = authService.register(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(message);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occured");
+        }
     }
 }
