@@ -10,8 +10,11 @@
     --accent-color2: #580B74;
 
     --font-dark: #151311;
-    --font-light: #FFF2E5;
+    --font-light1: #FFF2E5;
+    --font-light2: #A5A1B8;
+
+    --input-color1: #fbf6ff;
     
-    --heading: ;
+    --heading: Inter;
     --body: Inter;
 }
