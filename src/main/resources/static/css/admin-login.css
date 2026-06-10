@@ -1,5 +1,6 @@
 @import "./variable.css";
 @import "./button.css";
+@import "./eye-blink.css";
 
 
 /* Reset and Base Styles */
@@ -139,42 +140,4 @@ body {
 
 .password-wrapper input {
     padding-right: 45px; /* Keeps text from going under the eye */
-}
-
-/* Eye Toggle Button Styling */
-.eye-btn {
-    position: absolute;
-    right: 14px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    color: var(--secondary-color2); 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    outline: none;
-}
-
-.eye-icon {
-    pointer-events: none;
-    display: block;
-    transform-origin: center;
-}
-
-/* Blinking Eyelid Animation */
-.blink-animation {
-    animation: eyeBlink 0.25s ease-in-out;
-}
-
-@keyframes eyeBlink {
-    0% {
-        transform: scaleY(1);
-    }
-    50% {
-        transform: scaleY(0.1); /* Flattens to look like a blink */
-    }
-    100% {
-        transform: scaleY(1);
-    }
 }

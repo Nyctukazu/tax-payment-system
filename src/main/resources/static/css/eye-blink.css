@@ -1,0 +1,59 @@
+.eye-btn {
+    position: absolute;
+    right: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: var(--secondary-color2); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+}
+
+.eye-icon path,
+.eye-icon circle,
+.eye-icon .slash-line {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 0.15 ease, opacity 0.15s ease;
+}
+
+.eye-icon .slash-line {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.eye-icon circle {
+    transform: scale(0);
+    opacity: 0;
+}
+
+.show-password .eye-icon .slash-line {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.show-password .eye-icon circle {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.eye-btn:active path,
+.eye-btn:active circle,
+.blink-active .slash-line {
+    animation: eyeBlink 0.2s ease-in-out;
+}
+
+@keyframes eyeBlink {
+    0% {
+        transform: scaleY(1);
+    }
+    45%, 55% {
+        transform: scaleY(0.02);
+    }
+    100% {
+        transform: scaleY(1);
+    }
+}
