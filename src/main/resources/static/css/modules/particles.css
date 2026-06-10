@@ -1,0 +1,36 @@
+@import "../base/variable.css";
+
+.particle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+
+.triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 20px solid var(--accent-color2); 
+    opacity: 0.12; 
+    animation: floatUpward linear infinite;
+}
+
+@keyframes floatUpward {
+    0% {
+        transform: translateY(0) translateX(0) rotate(var(--base-rotation, 0deg));
+    }
+    50% {
+        transform: translateY(-45vh) translateX(25px) rotate(180deg);
+    }
+    100% {
+        transform: translateY(-105vh) translateX(-10px) rotate(360deg);
+    }
+}

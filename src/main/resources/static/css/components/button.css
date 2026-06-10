@@ -1,4 +1,4 @@
-@import "./variable.css";
+@import "../base/variable.css";
 
 .global-btn {
     width: 100%;

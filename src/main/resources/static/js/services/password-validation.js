@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+export function passwordValidator() {
     const passwordInput = document.getElementById('password');
     const toggleBtn = document.getElementById('toggle-password');
 
@@ -98,4 +98,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-});
+}
