@@ -25,22 +25,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        Optional<User> authenticatedUserOpt = authService.login(request.email(), request.password());
-
-        if (authenticatedUserOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
-        }
-
-        User user = authenticatedUserOpt.get();
-
-        if (user instanceof AdminModel) {
-            AdminModel admin = (AdminModel) user;
-            return ResponseEntity.ok("Welcome Admin! Type: " + admin.getAdminClass());
-
-        } else if (user instanceof TaxpayerModel) {
-            return ResponseEntity.ok("Welcome Client! " + user.getFirstName());
-        }
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        return authService.login(request.email(), request.password())
+                .<ResponseEntity<?>>map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password"));
     }
 }

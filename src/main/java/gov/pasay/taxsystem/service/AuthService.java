@@ -5,6 +5,7 @@ import gov.pasay.taxsystem.repository.AdminRepository;
 import gov.pasay.taxsystem.model.entity.TaxpayerModel;
 import gov.pasay.taxsystem.model.entity.AdminModel;
 import gov.pasay.taxsystem.model.entity.User;
+import gov.pasay.taxsystem.dto.AuthResponse;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +38,29 @@ public class AuthService {
             }
         }
 
-        if (matchedUser == null) {
+        if (matchedUser == null || !passwordEncoder.matches(inputRawPassword, matchedUser.getPassword())) {
             return Optional.empty();
         }
 
-        if (passwordEncoder.matches(inputRawPassword, matchedUser.getPassword())) {
-            return Optional.of(matchedUser); 
+        AuthResponse response;
+        if (matchedUser instanceof AdminModel admin) {
+            response = new AuthResponse(
+                "Welcome Admin!",
+                "ADMIN",
+                admin.getFirstName().toString(),
+                admin.getAdminClass().name()
+            );
+        } else if (matchedUser instanceof TaxpayerModel taxpayer) {
+            response = new AuthResponse(
+                "Welcome Client!",
+                "TAXPAYER",
+                taxpayer.getFirstName(),
+                null           
+            );
+        } else {
+            return Optional.empty();
         }
+
         return Optional.empty();
     }
-
 }
