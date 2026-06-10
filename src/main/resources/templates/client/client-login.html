@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Login</title>
+    <link rel="stylesheet" href="/css/client/client-login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="logo-wrapper">
+            <i class="fa-regular fa-image logo-icon"></i>
+            <div class="logo-text">LOGO</div>
+        </div>
+
+        <h2>Login as User</h2>
+        <p class="instruction-text">Enter your username and password to login</p>
+
+        <div class="error-banner hidden">
+            Invalid username and / or password.<br>Please try again.
+        </div>
+
+        <form action="#" method="POST">
+            <div class="form-group">
+                <input type="email" placeholder="Email" required autocomplete="email">
+            </div>
+
+            <div class="form-group">
+                <input type="password" placeholder="Password" required>
+                <div class="forgot-link-container">
+                    <a href="#" class="forgot-link">Forgot Password?</a>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Login</button>
+        </form>
+
+        <div class="divider">Or login with</div>
+
+        <button type="button" class="google-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo">
+            Login with Google
+        </button>
+
+        <p class="signup-prompt">Don't have an account? <a href="#">Register</a></p>
+    </div>
+
+</body>
+</html>
