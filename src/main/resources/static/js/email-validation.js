@@ -1,0 +1,133 @@
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. View Toggle Drivers
+    const loginCard = document.getElementById("login-card");
+    const forgotCard = document.getElementById("forgot-card");
+    const successCard = document.getElementById("success-card");
+    
+    const toForgotBtn = document.getElementById("to-forgot-btn");
+    const toLoginBtn = document.getElementById("to-login-btn");
+    const toLoginFromSuccessBtn = document.getElementById("to-login-from-success-btn");
+
+    if (toForgotBtn && toLoginBtn) {
+        toForgotBtn.addEventListener("click", () => {
+            loginCard.classList.add("hidden");
+            forgotCard.classList.remove("hidden");
+            successCard.classList.add("hidden");
+            clearValidationErrors();
+        });
+
+        toLoginBtn.addEventListener("click", () => {
+            forgotCard.classList.add("hidden");
+            successCard.classList.add("hidden");
+            loginCard.classList.remove("hidden");
+            clearValidationErrors();
+        });
+    }
+
+    if (toLoginFromSuccessBtn) {
+        toLoginFromSuccessBtn.addEventListener("click", () => {
+            successCard.classList.add("hidden");
+            forgotCard.classList.add("hidden");
+            loginCard.classList.remove("hidden");
+            clearValidationErrors();
+        });
+    }
+
+    // 2. Authorized Admin Whitelist Configuration
+    const authorizedAdmins = [
+        "leo123123123@gmail.com"
+    ];
+
+    // 3. Validation Logic Setup
+    const forms = document.querySelectorAll("main.login-container form");
+
+    forms.forEach(form => {
+        const emailInput = form.querySelector("input[type='email']");
+        
+        if (emailInput) {
+            // Real-time checks while typing (soft syntax check)
+            emailInput.addEventListener("input", () => {
+                validateEmailField(emailInput, false);
+            });
+
+            // Strict authorization check on submit
+            form.addEventListener("submit", (e) => {
+                e.preventDefault(); 
+                
+                const isValid = validateEmailField(emailInput, true);
+                if (!isValid) {
+                    emailInput.focus();
+                    return;
+                }
+
+                // If check passes and came from the recovery container layout view
+                if (form.closest("#forgot-card")) {
+                    forgotCard.classList.add("hidden");
+                    successCard.classList.remove("hidden");
+                    form.reset(); 
+                } else {
+                    console.log("Admin Authorized successfully. Redirecting to dashboard...");
+                }
+            });
+        }
+    });
+
+    function validateEmailField(input, checkAuthorization = false) {
+        const emailValue = input.value.trim();
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        let errorContainer = input.parentElement.querySelector(".validation-error-msg");
+
+        if (emailValue === "") {
+            removeError(input, errorContainer);
+            return false;
+        }
+
+        // Check 1: Structural Format Check (Orange Error state using --accent-color1)
+        if (!emailPattern.test(emailValue)) {
+            showErrorMessage(input, "Please enter a valid email address format.", false);
+            return false;
+        }
+
+        // Check 2: Admin Registration Verification (Red Alert state)
+        if (checkAuthorization && !authorizedAdmins.includes(emailValue)) {
+            showErrorMessage(input, "Access Denied: This email is not registered as an authorized administrator.", true);
+            return false;
+        }
+
+        removeError(input, errorContainer);
+        return true;
+    }
+
+    function showErrorMessage(input, message, isAuthError = false) {
+        let errorContainer = input.parentElement.querySelector(".validation-error-msg");
+        if (!errorContainer) {
+            errorContainer = document.createElement("span");
+            errorContainer.className = "validation-error-msg";
+            input.parentElement.appendChild(errorContainer);
+        }
+        errorContainer.textContent = message;
+        
+        if (isAuthError) {
+            errorContainer.classList.add("auth-denied");
+            input.classList.add("input-error", "auth-denied");
+        } else {
+            errorContainer.classList.remove("auth-denied");
+            input.classList.remove("auth-denied");
+            input.classList.add("input-error");
+        }
+    }
+
+    function removeError(input, errorContainer) {
+        if (errorContainer) {
+            errorContainer.remove();
+        }
+        input.classList.remove("input-error", "auth-denied");
+    }
+
+    function clearValidationErrors() {
+        document.querySelectorAll(".validation-error-msg").forEach(msg => msg.remove());
+        document.querySelectorAll(".input-error").forEach(input => {
+            input.classList.remove("input-error", "auth-denied");
+        });
+    }
+});

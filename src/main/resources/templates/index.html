@@ -1,13 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Pasay City Tax Portal</title>
-        <link rel="stylesheet" href="/css/main.css">
-    </head>
-    <body>
-        <app-header></app-header>
-        <app-sidebar></app-sidebar>
-        <script type="module" src="/js/client-app.js" defer></script>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasay City Tax Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+    <header class="navbar-wrapper">
+        <div class="navbar-brand">PasayBiz Portal</div>
+        <nav class="navbar-links-text">
+            <a href="#about" class="nav-text-item">About us</a>
+            <a href="#contact" class="nav-text-item">Contact</a>
+        </nav>
+    </header>
+
+    <main class="portal-hero">
+        <div class="hero-content">
+            <h1>Welcome to PasayBiz Portal</h1>
+            <p class="hero-subtitle">Securely manage your tax payments, receipts, and administrative tasks all in one place.</p>
+        </div>
+
+        <div class="portal-grid">
+            <div class="portal-card">
+                <h3>Taxpayer Portal</h3>
+                <p>File taxes, make secure payments, and download your official receipts.</p>
+                <a href="/taxpayer/login" class="portal-btn-link">Login as Taxpayer</a>
+            </div>
+
+            <div class="portal-card">
+                <h3>Admin Portal</h3>
+                <p>Manage taxpayer records, verify payments, and oversee system settings.</p>
+                <a href="/admin/login" class="portal-btn-link">Login as Admin</a>
+            </div>
+        </div>
+    </main>
+
+    <section id="about" class="info-section">
+        <h2>About Us</h2>
+        <p>We are dedicated to providing a seamless, secure, and highly efficient platform for all your tax management needs. Our system ensures your data is protected while making the filing and payment processes as straightforward as possible.</p>
+    </section>
+
+    <hr class="section-divider">
+
+    <section id="contact" class="info-section">
+        <h2>Contact Us</h2>
+        <p>If you encounter any issues or have questions regarding your tax payments or account administration, our support team is available 24/7. Reach out to us at <a href="mailto:support@taxportal.example.com">support@taxportal.example.com</a> or call our toll-free hotline.</p>
+    </section>
+
+    <script type="module" src="/js/client-app.js" defer></script>
+</body>
 </html>

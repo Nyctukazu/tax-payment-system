@@ -1,157 +1,181 @@
-@import "../base/variable.css";
+@import "/css/base/variable.css";
+
+/* Base Body Styles Reset with updated global variables alignment */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
-    background-image: linear-gradient(to bottom right, var(--main-color1), var(--main-color2));
+    background: linear-gradient(180deg, var(--secondary-color1) 0%, var(--secondary-color2) 50%, #301a1a 100%);
     min-height: 100vh; 
-    margin: 0;
-}
-
-.sidebar-container {
-    position: fixed;
-    right: 0;
-    top: 20%;
+    font-family: var(--body), sans-serif;
+    color: var(--font-light1);
+    scroll-behavior: smooth;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    align-items: flex-end;
-    font-family: Arial, sans-serif;
 }
 
-.sidebar-item {
-    display: block;
-    width: 200px;
-    padding: 18px 24px;
-    text-align: right;
-    color: rgba(255, 255, 255, 0.9);
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-                    
-    background: linear-gradient(to right, #5B3535, #222245);
-                    
-    border-radius: 20px 0 0 20px;
-    box-shadow: -4px 6px 15px rgba(0, 0, 0, 0.15);
-                    
-    transition: opacity 0.3s ease, transform 0.2s ease;
-    opacity: 1;
-}
-
-.sidebar-container:hover .sidebar-item {
-    opacity: 0.5;
-}
-
-.sidebar-container:hover .sidebar-item:hover {
-    opacity: 1;
-    transform: translateX(-8px); /* Optional: slight slide-out effect on hover */
-}
-
-.sidebar-item.active {
-    box-shadow: -4px 6px 5px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
-}
-
+/* Navbar text adjustment overrides matching your mockup image */
 .navbar-wrapper {
-    background-color: #161633;
-    height: 80px;
-    padding: 0 50px;
+    background-color: transparent; /* Seamless blend into background */
+    height: 70px;
+    padding: 0 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    position: relative;
-    z-index: 1000;
 }
 
 .navbar-brand {
-    color: #ffffff;
-    font-size: 16px;
+    color: var(--font-light1);
+    font-size: 15px;
     font-weight: 700;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
 }
 
-.navbar-links {
+.navbar-links-text {
     display: flex;
-    align-items: center;
-    gap: 45px;
-    height: 100%;
+    gap: 24px;
 }
 
-.nav-item {
+.nav-text-item {
+    color: var(--font-light1);
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.nav-text-item:hover {
+    opacity: 1;
+}
+
+/* Main Core Layout Setup */
+.portal-hero {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-decoration: none;
-    position: relative;
-    height: 100%;
-    width: 70px;
+    padding: 80px 20px 60px 20px;
+    text-align: center;
 }
 
-.icon-circle {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
+.hero-content h1 {
+    font-family: var(--heading);
+    font-size: 34px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+
+.hero-content .hero-subtitle {
+    color: var(--font-light1);
+    opacity: 0.8;
+    max-width: 520px;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 auto 48px auto;
+}
+
+/* Cards Grid Alignment Layout */
+.portal-grid {
     display: flex;
-    align-items: center;
+    gap: 32px;
     justify-content: center;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 2;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 800px;
 }
 
-.icon-circle svg {
-    width: 22px;
-    height: 22px;
-    fill: #535380; /* Elegant dim purple color for unselected icons */
-    transition: fill 0.3s ease;
+.portal-card {
+    background-color: var(--main-color1);
+    color: var(--font-dark);
+    padding: 36px 32px;
+    border-radius: 16px;
+    width: 320px;
+    flex: 1;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
-.nav-label {
-    color: #ffffff;
-    font-size: 11px;
+.portal-card h3 {
+    font-family: var(--heading);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.portal-card p {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #4a4642;
+    margin-bottom: 24px;
+    min-height: 54px; /* Keeps card action components aligned perfectly horizontally */
+}
+
+/* Portal Action Buttons with custom design tokens */
+.portal-btn-link {
+    display: block;
+    width: 100%;
+    background: linear-gradient(90deg, #d36a11 0%, #762376 100%);
+    color: var(--font-light1);
+    text-decoration: none;
+    font-size: 12px;
     font-weight: 600;
-    margin-top: 4px;
-    position: absolute;
-    bottom: 4px;
-    opacity: 0;
-    transform: translateY(4px);
-    transition: all 0.3s ease;
-    white-space: nowrap;
+    padding: 12px 16px;
+    border-radius: 8px;
+    transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
-.icon-glow-ring {
-    position: absolute;
-    top: -15px; /* Pulls the aura upwards past the top border line */
-    width: 80px;
-    height: 75px;
-    background: radial-gradient(circle, rgba(219, 102, 53, 0.4) 0%, rgba(34, 34, 69, 0) 70%);
-    border-radius: 50%;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 1;
-    pointer-events: none;
-}
-                
-.nav-item.active .icon-circle {
-    background: #ffffff;
-    transform: translateY(-12px); /* Moves icon upward inside the glowing arc zone */
-    box-shadow: 0 10px 20px rgba(219, 102, 53, 0.3);
+.portal-btn-link:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
 }
 
-.nav-item.active .icon-circle svg {
-    fill: #161633; /* Dark fill counter-color inside white active circle */
+/* Text Content Blocks (About & Contact Sections) Layout */
+.info-section {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    text-align: center;
 }
 
-.nav-item.active .nav-label {
-    opacity: 1;
-    transform: translateY(0);
+.info-section h2 {
+    font-family: var(--heading);
+    color: var(--accent-color1);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 16px;
 }
 
-.nav-item.active .icon-glow-ring {
-    opacity: 1;
+.info-section p {
+    font-size: 13px;
+    line-height: 1.7;
+    opacity: 0.85;
 }
 
-.nav-item:not(.active):hover .icon-circle svg {
-    fill: #ffffff;
-    transform: scale(1.1);
+.info-section a {
+    color: var(--accent-color1);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.info-section a:hover {
+    text-decoration: underline;
+}
+
+/* Subtle separator rule line */
+.section-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0) 100%);
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 }
