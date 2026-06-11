@@ -1,6 +1,7 @@
-/* --------------------------------------
-   Reset & Base Layout
------------------------------------------ */
+@import "/css/base/variable.css";
+@import "/css/components/button.css";
+@import "../modules/particles.css";
+
 * {
     margin: 0;
     padding: 0;
