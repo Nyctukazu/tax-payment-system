@@ -44,6 +44,9 @@
     padding: 15px 40px;
     font-size: 14px;
     font-family: var(--heading);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     
 
     .logo {
@@ -96,6 +99,11 @@
     position: relative;
     margin-bottom: 16px;
 
+    .input-wrapper {
+    position: relative;
+    display: flex;
+    width: 100%;
+    }
 
     .validation-error-msg {
         display: block;
