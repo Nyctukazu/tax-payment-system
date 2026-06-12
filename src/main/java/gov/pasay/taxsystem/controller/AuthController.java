@@ -8,11 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Optional;
-
-import gov.pasay.taxsystem.model.entity.User;
-import gov.pasay.taxsystem.model.entity.AdminModel;
-import gov.pasay.taxsystem.model.entity.TaxpayerModel;
 import gov.pasay.taxsystem.service.AuthService;
 import gov.pasay.taxsystem.dto.LoginRequest;
 import gov.pasay.taxsystem.dto.RegisterRequest;
