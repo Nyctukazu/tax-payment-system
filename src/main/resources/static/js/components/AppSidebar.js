@@ -13,7 +13,7 @@ class AppSidebar extends HTMLElement {
     }
 }
 
-export function initSidebar() {
+export function initClientSidebar() {
     if (!customElements.get('app-sidebar')) {
         customElements.define('app-sidebar', AppSidebar);
     }

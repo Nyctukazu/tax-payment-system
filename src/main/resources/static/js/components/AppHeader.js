@@ -54,7 +54,7 @@ class AppHeader extends HTMLElement {
     }
 }
 
-export function initHeader() {
+export function initClientHeader() {
     if (!customElements.get('app-header')) {
         customElements.define('app-header', AppHeader);
     }
