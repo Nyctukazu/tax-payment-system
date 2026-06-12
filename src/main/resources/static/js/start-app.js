@@ -4,12 +4,11 @@ import { passwordValidator } from "./services/password-validation.js";
 import { loginWithBackend } from "./services/authService.js";
 import { validateEmailField, showErrorMessage, removeError, clearValidationErrors } from "./services/email-validation.js";
 
+
+
 document.addEventListener("DOMContentLoaded", () => {
     initializeParticles();
     initStartHeader();
-});
-
-document.addEventListener("DOMContentLoaded", () => {
     const loginCard = document.getElementById("login-card");
     const forgotCard = document.getElementById("forgot-card");
     const toForgotBtn = document.getElementById("to-forgot-btn");
@@ -119,5 +118,78 @@ function setupAdminFormHandling() {
                 console.error("Admin login failed:", result.error);
             }
         });
+    }
+}
+
+function setupClientFormHandling() {
+    const loginForm = document.getElementById("login-form");
+    const emailInput = document.getElementById("user-email-login");
+    const passwordInput = document.getElementById("password");
+    const errorBanner = document.querySelector(".error-banner");
+    const googleBtn = document.getElementById("google-login-btn");
+    const googleBtnContainer = document.getElementById("google-login-btn-container");
+
+    if (loginForm) {
+        loginForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            console.log("Processing client user validation...");
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const result = await loginWithBackend(email, password);
+            if (result.success) {
+                window.location.href = "/client/homepage.html";
+            } else {
+                if (errorBanner) {
+                    errorBanner.classList.remove("hidden");
+                }
+            }
+        });
+    }
+
+    if (googleBtnContainer && window.google) {
+        window.google.accounts.id.initialize({
+            client_id: "139040312423-lu1g1apc9b60flr8ii1ia453mkpp5ik8.apps.googleusercontent.com",
+            callback: handleGoogleSignInResponse,
+            use_fedcm_for_prompt: false
+        });
+
+
+        window.google.accounts.id.renderButton(
+            googleBtnContainer,
+            {
+                type: "standard",
+                theme: "outline",
+                size: "large",
+                text: "signin_with",
+                shape: "rectangular",
+                width: 272
+            }
+        )
+    }
+}
+
+async function handleGoogleSignInResponse(response) {
+    const googleToken = response.credential;
+
+    try {
+        const backendResponse = await fetch("http://localhost:8080/api/auth/google", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ token: googleToken })
+        });
+
+        if(backendResponse.ok) {
+            const userData = await backendResponse.json();
+            console.log("Google Authentication Confirmed!", userData);
+            window.location.href = "/taxpayer/home.html";
+        } else {
+            const errorMsg = await backendResponse.text();
+            alert("Authentication Denied: " + errorMsg);
+        }
+    } catch (error) {
+        console.error("Network interface pipeline dropped during Google token check:", error);
     }
 }

@@ -450,35 +450,7 @@
         font-size: 0.75rem;
         color: #999999;
     }
-
-    .google-btn {
-        width: 80%;
-        margin: 0 auto;
-        padding: 10px;
-        border: none;
-        border-radius: 6px;
-        background-color: #ffffff;
-        color: #333333;
-        font-size: 0.85rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-        transition: background-color 0.2s ease;
-    }
-
-    .google-btn:hover {
-        background-color: #f5f5f5;
-    }
-
-    .google-btn img {
-        width: 16px;
-        height: 16px;
-    }
-
+    
     .signup-prompt {
         margin-top: 25px;
         font-size: 0.8rem;
