@@ -1,0 +1,439 @@
+/* Base Layout Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: #FCEBE4; /* Figma's "White Serenade" canvas */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* UI Registration Card Container */
+.register-container {
+  background: linear-gradient(135deg, #2E1B29 0%, #17132B 50%, #111827 100%); 
+  width: 100%;
+  max-width: 400px;
+  border-radius: 24px;
+  padding: 40px 28px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  text-align: center;
+  color: #FFFFFF;
+}
+
+/* Multi-step Display Rules */
+.form-step {
+  display: none;
+}
+
+.form-step.active-step {
+  display: block;
+}
+
+/* Header Logo Styling */
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 22px;
+  opacity: 0.5;
+}
+
+.logo-icon {
+  font-size: 26px;
+  margin-bottom: 4px;
+}
+
+.logo-text {
+  font-size: 11px;
+  letter-spacing: 2.5px;
+}
+
+/* Typography Layouts */
+h2 {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #9CA3AF;
+  margin-bottom: 32px;
+  line-height: 1.4;
+}
+
+/* Form Structural Component Groups */
+.form-group {
+  margin-bottom: 18px;
+  text-align: left;
+  position: relative;
+}
+
+/* Input Fields Foundation */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+select {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-color: #FFFFFF;
+  color: #111827;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus State Dynamic Ring Indicator */
+input:focus, select:focus {
+  border-color: #A78BFA;
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.25);
+}
+
+/* Inline Dynamic Field Pass Verification */
+input.valid {
+  border-color: #10B981 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2310b981'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 16px) center;
+  background-size: 18px;
+  padding-right: 42px;
+}
+
+/* Inline Dynamic Field Fail Verification */
+input.invalid {
+  border-color: #EF4444 !important;
+}
+
+/* Error Labels Configuration */
+.error-message {
+  color: #EF4444;
+  font-size: 11px;
+  margin-top: 5px;
+  padding-left: 2px;
+  line-height: 1.4;
+  display: none;
+}
+
+input.invalid + .error-message,
+.password-wrapper:has(input.invalid) + .error-message,
+.phone-input-wrapper:has(input.invalid) + .error-message {
+  display: block;
+}
+
+/* Password Strength Meter UI Component */
+.strength-meter {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+  padding: 0 2px;
+}
+
+.strength-meter .bar {
+  height: 4px;
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  transition: background-color 0.3s ease;
+}
+
+/* Dynamic Strength Color Assignments */
+.strength-meter.weak .bar:nth-child(1) { background-color: #EF4444; }
+.strength-meter.fair .bar:nth-child(1), .strength-meter.fair .bar:nth-child(2) { background-color: #F59E0B; }
+.strength-meter.good .bar:nth-child(1), .strength-meter.good .bar:nth-child(2), .strength-meter.good .bar:nth-child(3) { background-color: #3B82F6; }
+.strength-meter.strong .bar { background-color: #10B981; }
+
+/* Word Requirements checklist block */
+.password-requirements-box {
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.requirement-item {
+  font-size: 11.5px;
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease;
+}
+
+.requirement-item i {
+  font-size: 8px;
+}
+
+.requirement-item.met { color: #10B981 !important; }
+.requirement-item.unmet { color: #EF4444 !important; }
+
+/* Composite Element Layout structures */
+.phone-input-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+select {
+  width: auto;
+  cursor: pointer;
+  padding-right: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23111827'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 10px) center;
+  background-size: 12px;
+  appearance: none;
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 16px;
+  color: #6B7280;
+  cursor: pointer;
+  z-index: 5;
+  font-size: 15px;
+}
+
+/* Terms / Privacy Area layout styles */
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #E5E7EB;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  accent-color: #A78BFA;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.privacy-notice {
+  font-size: 11px;
+  color: #9CA3AF;
+  text-align: justify;
+  line-height: 1.5;
+  margin-top: 12px;
+  padding: 0 4px;
+  opacity: 0.85;
+}
+
+/* ==================== STEP 2 SPECIFIC STYLES ==================== */
+.photo-selection-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  margin: 35px 0;
+}
+
+.photo-option-btn {
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  outline: none;
+  transition: transform 0.2s;
+  width: 100%;
+  max-width: 220px;
+}
+
+.photo-option-btn:hover {
+  transform: scale(1.04);
+}
+
+.avatar-circle {
+  width: 72px;
+  height: 72px;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.photo-option-btn:hover .avatar-circle {
+  border-color: #A78BFA;
+  background-color: rgba(167, 139, 250, 0.1);
+}
+
+.option-label {
+  font-size: 13px;
+  color: #E5E7EB;
+  line-height: 1.4;
+}
+
+.photo-preview-box {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #10B981;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+}
+
+.photo-preview-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remove-photo-btn {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(239, 68, 68, 0.9);
+  color: #FFFFFF;
+  border: none;
+  font-size: 10px;
+  padding: 4px 0;
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.step2-button-group {
+  display: flex;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.btn-upload, .btn-skip {
+  flex: 1;
+  padding: 13px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 25px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-upload {
+  background: linear-gradient(90deg, #FF6B4A 0%, #A83279 100%);
+  color: #FFFFFF;
+}
+
+.btn-upload:hover {
+  opacity: 0.95;
+  box-shadow: 0 4px 12px rgba(244, 63, 94, 0.35);
+}
+
+.btn-skip {
+  background-color: #FFFFFF;
+  color: #111827;
+}
+
+.btn-skip:hover {
+  background-color: #F3F4F6;
+}
+
+/* ==================== NEW STEP 3: SUCCESS SPECIFIC FIGMA STYLES ==================== */
+.success-heading {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 10px;
+  margin-bottom: 35px;
+  letter-spacing: 0.2px;
+}
+
+.success-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+/* Rounded emerald check badge matching your exact Figma layout style view */
+.success-badge {
+  width: 76px;
+  height: 76px;
+  background-color: #10B981; /* Pure vibrant green background matching Figma asset */
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+}
+
+.redirect-notice {
+  font-size: 14px;
+  color: #FFFFFF;
+  margin-bottom: 45px;
+  font-weight: 400;
+}
+
+.manual-redirect-text {
+  font-size: 12px;
+  color: #9CA3AF;
+  line-height: 1.5;
+}
+
+.manual-redirect-text a {
+  color: #FFFFFF;
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.manual-redirect-text a:hover {
+  color: #A78BFA;
+}
+
+/* Universal Base Buttons styling hook handles step 1 submit */
+button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(90deg, #FF6B4A 0%, #A83279 100%); 
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 24px;
+  transition: all 0.2s ease;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+  opacity: 0.95;
+  box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);
+}
+
+button[type="submit"]:disabled {
+  background: #374151;
+  color: #9CA3AF;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
