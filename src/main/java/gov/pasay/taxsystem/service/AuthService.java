@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -62,7 +63,7 @@ public class AuthService {
             return Optional.empty();
         }
 
-        return Optional.empty();
+        return Optional.ofNullable(matchedUser);
     }
 
     public String register(RegisterRequest request) {
@@ -105,5 +106,36 @@ public class AuthService {
             return "Admin registered successfully!";
         }
         throw new IllegalArgumentException("Invalid role specified.  Must be 'TAXPAYER' or 'ADMIN'.");
+    }
+
+
+    public Optional<User> loginOrRegisterGoogleUser(String email, String name) {
+        Optional<TaxpayerModel> existingTaxpayer = taxpayerRepo.findByEmail(email);
+        if (existingTaxpayer.isPresent()) {
+            return Optional.of(existingTaxpayer.get());
+        }
+
+        try {
+            TaxpayerModel newTaxpayer = new TaxpayerModel ();
+            newTaxpayer.setEmail(email);
+            
+            if (name != null && name.contains(" ")) {
+                String[] nameParts = name.split("", 2);
+                newTaxpayer.setFirstName(nameParts[0]);
+                newTaxpayer.setLastName(nameParts[1]);
+            } else {
+                newTaxpayer.setFirstName(name != null ? name : "Citizen");
+                newTaxpayer.setLastName("");
+            }
+            newTaxpayer.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
+
+            TaxpayerModel savedTaxpayer = taxpayerRepo.save(newTaxpayer);
+
+            return Optional.of(savedTaxpayer);
+        } catch (Exception e) {
+            System.err.println(" Critical failure processing Google auto-registration: " + e.getMessage());
+            return Optional.empty();
+        }
+        
     }
 }

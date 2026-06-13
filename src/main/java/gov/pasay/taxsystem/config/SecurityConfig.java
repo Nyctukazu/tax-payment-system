@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.CrossOriginOpenerPolicyHeaderWriter;
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +28,8 @@ public class SecurityConfig {
             )
             
             .headers(headers -> headers
-                .frameOptions(frame -> frame.disable())
+                .crossOriginOpenerPolicy(coop -> coop.policy(CrossOriginOpenerPolicyHeaderWriter.CrossOriginOpenerPolicy.SAME_ORIGIN_ALLOW_POPUPS))
+                .frameOptions(frame -> frame.sameOrigin())
             );
 
         return http.build();
