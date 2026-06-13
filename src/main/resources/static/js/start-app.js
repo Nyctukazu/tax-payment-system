@@ -169,6 +169,10 @@ function setupClientFormHandling() {
 }
 
 async function handleGoogleSignInResponse(response) {
+    if (!response || !response.credential) {
+        console.error("❌ Google Auth completed but no token was retrieved.");
+        return;
+    }
     const googleToken = response.credential;
 
     try {
@@ -191,5 +195,37 @@ async function handleGoogleSignInResponse(response) {
         }
     } catch (error) {
         console.error("Network interface pipeline dropped during Google token check:", error);
+    }
+}
+
+window.handleGoogleSignInResponse = async function(response) {
+    if (!response || !response.credential) {
+        console.error("❌ Google Auth completed but no token was retrieved.");
+        return;
+    }
+
+    const googleToken = response.credential;
+    console.log("🚀 Token received via HTML engine. Forwarding to backend controller...");
+
+    try {
+        const backendResponse = await fetch("http://localhost:8080/api/auth/google", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({ token: googleToken })
+        });
+
+        if (backendResponse.ok) {
+            console.log("🎉 Success! Google session authenticated by Spring Boot.");
+            window.location.href = "/taxpayer/home.html";
+        } else {
+            const errorText = await backendResponse.text();
+            console.error("❌ Backend rejected authentication token:", errorText);
+            alert("Authentication Denied: " + errorText);
+        }
+    } catch (error) {
+        console.error("❌ Network error connecting to Spring Boot:", error);
     }
 }

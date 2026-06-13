@@ -29,6 +29,7 @@ public class SecurityConfig {
             
             .headers(headers -> headers
                 .crossOriginOpenerPolicy(coop -> coop.policy(CrossOriginOpenerPolicyHeaderWriter.CrossOriginOpenerPolicy.SAME_ORIGIN_ALLOW_POPUPS))
+                .frameOptions(frame -> frame.sameOrigin())
             );
 
         return http.build();
