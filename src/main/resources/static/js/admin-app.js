@@ -1,10 +1,12 @@
 import { getDashboardData } from "./services/dashboard-service.js";
 import { initAdminHeader } from "./components/AdminHeader.js";
 import { initAdminSidebar } from "./components/AdminSidebar.js";
+import { initializeParticles } from "./components/particles.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     initAdminHeader();
     initAdminSidebar();
+    initializeParticles();
 });
 
 

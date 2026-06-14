@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text="${pageTitle} ?: 'Evaluate Form'">Evaluate Form</title>
+        <link rel="stylesheet" th:href="@{/css/admin/admin-style.css}" href="/css/admin/admin-style.css">
+    </head>
+    <body>
+
+        <admin-header></admin-header>
+        <admin-sidebar></admin-sidebar>
+
+        <div class="app-shell">
+
+            <main class="page-wrap">
+                <section class="page-title">
+                    <h1>EVALUATE FORM - Tax Declaration Review</h1>
+                </section>
+
+                <section id="flashHost" class="flash-host" aria-live="polite"></section>
+
+                <section class="review-grid">
+                    <div class="left-column">
+                        <article class="panel detail-card">
+                            <h2>Taxpayer Declaration - NEW BUSINESS PERMIT</h2>
+                            <dl id="declarationDetails" class="detail-list"></dl>
+                        </article>
+
+                        <article class="panel doc-inspector">
+                            <div class="doc-toolbar">
+                                <div class="doc-name" id="docName">Loading document...</div>
+                                <div class="pager">
+                                    <button type="button" class="pager-btn" id="prevPageBtn">Prev</button>
+                                    <span id="pageCounter">Page 1 of 1</span>
+                                    <button type="button" class="pager-btn" id="nextPageBtn">Next</button>
+                                </div>
+                            </div>
+                            <div class="doc-preview">
+                                <div class="doc-paper">
+                                    <h3 id="docTitle"></h3>
+                                    <div id="docBody"></div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <article class="panel form-card">
+                        <h2>Evaluation Data Entry</h2>
+                        <p class="panel-intro">Clerk inputs verification data and calculates totals.</p>
+
+                        <div class="form-row">
+                            <label for="taxCodeInput">Line of Business Tax Code</label>
+                            <input id="taxCodeInput" type="text">
+                        </div>
+
+                        <div class="form-row">
+                            <label for="verificationInput">Verification Status</label>
+                            <input id="verificationInput" type="text" class="verified-input">
+                        </div>
+
+                        <div class="form-row">
+                            <label>Calculation Adjustments (Internal Fees)</label>
+                            <div id="feeList" class="fee-list"></div>
+                        </div>
+
+                        <section class="assessment-box">
+                            <h3>System Calculated Assessment (Preview)</h3>
+                            <div class="assessment-line"><span>Base Business Tax Due</span><strong id="baseDue">₱ 0.00</strong></div>
+                            <div class="assessment-line"><span>Regulatory Fees Total</span><strong id="feesTotal">₱ 0.00</strong></div>
+                            <div class="assessment-line total"><span>TOTAL ASSESSMENT DUE</span><strong id="assessmentTotal">Awaiting Calculation</strong></div>
+                        </section>
+
+                        <div class="action-row">
+                            <button id="calculateBtn" type="button" class="btn btn-primary">CALCULATE ASSESSMENT</button>
+                            <button id="routeBtn" type="button" class="btn btn-success">ROUTE TO SUPERVISOR</button>
+                        </div>
+                    </article>
+                </section>
+            </main>
+        </div>
+
+    <script th:inline="javascript">
+        window.APP_CONFIG = {
+            useMockData: /*[[${useMockData}]]*/ false,
+            useMockFallback: /*[[${useMockFallback}]]*/ true,
+            apiUrl: /*[[@{/api/evaluations}]]*/ '/api/evaluations'
+        };
+    </script>
+    <script type="module" th:src="@{/js/admin-app.js}" src="/js/admin-app.js"></script>
+    <script type="module" th:src="@{/js/evaluate-review-page.js}" src="/js/evaluate-review-page.js"></script>
+    </body>
+</html>
