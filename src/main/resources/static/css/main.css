@@ -16,7 +16,7 @@
     border-radius: 16px;
     padding: 40px 30px;
     text-align: center;
-    box-shadow: 5px 5px 5px rgba(39, 0, 57, 0.3);
+    box-shadow: var(--shadow);
 
     h2 {
         color: var(--font-light1);

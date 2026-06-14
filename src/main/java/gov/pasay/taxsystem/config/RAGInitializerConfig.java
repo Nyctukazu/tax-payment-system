@@ -22,7 +22,7 @@ public class RAGInitializerConfig {
                 ingestionService.ingestTaxDocuments();
                 logger.info("RAG vector ingestion completed successfully!");
             } catch (Exception e) {
-               logger.error("============= AI SYSTEM ALERT =============");
+                logger.error("============= AI SYSTEM ALERT =============");
                 logger.error("Local Ollama engine (Llama 3.2/Nomic) was not found.");
                 logger.error("AI Chat features will be unavailable, but the main system is running.");
                 logger.error("Reason: " + e.getMessage());

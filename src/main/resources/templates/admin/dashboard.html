@@ -1,10 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <link rel="stylesheet" href="/css/admin/admin-style.css">
+        <meta charset="UTF-8">
+        <meta name = "viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text"${pageTitle}">Dashboard</title>
+        <link rel="stylesheet" th:href="@{/css/admin/admin-style.css}" href="/css/admin/admin-style.css">
     </head>
     <body>
 
-        <script type="module" src="/js/admin-app.js" defer></script>
+        <admin-header></admin-header>
+
+        <h1 class="page-title">Dashboard Overview</h1>
+
+        <div class="layout">
+            <aside class="sidebar">
+                <h2 class="heading">Notification Center</h2>
+                <div id="notificationList" class="stack"></div>
+            </aside>
+
+            <main class="main">
+                <header class="topbar">
+                    <div>
+                        <h1 id="welcomeTitle" class="heading">Loading...</h1>
+                        <p id="welcomeSubtitle" class="muted">Loading summary...</p>
+                    </div>
+                    <span class="user-chip" id="userChip">Admin</span>
+                </header>
+
+                <section id="kpiGrid" class="kpi-grid"></section>
+
+                <section class="chart-grid">
+                    <article class="panel">
+                        <h3>Tax Collection Trends</h3>
+                        <svg id="lineChart" viewBox="0 0 320 180" class="chart-svg"></svg>
+                    </article>
+                    <article class="panel">
+                        <h3>Processing Velocity</h3>
+                        <div id="barChart" class="bar-chart"></div>
+                    </article>
+                    <article class="panel">
+                        <h3>Sector Distribution</h3>
+                        <div id="donutChart" class="donut"></div>
+                        <ul id="donutLegend" class="legend"></ul>
+                    </article>
+                </section>
+
+                <section class="table-grid">
+                    <article class="panel">
+                        <h3>System Alert & Bulletin Board</h3>
+                        <table class="table" id="bulletinTable">
+                            <thead>
+                                <tr>
+                                    <th>Level</th>
+                                    <th>Message</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </article>
+                    <article class="panel">
+                        <h3>Recent Critical Actions Log</h3>
+                        <table class="table" id="auditTable">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Action</th>
+                                    <th>User / System</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </article>
+                </section>
+            </main>
+        </div>
+
+        <script th:inline="javascript">
+            window.APP_CONFIG = {
+                useMockData: /*[[${useMockData}]]*/ false,
+                apiUrl: /*[[@{/api/dashboard}]]*/ '/api/dashboard'
+            }
+        </script>
+        <script type="module" th:src="@{/js/admin-app.js}" src="/js/admin-app.js"></script>
     </body>
 </html>
