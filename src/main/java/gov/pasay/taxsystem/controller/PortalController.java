@@ -20,4 +20,14 @@ public class PortalController {
     public String ClientLogin() {
         return "client/client-login";
     }
+
+     @GetMapping("/client-register")
+    public String Clientregister() {
+        return "client/client-register";
+    }
+
+     @GetMapping("/client-dashboard")
+    public String Clientdashboard() {
+        return "client/client-dashboard";
+    }
 }
