@@ -6,7 +6,7 @@ class AdminHeader extends HTMLElement {
         
         const isDashboard = currentPath === '/admin-dashboard' || currentPath.endsWith('index.html') ? 'active' : '';
         const isQueuePage = currentPath.includes('about') ? 'active' : '';
-        const isEvaluatePage = currentPath.includes('contact') ? 'active' : '';
+        const isEvaluatePage = currentPath.includes('evaluate') ? 'active' : '';
         const isUserControl = currentPath.includes('user-control') ? 'active' : ''; 
 
         this.innerHTML = `
@@ -34,7 +34,7 @@ class AdminHeader extends HTMLElement {
                         <span class="nav-label">Queue</span>
                     </a>
 
-                    <a href="/evaluate" class="nav-item ${isEvaluatePage}">
+                    <a href="/evaluate-inbox" class="nav-item ${isEvaluatePage}">
                         <div class="icon-glow-ring"></div>
                         <div class="icon-circle">
                             <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V7h10v2zm0 8H7v-2h10v2z"/></svg>
@@ -42,7 +42,7 @@ class AdminHeader extends HTMLElement {
                         <span class="nav-label">Evaluate</span>
                     </a>
 
-                    ${userRole === 'superadmin' ? `
+                    ${userRole === 'SUPERADMIN' ? `
                     <a href="/user-control" class="nav-item ${isUserControl}">
                         <div class="icon-glow-ring"></div>
                         <div class="icon-circle">

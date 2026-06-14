@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text="${pageTitle} ?: 'Incoming Applications Inbox'">Incoming Applications Inbox</title>
+        <link rel="stylesheet" th:href="@{/css/admin/admin-style.css}" href="/css/admin/admin-style.css">
+    </head>
+    <body>
+
+        <admin-header></admin-header>
+        <admin-sidebar></admin-sidebar>
+
+        <div class="app-shell">
+
+            <main class="page-wrap">
+                <section class="page-title">
+                    <h1>Incoming Applications Inbox</h1>
+                </section>
+
+                <section class="panel">
+                    <p class="panel-intro">Select a pending application from the inbox to begin the evaluation process.</p>
+                    <div class="table-scroll">
+                        <table class="data-table" id="applicationsTable">
+                            <thead>
+                                <tr>
+                                    <th>Request ID</th>
+                                    <th>Business Name</th>
+                                    <th>Business Type</th>
+                                    <th>Tax Year</th>
+                                    <th>Date Submitted</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+    <script th:inline="javascript">
+        window.APP_CONFIG = {
+            useMockData: /*[[${useMockData}]]*/ false,
+            useMockFallback: /*[[${useMockFallback}]]*/ true,
+            apiUrl: /*[[@{/api/evaluations}]]*/ '/api/evaluations',
+            reviewPageUrl: /*[[@{/evaluation/review}]]*/ '/evaluation/review'
+        };
+    </script>
+    <script type="module" th:src="@{/js/admin-app.js}" src="/js/admin-app.js"></script>
+    <script type="module" th:src="@{/js/evaluation-inbox-page.js}" src="/js/evaluation-inbox-page.js"></script>
+    </body>
+</html>

@@ -1,6 +1,7 @@
 package gov.pasay.taxsystem.controller;
 
 import org.springframework.stereotype.Controller;
+import gov.pasay.taxsystem.model.enums.AdminClassification;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -29,5 +30,20 @@ public class PortalController {
     @GetMapping("/admin-dashboard")
     public String AdminDashboard() {
         return "admin/dashboard";
+    }
+
+    @GetMapping("/evaluate-inbox")
+    public String EvaluateInbox() {
+        return "admin/evaluate-inbox";
+    }
+
+    @GetMapping("/evaluate-review")
+    public String EvaluateReview() {
+        return "admin/evaluate-review";
+    }
+
+    @GetMapping("/user-control")
+    public String UserControl() {
+        return "admin/user-control";
     }
 }
