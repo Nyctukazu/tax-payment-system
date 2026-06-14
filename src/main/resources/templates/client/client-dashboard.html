@@ -372,7 +372,7 @@
                     </section>
                 </div>
 
-                <!-- 4. PAYMENT HISTORY VIEW (NEW COMPONENT) -->
+                <!-- 4. PAYMENT HISTORY VIEW -->
                 <div id="view-history" class="content-view hidden">
                     <div class="assessments-summary-grid">
                         <div class="summary-box card baseline-summary">
@@ -471,6 +471,137 @@
                     </section>
                 </div>
 
+                <!-- 5. FILE ASSESSMENT VIEW (NEW) -->
+                <div id="view-file-assessment" class="content-view hidden">
+                    <section class="card">
+                        <h3>File a New Assessment</h3>
+                        <p class="subtitle">Upload and process new tax documents for your businesses.</p>
+                        <div style="padding: 40px; text-align: center; border: 1px dashed var(--border-color); border-radius: 6px; margin-top: 15px;">
+                            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; color: var(--text-muted); margin-bottom: 10px;"></i>
+                            <p style="color: var(--text-muted); font-size: 0.85rem;">Drag and drop documents here or click to browse</p>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- 6. RECEIPT VIEW (NEW) -->
+                <div id="view-receipt" class="content-view hidden">
+                    <section class="card">
+                        <h3>Official Receipts</h3>
+                        <p class="subtitle">Access and download your verified payment receipts.</p>
+                        <div style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                            No recent receipts found for this period.
+                        </div>
+                    </section>
+                </div>
+
+                <!-- 7. GENERAL HISTORY VIEW (NEW) -->
+                <div id="view-general-history" class="content-view hidden">
+                    <section class="card">
+                        <h3>Activity History</h3>
+                        <p class="subtitle">An audit log of all account activities, filings, and modifications.</p>
+                        <ul style="list-style: none; display: flex; flex-direction: column; gap: 15px; margin-top: 15px; font-size: 0.85rem;">
+                            <li style="border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">User "Juan Dela Cruz" updated profile settings. <span style="color: var(--text-muted); font-size: 0.75rem; float: right;">Today, 10:45 AM</span></li>
+                            <li style="border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">Automated assessment fetched for PX-1234. <span style="color: var(--text-muted); font-size: 0.75rem; float: right;">Yesterday, 2:30 PM</span></li>
+                        </ul>
+                    </section>
+                </div>
+
+                <!-- 8. SETTINGS VIEW -->
+                <div id="view-settings" class="content-view hidden">
+                    <div class="settings-layout">
+                        <!-- Sidebar Sub-Navigation -->
+                        <div class="settings-sidebar">
+                            <nav class="settings-nav">
+                                <a href="#" class="settings-nav-item active"><i class="fa-regular fa-user"></i> Account Profile</a>
+                                <a href="#" class="settings-nav-item"><i class="fa-regular fa-id-card"></i> Tax Credentials</a>
+                                <a href="#" class="settings-nav-item"><i class="fa-regular fa-bell"></i> Notifications</a>
+                                <a href="#" class="settings-nav-item"><i class="fa-solid fa-shield-halved"></i> Security & Privacy</a>
+                                <a href="#" class="settings-nav-item"><i class="fa-solid fa-code"></i> API Access</a>
+                            </nav>
+                        </div>
+                
+                        <!-- Main Settings Content -->
+                        <div class="settings-content">
+                            <!-- Account Profile Information Card -->
+                            <section class="card">
+                                <h3>Account Profile Information</h3>
+                                <p class="subtitle">Manage your primary contact configuration and representative information.</p>
+                                
+                                <div class="settings-form-grid">
+                                    <div class="form-group">
+                                        <label>Authorized Representative Full Name</label>
+                                        <input type="text" class="form-control" value="Juan Dela Cruz">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Primary Business Email Address</label>
+                                        <input type="email" class="form-control" value="compliance@thedailygrind.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Contact Mobile Number</label>
+                                        <input type="text" class="form-control" value="+63 917 123 4567">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Preferred Assessment Language</label>
+                                        <select class="form-control">
+                                            <option>English</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </section>
+                
+                            <!-- Tax Portal System Preferences Card -->
+                            <section class="card">
+                                <h3>Tax Portal System Preferences</h3>
+                                <p class="subtitle">Configure automated workflows, notifications, and ledger processing styles.</p>
+                                
+                                <div class="settings-list">
+                                    <div class="settings-list-item">
+                                        <div class="item-text">
+                                            <h4>Automated Assessment Fetching</h4>
+                                            <p>Allow PasayBiz to automatically pull newly released quarterly business tax ledgers from the city server.</p>
+                                        </div>
+                                        <div class="toggle-switch active"></div>
+                                    </div>
+                                    <div class="settings-list-item">
+                                        <div class="item-text">
+                                            <h4>SMS Compliance Alerts</h4>
+                                            <p>Receive localized SMS alerts regarding your upcoming tax filing deadlines and payment confirmations.</p>
+                                        </div>
+                                        <div class="toggle-switch active"></div>
+                                    </div>
+                                    <div class="settings-list-item">
+                                        <div class="item-text">
+                                            <h4>Ollama AI Smart Hints</h4>
+                                            <p>Display interactive inline suggestions from the AI Assistant directly inside tax calculation workflows.</p>
+                                        </div>
+                                        <div class="toggle-switch"></div>
+                                    </div>
+                                </div>
+                            </section>
+                
+                            <!-- Danger Zone Card -->
+                            <section class="card danger-zone-card">
+                                <h3 class="text-danger">Danger Zone</h3>
+                                <p class="subtitle">Irreversible modifications related to your enterprise account authentication state.</p>
+                                
+                                <div class="danger-zone-action">
+                                    <div class="item-text">
+                                        <h4>Deactivate Local Tax Profile</h4>
+                                        <p>Temporarily unlink your corporate assets and portfolio tracking details from the unified municipal view.</p>
+                                    </div>
+                                    <button class="btn btn-danger-outline">Unlink Profile</button>
+                                </div>
+                            </section>
+                
+                            <!-- Action Footer -->
+                            <div class="settings-actions-footer">
+                                <button class="btn btn-ghost">Cancel changes</button>
+                                <button class="btn btn-green">Save Settings</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </main>
 
             <aside class="ai-panel hidden" id="ai-chat-panel">
@@ -503,14 +634,21 @@
             </aside>
         </div>
 
-        <aside class="sidebar-right hidden" id="sidebar-menu">
+        <!-- MAIN SIDEBAR MENU -->
+        <aside class="sidebar-right" id="sidebar-menu">
             <nav class="sidebar-menu-links">
-                <a href="#" class="menu-item active" id="nav-dashboard"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a>
+                <a href="#" class="menu-item active" id="nav-dashboard"><i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span></a>
                 <a href="#" class="menu-item" id="nav-portfolio"><i class="fa-solid fa-briefcase"></i> <span>Business Portfolio</span></a>
                 <a href="#" class="menu-item" id="nav-assessments"><i class="fa-solid fa-file-invoice-dollar"></i> <span>Tax Assessments</span></a>
-                <a href="#" class="menu-item" id="nav-history"><i class="fa-solid fa-history"></i> <span>Payment History</span></a>
+                <a href="#" class="menu-item" id="nav-history"><i class="fa-solid fa-credit-card"></i> <span>Payment History</span></a>
+                
                 <a href="#" class="menu-item" id="ai-menu-trigger"><i class="fa-solid fa-robot"></i> <span>AI Assistant</span></a>
-                <a href="#" class="menu-item"><i class="fa-solid fa-gear"></i> <span>Settings</span></a>
+                
+                <a href="#" class="menu-item" id="nav-file-assessment"><i class="fa-solid fa-clipboard-list"></i> <span>File Assessment</span></a>
+                <a href="#" class="menu-item" id="nav-receipt"><i class="fa-solid fa-receipt"></i> <span>Receipt</span></a>
+                <a href="#" class="menu-item" id="nav-general-history"><i class="fa-solid fa-clock-rotate-left"></i> <span>History</span></a>
+                
+                <a href="#" class="menu-item" id="nav-settings"><i class="fa-solid fa-gear"></i> <span>Settings</span></a>
             </nav>
         </aside>
 

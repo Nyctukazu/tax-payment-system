@@ -1,29 +1,51 @@
 window.addEventListener("DOMContentLoaded", () => {
     
+    // Core Layout Toggles
     const menuToggleBtn = document.getElementById("menu-toggle-btn");
     const sidebarMenu = document.getElementById("sidebar-menu");
     
+    // AI Assistant Toggles
     const aiMenuTrigger = document.getElementById("ai-menu-trigger");
     const aiChatPanel = document.getElementById("ai-chat-panel");
     const closeAiBtn = document.getElementById("close-ai-btn");
-
     const aiInputField = document.getElementById("ai-input-field");
     const aiSendBtn = document.getElementById("ai-send-btn");
     const chatStream = document.getElementById("chat-stream");
     const aiStatusPrompt = document.getElementById("ai-status-prompt");
 
-    /* Navigation Element Targets */
+    // All Navigation Element Targets
     const navDashboard = document.getElementById("nav-dashboard");
     const navPortfolio = document.getElementById("nav-portfolio");
     const navAssessments = document.getElementById("nav-assessments");
     const navHistory = document.getElementById("nav-history");
+    const navFileAssessment = document.getElementById("nav-file-assessment");
+    const navReceipt = document.getElementById("nav-receipt");
+    const navGeneralHistory = document.getElementById("nav-general-history");
+    const navSettings = document.getElementById("nav-settings"); 
 
-    /* Pane Container Views */
+    // All Pane Container Views
     const viewDashboard = document.getElementById("view-dashboard");
     const viewPortfolio = document.getElementById("view-portfolio");
     const viewAssessments = document.getElementById("view-assessments");
     const viewHistory = document.getElementById("view-history");
+    const viewFileAssessment = document.getElementById("view-file-assessment");
+    const viewReceipt = document.getElementById("view-receipt");
+    const viewGeneralHistory = document.getElementById("view-general-history");
+    const viewSettings = document.getElementById("view-settings");
 
+    // Array mapped routing
+    const routes = [
+        { btn: navDashboard, view: viewDashboard },
+        { btn: navPortfolio, view: viewPortfolio },
+        { btn: navAssessments, view: viewAssessments },
+        { btn: navHistory, view: viewHistory },
+        { btn: navFileAssessment, view: viewFileAssessment },
+        { btn: navReceipt, view: viewReceipt },
+        { btn: navGeneralHistory, view: viewGeneralHistory },
+        { btn: navSettings, view: viewSettings }
+    ];
+
+    // Toggle main sidebar
     if (menuToggleBtn && sidebarMenu) {
         menuToggleBtn.addEventListener("click", (e) => {
             e.preventDefault();
@@ -31,11 +53,11 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // Toggle AI sidebar
     if (aiMenuTrigger && aiChatPanel) {
         aiMenuTrigger.addEventListener("click", (e) => {
             e.preventDefault();
             aiChatPanel.classList.toggle("hidden");
-            sidebarMenu.classList.add("hidden");
         });
     }
 
@@ -46,79 +68,95 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function clearActiveStates() {
-        navDashboard.classList.remove("active");
-        navPortfolio.classList.remove("active");
-        navAssessments.classList.remove("active");
-        if (navHistory) navHistory.classList.remove("active");
-
-        viewDashboard.classList.add("hidden");
-        viewPortfolio.classList.add("hidden");
-        viewAssessments.classList.add("hidden");
-        if (viewHistory) viewHistory.classList.add("hidden");
-        
-        sidebarMenu.classList.add("hidden");
-    }
-
-    if (navDashboard && viewDashboard) {
-        navDashboard.addEventListener("click", (e) => {
-            e.preventDefault();
-            clearActiveStates();
-            navDashboard.classList.add("active");
-            viewDashboard.classList.remove("hidden");
+    // Routing Logic to clear views and set new active view
+    function setRoute(activeRoute) {
+        routes.forEach(route => {
+            if (route.btn && route.view) {
+                if (route === activeRoute) {
+                    route.btn.classList.add("active");
+                    route.view.classList.remove("hidden");
+                } else {
+                    route.btn.classList.remove("active");
+                    route.view.classList.add("hidden");
+                }
+            }
         });
     }
 
-    if (navPortfolio && viewPortfolio) {
-        navPortfolio.addEventListener("click", (e) => {
-            e.preventDefault();
-            clearActiveStates();
-            navPortfolio.classList.add("active");
-            viewPortfolio.classList.remove("hidden");
-        });
-    }
+    // Attach click listeners dynamically to all routes
+    routes.forEach(route => {
+        if (route.btn) {
+            route.btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                setRoute(route);
+            });
+        }
+    });
 
-    if (navAssessments && viewAssessments) {
-        navAssessments.addEventListener("click", (e) => {
-            e.preventDefault();
-            clearActiveStates();
-            navAssessments.classList.add("active");
-            viewAssessments.classList.remove("hidden");
-        });
-    }
-
-    if (navHistory && viewHistory) {
-        navHistory.addEventListener("click", (e) => {
-            e.preventDefault();
-            clearActiveStates();
-            navHistory.classList.add("active");
-            viewHistory.classList.remove("hidden");
-        });
-    }
-
-    function processUserMessage() {
+    // =========================================================
+    // REAL AI ASSISTANT API LOGIC 
+    // =========================================================
+    async function processUserMessage() {
         const textMessage = aiInputField.value.trim();
         if (!textMessage) return;
 
+        // 1. Post User Message to UI
         const userBubble = document.createElement("div");
         userBubble.className = "chat-bubble user-msg";
         userBubble.textContent = textMessage;
         chatStream.insertBefore(userBubble, aiStatusPrompt);
 
+        // 2. Clear input and show loading status
         aiInputField.value = "";
+        aiInputField.disabled = true; // Prevent spam clicking
         chatStream.scrollTop = chatStream.scrollHeight;
-
         aiStatusPrompt.textContent = "AI is thinking...";
 
-        setTimeout(() => {
+        try {
+            // 3. Connect to your AI API
+            // NOTE: This URL is set for a local Ollama instance running llama3.
+            // If you use an Express backend or a different API (like Gemini), change the URL/body here!
+            const response = await fetch('http://localhost:11434/api/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: 'llama3', // Change to your specific model name (e.g., 'llama3.2')
+                    prompt: "You are a helpful local tax assistant for Pasay City. Answer briefly. User asks: " + textMessage,
+                    stream: false
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            // 4. Post AI Response to UI
             const botBubble = document.createElement("div");
             botBubble.className = "chat-bubble bot-msg";
-            botBubble.textContent = "I am processing your inquiry regarding: '" + textMessage + "'. Please let me know if you need specific computation steps for your Pasay tax assessment.";
+            botBubble.textContent = data.response; // Make sure 'data.response' matches your API's output format
             chatStream.insertBefore(botBubble, aiStatusPrompt);
 
+        } catch (error) {
+            console.error("AI Connection Error:", error);
+            
+            // Render an error bubble if the API is unreachable
+            const errorBubble = document.createElement("div");
+            errorBubble.className = "chat-bubble bot-msg";
+            errorBubble.style.color = "#FF6B6B";
+            errorBubble.style.borderColor = "rgba(255, 107, 107, 0.3)";
+            errorBubble.innerHTML = `<strong>Connection Error:</strong> Could not reach the AI server. Is your local API running?`;
+            chatStream.insertBefore(errorBubble, aiStatusPrompt);
+        } finally {
+            // 5. Restore UI state
+            aiInputField.disabled = false;
+            aiInputField.focus();
             aiStatusPrompt.textContent = "How can I assist further?";
             chatStream.scrollTop = chatStream.scrollHeight;
-        }, 1000);
+        }
     }
 
     if (aiSendBtn) {
@@ -127,9 +165,17 @@ window.addEventListener("DOMContentLoaded", () => {
 
     if (aiInputField) {
         aiInputField.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") {
+            if (e.key === "Enter" && !aiInputField.disabled) {
                 processUserMessage();
             }
         });
     }
+
+    // Settings Toggle Logic
+    const toggles = document.querySelectorAll('.toggle-switch');
+    toggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
+    });
 });
