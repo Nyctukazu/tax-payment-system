@@ -17,4 +17,8 @@
     
     --heading: Inter;
     --body: Inter;
+
+    --shadow: 5px 5px 5px rgba(39, 0, 57, 0.3);
+
+    --muted: #65708f;
 }
