@@ -1,8 +1,10 @@
 import { getDashboardData } from "./services/dashboard-service.js";
 import { initAdminHeader } from "./components/AdminHeader.js";
+import { initAdminSidebar } from "./components/AdminSidebar.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     initAdminHeader();
+    initAdminSidebar();
 });
 
 
