@@ -11,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,15 +29,11 @@ public abstract class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
     private String mobileNumber;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "account_type", nullable = false, insertable = false, updatable = false)
-    private AccountType accountType;
 
     @Column(name = "password", nullable = false)
     private String password;

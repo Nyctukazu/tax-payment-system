@@ -10,6 +10,7 @@ import gov.pasay.taxsystem.dto.RegisterRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -21,7 +22,7 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserRepository userRepo; // Kept only the unified repository
+    private UserRepository userRepo; 
 
     public Optional<AuthResponse> login(String email, String inputRawPassword) {
         Optional<User> userOpt = userRepo.findByEmail(email);
@@ -30,7 +31,7 @@ public class AuthService {
             return Optional.empty();
         }
 
-        User matchedUser = userOpt.get(); // FIX: Removed the duplicate declaration above
+        User matchedUser = userOpt.get();
         AuthResponse response;
         
         if (matchedUser instanceof AdminModel admin) {
@@ -54,8 +55,9 @@ public class AuthService {
         return Optional.of(response);
     }
 
+    @Transactional // Added for database transactional safety
     public String register(RegisterRequest request) {
-        if (userRepo.findByEmail(request.email()).isPresent()) {
+        if (userRepo.existsByEmail(request.email())) { // Optimized performance check
             throw new IllegalArgumentException("Email is already registered");
         }
 
@@ -68,6 +70,7 @@ public class AuthService {
             taxpayer.setFirstName(request.firstName());
             taxpayer.setLastName(request.lastName());
             taxpayer.setMobileNumber(request.mobileNumber());
+            taxpayer.setOwnerTin("PENDING"); // Safe fallback string so your database doesn't complain about nulls
             
             userRepo.save(taxpayer); 
             return "Taxpayer registered successfully!";
@@ -92,6 +95,7 @@ public class AuthService {
         throw new IllegalArgumentException("Invalid role specified. Must be 'TAXPAYER' or 'ADMIN'.");
     }
 
+    @Transactional // Ensures clean rollbacks if database initialization fails
     public Optional<User> loginOrRegisterGoogleUser(String email, String name) {
         Optional<User> existingUser = userRepo.findByEmail(email);
         if (existingUser.isPresent()) {
@@ -101,6 +105,8 @@ public class AuthService {
         try {
             TaxpayerModel newTaxpayer = new TaxpayerModel();
             newTaxpayer.setEmail(email);
+            newTaxpayer.setOwnerTin("GOOGLE_AUTH"); // Explicitly setting a fallback to avoid null violations
+            newTaxpayer.setMobileNumber(""); // Keep empty string instead of risking database nulls if configured strict
             
             if (name != null && name.contains(" ")) {
                 String[] nameParts = name.split(" ", 2);
@@ -116,8 +122,8 @@ public class AuthService {
             return Optional.of(savedUser);
             
         } catch (Exception e) {
-            System.err.println("Critical failure processing Google auto-registration: " + e.getMessage());
-            return Optional.empty();
+            // Re-throwing runtime exceptions inside Transactional ensures proper handling
+            throw new RuntimeException("Critical failure processing Google auto-registration: " + e.getMessage(), e);
         }
     }
 }

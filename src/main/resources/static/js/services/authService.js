@@ -39,23 +39,17 @@ export async function RegisterUserWithBackend(formData) {
     };
 
     try {
-        const response = await postJson(apiUrl, registerPayload);
+        const data = await postJson(apiUrl, registerPayload);
+        return { success: true, data: data.message }; 
 
-        if (response.ok) {
-            const successMessage = await response.json();
-            return { success: true, data: successMessage };
-        } else {
-            const errorText = await response.text();
-            return { success: false, error: errorText };
-        }
     } catch (error) {
         console.error("Network error typing to connect to backend:", error);
         return {
             success: false,
-            error: "Unable to reach security authentication server. Please try again later."
-        }
+            error: error.message || "Unable to reach security authentication server. Please try again later."
+        };
     }
-};
+}
 
 export async function registerAdminWithBackend(formData, administrationClassification) {
     const apiUrl = "/api/auth/register";

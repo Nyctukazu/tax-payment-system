@@ -9,5 +9,5 @@ import gov.pasay.taxsystem.model.entity.TaxpayerModel;
 
 @Repository
 public interface TaxpayerRepository extends JpaRepository<TaxpayerModel, Long>{
-    Optional<TaxpayerModel> findByEmail(String email);   
+    Optional<TaxpayerModel> findByOwnerTin(String ownerTin);   
 }

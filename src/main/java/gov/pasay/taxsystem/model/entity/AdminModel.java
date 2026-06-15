@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
@@ -16,10 +17,11 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @DiscriminatorValue("ADMIN")
 public class AdminModel extends User{
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "ownership_type")
+    @Column(name = "admin_classification")
     private AdminClassification adminClass;
 }
