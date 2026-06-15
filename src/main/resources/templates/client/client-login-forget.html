@@ -1,202 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Client Login Forget</title>
-  <link rel="stylesheet" href="css/client/client-login-forget.css" />
-</head>
-<body>
-  <main class="page">
-    <div class="switcher" aria-label="Reset type selector">
-      <button class="mode-btn active" data-mode="username">Forgot Username</button>
-      <button class="mode-btn" data-mode="password">Forgot Password</button>
-    </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Client Login Forget</title>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
 
-    <section class="card">
-      <div class="brand" aria-label="Company logo">
-        <svg viewBox="0 0 64 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="2.5" y="2.5" width="59" height="43" rx="5.5" stroke="white" stroke-width="2.5"/>
-          <circle cx="17" cy="15" r="5" stroke="white" stroke-width="2.5"/>
-          <path d="M8 37L25 19L36.5 30L47.5 15L56 37" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>LOGO</span>
+    <div class="particle-container" id="particle-canvas"></div>
+
+    <main class="page">
+      <div class="switcher" aria-label="Reset type selector">
+        <button class="mode-btn active" data-mode="username">Forgot Username</button>
+        <button class="mode-btn" data-mode="password">Forgot Password</button>
       </div>
 
-      <div class="step-indicator" id="stepIndicator" aria-hidden="true">
-        <i class="active"></i>
-        <i></i>
-        <i></i>
-      </div>
-
-      <div class="panel active" data-flow="username" data-step="1">
-        <h1>Forgot Username</h1>
-        <p class="subtext">Reset using phone or email</p>
-
-        <form class="form-stack" id="usernameLookupForm" novalidate>
-          <div class="field">
-            <input id="usernameEmail" type="email" placeholder="Email Address" aria-label="Email address" autocomplete="email">
-          </div>
-          <div class="error-text" id="usernameEmailError"></div>
-
-          <div class="or">OR</div>
-
-          <div class="field">
-            <input id="usernamePhone" type="tel" placeholder="09XXXXXXXXX" aria-label="Mobile number" inputmode="numeric" maxlength="11">
-          </div>
-          <div class="field-note">Philippine format only: 11 digits starting with `09`.</div>
-          <div class="error-text" id="usernamePhoneError"></div>
-          <div class="error-text" id="usernameLookupError"></div>
-          <div class="success-inline" id="usernameLookupSuccess"></div>
-
-          <div class="button-row">
-            <button class="btn btn-primary" type="submit">Submit</button>
-            <button class="btn btn-secondary reset-btn" type="button">Cancel</button>
-          </div>
-        </form>
-
-        <div class="footer-link">
-          Need a password reset? <button class="jump-mode" data-mode="password">Switch here</button>
+      <section class="card">
+        <div class="brand" aria-label="Company logo">
+          <img class="logo-image" src="/images/logo.jpg">
         </div>
-      </div>
 
-      <div class="panel" data-flow="username" data-step="2">
-        <h1>Create New Username</h1>
-        <p class="subtext">Enter and confirm your new username</p>
-
-        <form id="usernameResetForm" novalidate>
-          <div class="field" id="newUsernameField">
-            <input id="newUsername" type="text" placeholder="Enter New Username" aria-label="New username" autocomplete="username">
-          </div>
-          <div class="field-note">Use 4 to 24 characters: letters, numbers, `_` or `.`</div>
-          <div class="error-text" id="newUsernameError"></div>
-          <div class="field" id="confirmUsernameField">
-            <input id="confirmUsername" type="text" placeholder="Confirm Username" aria-label="Confirm username" autocomplete="username">
-          </div>
-          <div class="error-text" id="confirmUsernameError"></div>
-          <div class="error-text" id="usernameResetError"></div>
-
-          <div class="button-row">
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <button type="button" class="btn btn-secondary back-btn" data-target-flow="username" data-target-step="1">Back</button>
-          </div>
-        </form>
-      </div>
-
-      <div class="panel" data-flow="username" data-step="3">
-        <h1>Username Updated</h1>
-        <div class="status-icon" aria-hidden="true">
-          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 16.5L13.2 21.5L24 10.5" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <div class="step-indicator" id="stepIndicator" aria-hidden="true">
+          <i class="active"></i>
+          <i></i>
+          <i></i>
         </div>
-        <p class="success-text">
-          <strong>Thank you.</strong><br>
-          Your username has been updated successfully.<br><br>
-          You will be redirected to the login page in 5 seconds.<br><br>
-          <a href="#" class="restart-link" data-flow="username">Click here</a> if you are not redirected automatically.
-        </p>
-      </div>
 
-      <div class="panel" data-flow="password" data-step="1">
-        <h1>Forgot Password</h1>
-        <p class="subtext">Reset using phone or email</p>
+        <div class="panel active" data-flow="username" data-step="1">
+          <h1>Forgot Username</h1>
+          <p class="subtext">Reset using phone or email</p>
 
-        <form class="form-stack" id="passwordLookupForm" novalidate>
-          <div class="field">
-            <input id="passwordEmail" type="email" placeholder="Email Address" aria-label="Email address" autocomplete="email">
+          <form class="form-stack" id="usernameLookupForm" novalidate>
+            <div class="field">
+              <input id="usernameEmail" type="email" placeholder="Email Address" aria-label="Email address" autocomplete="email">
+            </div>
+            <div class="error-text" id="usernameEmailError"></div>
+
+            <div class="or">OR</div>
+
+            <div class="field">
+              <input id="usernamePhone" type="tel" placeholder="09XXXXXXXXX" aria-label="Mobile number" inputmode="numeric" maxlength="11">
+            </div>
+            <div class="field-note">Philippine format only: 11 digits starting with `09`.</div>
+            <div class="error-text" id="usernamePhoneError"></div>
+            <div class="error-text" id="usernameLookupError"></div>
+            <div class="success-inline" id="usernameLookupSuccess"></div>
+
+            <div class="button-row">
+              <button class="global-btn" type="submit">Submit</button>
+              <button class="global-btn-white" type="button">Cancel</button>
+            </div>
+          </form>
+
+          <div class="footer-link">
+            Need a password reset? <button class="jump-mode" data-mode="password">Switch here</button>
           </div>
-          <div class="error-text" id="passwordEmailError"></div>
-
-          <div class="or">OR</div>
-
-          <div class="field">
-            <input id="passwordPhone" type="tel" placeholder="09XXXXXXXXX" aria-label="Mobile number" inputmode="numeric" maxlength="11">
-          </div>
-          <div class="field-note">Philippine format only: 11 digits starting with `09`.</div>
-          <div class="error-text" id="passwordPhoneError"></div>
-          <div class="error-text" id="passwordLookupError"></div>
-          <div class="success-inline" id="passwordLookupSuccess"></div>
-
-          <div class="button-row">
-            <button class="btn btn-primary" type="submit">Submit</button>
-            <button class="btn btn-secondary reset-btn" type="button">Cancel</button>
-          </div>
-        </form>
-
-        <div class="footer-link">
-          Need username recovery? <button class="jump-mode" data-mode="username">Switch here</button>
         </div>
-      </div>
 
-      <div class="panel" data-flow="password" data-step="2">
-        <h1>Create New Password</h1>
-        <p class="subtext">Enter and confirm your new password</p>
+        <div class="panel" data-flow="username" data-step="2">
+          <h1>Create New Username</h1>
+          <p class="subtext">Enter and confirm your new username</p>
 
-        <form id="passwordResetForm" novalidate>
-          <div class="field password-field" id="newPasswordField">
-            <input id="newPassword" type="password" placeholder="Enter New Password" aria-label="New password" autocomplete="new-password">
-            <button
-              type="button"
-              class="peek-btn"
-              id="passwordPeekButton"
-              aria-label="Press and hold to show password"
-              aria-controls="newPassword"
-            >
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M2 12C3.9 8.3 7.5 6 12 6C16.5 6 20.1 8.3 22 12C20.1 15.7 16.5 18 12 18C7.5 18 3.9 15.7 2 12Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
-              </svg>
-            </button>
-          </div>
-          <div class="password-strength">
-            <div class="password-strength-bar"><span id="passwordStrengthFill"></span></div>
-            <div class="password-strength-label" id="passwordStrengthLabel">Weak</div>
-          </div>
-          <div class="password-meta" id="passwordStrengthMeta">Use 12+ characters or a long passphrase with a mix of character types.</div>
-          <div class="password-checklist" id="passwordChecklist" aria-live="polite">
-            <div class="password-check" data-check="length12">At least 12 characters</div>
-            <div class="password-check" data-check="lower">Has a lowercase letter</div>
-            <div class="password-check" data-check="upper">Has an uppercase letter</div>
-            <div class="password-check" data-check="digit">Has a number</div>
-            <div class="password-check" data-check="symbol">Has a special character</div>
-            <div class="password-check" data-check="safePattern">No common words or obvious sequences</div>
-          </div>
-          <div class="error-text" id="newPasswordError"></div>
-          <div class="field" id="confirmPasswordField">
-            <input id="confirmPassword" type="password" placeholder="Confirm Password" aria-label="Confirm password" autocomplete="new-password">
-          </div>
-          <div class="error-text" id="confirmPasswordError"></div>
-          <div class="error-text" id="passwordResetError"></div>
-          <div class="button-row">
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <button type="button" class="btn btn-secondary back-btn" data-target-flow="password" data-target-step="1">Back</button>
-          </div>
-        </form>
-      </div>
+          <form id="usernameResetForm" novalidate>
+            <div class="field" id="newUsernameField">
+              <input id="newUsername" type="text" placeholder="Enter New Username" aria-label="New username" autocomplete="username">
+            </div>
+            <div class="field-note">Use 4 to 24 characters: letters, numbers, `_` or `.`</div>
+            <div class="error-text" id="newUsernameError"></div>
+            <div class="field" id="confirmUsernameField">
+              <input id="confirmUsername" type="text" placeholder="Confirm Username" aria-label="Confirm username" autocomplete="username">
+            </div>
+            <div class="error-text" id="confirmUsernameError"></div>
+            <div class="error-text" id="usernameResetError"></div>
 
-
-      <div class="panel" data-flow="password" data-step="3">
-        <h1>Password Updated</h1>
-        <div class="status-icon" aria-hidden="true">
-          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 16.5L13.2 21.5L24 10.5" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+            <div class="button-row">
+              <button type="submit" class="global-btn">Submit</button>
+              <button type="button" class="global-btn" data-target-flow="username" data-target-step="1">Back</button>
+            </div>
+          </form>
         </div>
-        <p class="success-text">
-          <strong>Thank you.</strong><br>
-          Your password has been reset successfully.<br><br>
-          You will be redirected to the login page in 5 seconds.<br><br>
-          <a href="#" class="restart-link" data-flow="password">Click here</a> if you are not redirected automatically.
-        </p>
-      </div>
-    </section>
 
-    <p class="note">
-      This file includes both recovery flows, hook-friendly validation, Philippine mobile number checks, and a password-strength gate.
-    </p>
-  </main>
+        <div class="panel" data-flow="username" data-step="3">
+          <h1>Username Updated</h1>
+          <div class="status-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 16.5L13.2 21.5L24 10.5" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="success-text">
+            <strong>Thank you.</strong><br>
+            Your username has been updated successfully.<br><br>
+            You will be redirected to the login page in 5 seconds.<br><br>
+            <a href="#" class="restart-link" data-flow="username">Click here</a> if you are not redirected automatically.
+          </p>
+        </div>
 
-  <script src="/js/client-login-forget.js"></script>
-</body>
+        <div class="panel" data-flow="password" data-step="1">
+          <h1>Forgot Password</h1>
+          <p class="subtext">Reset using phone or email</p>
+
+          <form class="form-stack" id="passwordLookupForm" novalidate>
+            <div class="field">
+              <input id="passwordEmail" type="email" placeholder="Email Address" aria-label="Email address" autocomplete="email">
+            </div>
+            <div class="error-text" id="passwordEmailError"></div>
+
+            <div class="or">OR</div>
+
+            <div class="field">
+              <input id="passwordPhone" type="tel" placeholder="09XXXXXXXXX" aria-label="Mobile number" inputmode="numeric" maxlength="11">
+            </div>
+            <div class="field-note">Philippine format only: 11 digits starting with `09`.</div>
+            <div class="error-text" id="passwordPhoneError"></div>
+            <div class="error-text" id="passwordLookupError"></div>
+            <div class="success-inline" id="passwordLookupSuccess"></div>
+
+            <div class="button-row">
+              <button class="global-btn" type="submit">Submit</button>
+              <button class="global-btn-white" type="button">Cancel</button>
+            </div>
+          </form>
+
+          <div class="footer-link">
+            Need username recovery? <button class="jump-mode" data-mode="username">Switch here</button>
+          </div>
+        </div>
+
+        <div class="panel" data-flow="password" data-step="2">
+          <h1>Create New Password</h1>
+          <p class="subtext">Enter and confirm your new password</p>
+
+          <form id="passwordResetForm" novalidate>
+            <div class="field password-field" id="newPasswordField">
+              <input id="newPassword" type="password" placeholder="Enter New Password" aria-label="New password" autocomplete="new-password">
+              <button
+                type="button"
+                class="peek-btn"
+                id="passwordPeekButton"
+                aria-label="Press and hold to show password"
+                aria-controls="newPassword"
+              >
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M2 12C3.9 8.3 7.5 6 12 6C16.5 6 20.1 8.3 22 12C20.1 15.7 16.5 18 12 18C7.5 18 3.9 15.7 2 12Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+                </svg>
+              </button>
+            </div>
+            <div class="password-strength">
+              <div class="password-strength-bar"><span id="passwordStrengthFill"></span></div>
+              <div class="password-strength-label" id="passwordStrengthLabel">Weak</div>
+            </div>
+            <div class="password-meta" id="passwordStrengthMeta">Use 12+ characters or a long passphrase with a mix of character types.</div>
+            <div class="password-checklist" id="passwordChecklist" aria-live="polite">
+              <div class="password-check" data-check="length12">At least 12 characters</div>
+              <div class="password-check" data-check="lower">Has a lowercase letter</div>
+              <div class="password-check" data-check="upper">Has an uppercase letter</div>
+              <div class="password-check" data-check="digit">Has a number</div>
+              <div class="password-check" data-check="symbol">Has a special character</div>
+              <div class="password-check" data-check="safePattern">No common words or obvious sequences</div>
+            </div>
+            <div class="error-text" id="newPasswordError"></div>
+            <div class="field" id="confirmPasswordField">
+              <input id="confirmPassword" type="password" placeholder="Confirm Password" aria-label="Confirm password" autocomplete="new-password">
+            </div>
+            <div class="error-text" id="confirmPasswordError"></div>
+            <div class="error-text" id="passwordResetError"></div>
+            <div class="button-row">
+              <button type="submit" class="global-btn">Submit</button>
+              <button type="button" class="global-btn" data-target-flow="password" data-target-step="1">Back</button>
+            </div>
+          </form>
+        </div>
+
+
+        <div class="panel" data-flow="password" data-step="3">
+          <h1>Password Updated</h1>
+          <div class="status-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 16.5L13.2 21.5L24 10.5" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="success-text">
+            <strong>Thank you.</strong><br>
+            Your password has been reset successfully.<br><br>
+            You will be redirected to the login page in 5 seconds.<br><br>
+            <a href="#" class="restart-link" data-flow="password">Click here</a> if you are not redirected automatically.
+          </p>
+        </div>
+      </section>
+
+      <p class="note">
+        This file includes both recovery flows, hook-friendly validation, Philippine mobile number checks, and a password-strength gate.
+      </p>
+    </main>
+
+    <script type="module" src="/js/client-app.js"></script>
+    <script type="module" src="/js/client-login-forget.js"></script>
+  </body>
 </html>
