@@ -5,149 +5,154 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Client Registration</title>
   <link rel="stylesheet" href="\css\client\client-register.css">
+  <link rel="stylesheet" href="\css\main.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-  <div class="register-container">
-    <div class="logo-container">
-      <div class="logo-icon">
-        <i class="fa-regular fa-image"></i>
+  <div class="particle-container" id="particle-canvas"></div>
+  <start-header></start-header>
+
+  <main class="page-wrapper">
+    <div class="register-container">
+      <div class="logo-container">
+        <img class="logo-image" src="/images/logo.jpg">
       </div>
-      <span class="logo-text">LOGO</span>
-    </div>
 
-    <div id="step1" class="form-step active-step">
-      <h2>Register</h2>
-      <p class="subtitle">Enter your details to register</p>
+      <div id="step1" class="form-step active-step">
+        <h2>Register</h2>
+        <p class="subtitle">Enter your details to register</p>
 
-      <form id="registrationForm" novalidate>
-        
-        <div class="form-group">
-          <input type="text" id="firstName" name="firstName" placeholder="First Name" autocomplete="given-name" required>
-          <div class="error-message" id="firstNameError">Please enter your first name (2-50 characters).</div>
-        </div>
-
-        <div class="form-group">
-          <input type="text" id="lastName" name="lastName" placeholder="Last Name" autocomplete="family-name" required>
-          <div class="error-message" id="lastNameError">Please enter your last name (2-50 characters).</div>
-        </div>
-
-        <div class="form-group">
-          <input type="email" id="email" name="email" placeholder="Email Address" autocomplete="email" required>
-          <div class="error-message" id="emailError">Please enter a valid email address.</div>
-        </div>
-
-        <div class="form-group phone-group">
-          <div class="phone-input-wrapper">
-            <select id="countryCode" name="countryCode">
-              <option value="+63">🇵🇭 +63</option>
-              <option value="+27">🇿🇦 +27</option>
-              <option value="+1">🇺🇸 +1</option>
-              <option value="+44">🇬🇧 +44</option>
-            </select>
-            <input type="tel" id="mobileNumber" name="mobileNumber" placeholder="Mobile Number (e.g., 09123456789)" maxlength="11" autocomplete="tel">
-          </div>
-          <div class="error-message" id="mobileNumberError">Please enter a valid 11-digit mobile number (digits only).</div>
-        </div>
-
-        <div class="form-group">
-          <div class="password-wrapper">
-            <input type="password" id="password" name="password" placeholder="Password" autocomplete="new-password" required>
-            <i class="fa-regular fa-eye toggle-password" data-target="password"></i>
-          </div>
+        <form id="registrationForm" novalidate>
           
-          <div class="strength-meter" id="strengthMeter">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
+          <div class="form-group">
+            <input type="text" id="firstName" name="firstName" placeholder="First Name" autocomplete="given-name" required>
+            <div class="error-message" id="firstNameError">Please enter your first name (2-50 characters).</div>
           </div>
 
-          <div class="password-requirements-box" id="passwordRequirements">
-            <div class="requirement-item" id="reqLength"><i class="fa-solid fa-circle-dot"></i> Minimum of 8 characters</div>
-            <div class="requirement-item" id="reqCapital"><i class="fa-solid fa-circle-dot"></i> At least 1 capitalized letter</div>
-            <div class="requirement-item" id="reqSymbol"><i class="fa-solid fa-circle-dot"></i> At least 1 symbol</div>
-            <div class="requirement-item" id="reqNumber"><i class="fa-solid fa-circle-dot"></i> At least 1 number</div>
+          <div class="form-group">
+            <input type="text" id="lastName" name="lastName" placeholder="Last Name" autocomplete="family-name" required>
+            <div class="error-message" id="lastNameError">Please enter your last name (2-50 characters).</div>
           </div>
-        </div>
 
-        <div class="form-group">
-          <div class="password-wrapper">
-            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" autocomplete="new-password" required>
-            <i class="fa-regular fa-eye toggle-password" data-target="confirmPassword"></i>
+          <div class="form-group">
+            <input type="email" id="email" name="email" placeholder="Email Address" autocomplete="email" required>
+            <div class="error-message" id="emailError">Please enter a valid email address.</div>
           </div>
-          <div class="error-message" id="confirmPasswordError">Passwords do not match.</div>
-        </div>
 
-        <div class="form-group checkbox-group">
-          <label for="terms">
-            <input type="checkbox" id="terms" name="terms" required>
-            <span>I agree with the terms and conditions</span>
+          <div class="form-group phone-group">
+            <div class="phone-input-wrapper">
+              <select id="countryCode" name="countryCode">
+                <option value="+63">🇵🇭 +63</option>
+                <option value="+27">🇿🇦 +27</option>
+                <option value="+1">🇺🇸 +1</option>
+                <option value="+44">🇬🇧 +44</option>
+              </select>
+              <input type="tel" id="mobileNumber" name="mobileNumber" placeholder="Mobile Number (e.g., 09123456789)" maxlength="11" autocomplete="tel">
+            </div>
+            <div class="error-message" id="mobileNumberError">Please enter a valid 11-digit mobile number (digits only).</div>
+          </div>
+
+          <div class="form-group">
+            <div class="password-wrapper">
+              <input type="password" id="password" name="password" placeholder="Password" autocomplete="new-password" required>
+              <i class="fa-regular fa-eye toggle-password" data-target="password"></i>
+            </div>
+            
+            <div class="strength-meter" id="strengthMeter">
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+            </div>
+
+            <div class="password-requirements-box" id="passwordRequirements">
+              <div class="requirement-item" id="reqLength"><i class="fa-solid fa-circle-dot"></i> Minimum of 8 characters</div>
+              <div class="requirement-item" id="reqCapital"><i class="fa-solid fa-circle-dot"></i> At least 1 capitalized letter</div>
+              <div class="requirement-item" id="reqSymbol"><i class="fa-solid fa-circle-dot"></i> At least 1 symbol</div>
+              <div class="requirement-item" id="reqNumber"><i class="fa-solid fa-circle-dot"></i> At least 1 number</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="password-wrapper">
+              <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" autocomplete="new-password" required>
+              <i class="fa-regular fa-eye toggle-password" data-target="confirmPassword"></i>
+            </div>
+            <div class="error-message" id="confirmPasswordError">Passwords do not match.</div>
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label for="terms">
+              <input type="checkbox" id="terms" name="terms" required>
+              <span>I agree with the terms and conditions</span>
+            </label>
+          </div>
+
+          <div class="privacy-notice">
+            By registering, you acknowledge and agree that your personal data will be processed securely in strict accordance with the provisions of the Data Privacy Act (Republic Act No. 10173).
+          </div>
+
+          <button type="submit" id="submitBtn" disabled>Next</button>
+
+          <p class="login-prompt">Already have an account? <a href="/client-login">Log in</a></p>
+
+        </form>
+      </div>
+
+      <div id="step2" class="form-step">
+        <h2>Register</h2>
+        <p class="subtitle">Add a profile image to finish setting up your account</p>
+        
+        <div class="photo-selection-area">
+          <button type="button" class="photo-option-btn" id="cameraOptionBtn">
+            <div class="avatar-circle">
+              <i class="fa-regular fa-user"></i>
+            </div>
+            <span class="option-label">Take photo with camera</span>
+          </button>
+
+          <label for="hiddenFileInput" class="photo-option-btn">
+            <div class="avatar-circle">
+              <i class="fa-regular fa-user"></i>
+            </div>
+            <span class="option-label">Upload Photo from your phone</span>
           </label>
-        </div>
+          <input type="file" id="hiddenFileInput" accept="image/*" style="display: none;">
 
-        <div class="privacy-notice">
-          By registering, you acknowledge and agree that your personal data will be processed securely in strict accordance with the provisions of the Data Privacy Act (Republic Act No. 10173).
-        </div>
-
-        <button type="submit" id="submitBtn" disabled>Next</button>
-
-      </form>
-    </div>
-
-    <div id="step2" class="form-step">
-      <h2>Register</h2>
-      <p class="subtitle">Add a profile image to finish setting up your account</p>
-      
-      <div class="photo-selection-area">
-        <button type="button" class="photo-option-btn" id="cameraOptionBtn">
-          <div class="avatar-circle">
-            <i class="fa-regular fa-user"></i>
+          <div id="photoPreviewContainer" class="photo-preview-box" style="display: none;">
+            <img id="photoPreviewImg" src="" alt="Profile Preview">
+            <button type="button" id="removePhotoBtn" class="remove-photo-btn"><i class="fa-solid fa-xmark"></i> Remove</button>
           </div>
-          <span class="option-label">Take photo with camera</span>
-        </button>
+        </div>
 
-        <label for="hiddenFileInput" class="photo-option-btn">
-          <div class="avatar-circle">
-            <i class="fa-regular fa-user"></i>
+        <div class="step2-button-group">
+          <button type="button" class="btn-upload" id="finalUploadBtn">Upload</button>
+          <button type="button" class="btn-skip" id="skipPhotoBtn">Skip</button>
+        </div>
+      </div>
+
+      <div id="step3" class="form-step">
+        <h2 class="success-heading">Registration Successful!</h2>
+        
+        <div class="success-icon-wrapper">
+          <div class="success-badge">
+            <i class="fa-solid fa-check"></i>
           </div>
-          <span class="option-label">Upload Photo from your phone</span>
-        </label>
-        <input type="file" id="hiddenFileInput" accept="image/*" style="display: none;">
-
-        <div id="photoPreviewContainer" class="photo-preview-box" style="display: none;">
-          <img id="photoPreviewImg" src="" alt="Profile Preview">
-          <button type="button" id="removePhotoBtn" class="remove-photo-btn"><i class="fa-solid fa-xmark"></i> Remove</button>
         </div>
+
+        <p class="redirect-notice">
+          You will be redirected to the landing page in <span id="countdownTimer">5</span> seconds...
+        </p>
+
+        <p class="manual-redirect-text">
+          Click <a href="#" id="manualRedirectLink">here</a> if you are not redirected automatically
+        </p>
       </div>
 
-      <div class="step2-button-group">
-        <button type="button" class="btn-upload" id="finalUploadBtn">Upload</button>
-        <button type="button" class="btn-skip" id="skipPhotoBtn">Skip</button>
-      </div>
     </div>
+  </main>
 
-    <div id="step3" class="form-step">
-      <h2 class="success-heading">Registration Successful!</h2>
-      
-      <div class="success-icon-wrapper">
-        <div class="success-badge">
-          <i class="fa-solid fa-check"></i>
-        </div>
-      </div>
-
-      <p class="redirect-notice">
-        You will be redirected to the landing page in <span id="countdownTimer">5</span> seconds...
-      </p>
-
-      <p class="manual-redirect-text">
-        Click <a href="#" id="manualRedirectLink">here</a> if you are not redirected automatically
-      </p>
-    </div>
-
-  </div>
-
-  <script src="\js\services\client-register.js"></script>
+  <script type="module" src="\js\services\client-register.js"></script>
 </body>
 </html>

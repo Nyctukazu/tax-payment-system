@@ -1,4 +1,9 @@
+import { initStartHeader } from "../components/StartHeader.js";
+import { initializeParticles } from "../components/particles.js";
+
 document.addEventListener('DOMContentLoaded', () => {
+  initStartHeader();
+  initializeParticles();
   const form = document.getElementById('registrationForm');
   const submitBtn = document.getElementById('submitBtn');
   

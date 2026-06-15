@@ -22,7 +22,7 @@ public class DashboardService {
 
     public DashboardResponse getDashboardData(Long userId) {
         DashboardResponse.UserSummary user = new DashboardResponse.UserSummary(
-            "Laurence Ryan Cruz", "June 2026"
+            "Laurence Ryan Cruz", "June 2026", "SUPERADMIN"
         );
 
         List<DashboardResponse.NotificationItem> notifications = 

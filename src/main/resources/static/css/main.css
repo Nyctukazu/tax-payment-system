@@ -2,7 +2,8 @@
 @import "/css/components/button.css";
 @import "./modules/particles.css";
 @import "/css/components/eye-blink.css";
-@import "./client/client-login-forget.css";
+@import "/css/components/components.css";
+/*@import "./client/client-login-forget.css";*/
 
 * {
     margin: 0;

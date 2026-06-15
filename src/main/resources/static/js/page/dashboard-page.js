@@ -17,7 +17,7 @@ export async function initDashboard() {
 function renderHeader(user) {
     document.getElementById("welcomeTitle").textContent = `Welcome back, ${user.displayName}!`;
     document.getElementById("welcomeSubtitle").textContent = `Here is your system summary for ${user.dateLabel}.`;
-    document.getElementById("userChip").textContent = user.displayName; 
+    document.getElementById("userChip").textContent = user.adminClass; 
 }
 
 function renderNotifications(items) {
@@ -294,7 +294,6 @@ function renderBarChart(items) {
         });
 
         bar.addEventListener("mouseleave", () => {
-            // Restore default values when pointer navigates away
             bars.forEach(b => b.setAttribute("fill-opacity", "1"));
             tooltipGroup.setAttribute("opacity", "0");
         });
@@ -423,14 +422,33 @@ function renderDonut(items) {
 
 function renderBulletin(rows) {
     const tbody = document.querySelector("#bulletinTable tbody");
-    tbody.innerHTML = rows.map(r => `
-        <tr>
-            <td><span class="tag">${r.level}</span></td>
-            <td>${r.message}</td>
-            <td>${r.time}</td>
-        </tr>
-    `).join("");
+    if (!tbody || !rows) return;
+
+    const levelStyles = {
+        high: "background-color: #ef4444; color: #ffffff; font-weight: bold;", 
+        medium: "background-color: #f97316; color: #ffffff; font-weight: bold;",
+        low: "background-color: #eab308; color: #1f2937; font-weight: bold;" 
+    };
+
+    tbody.innerHTML = rows.map(r => {
+        const normalizedLevel = (r.level || "").toLowerCase().trim();
+        
+        const currentStyle = levelStyles[normalizedLevel] || "background-color: #9ca3af; color: #ffffff;";
+
+        return `
+            <tr>
+                <td>
+                    <span class="tag" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; display: inline-block; ${currentStyle}">
+                        ${r.level}
+                    </span>
+                </td>
+                <td>${r.message}</td>
+                <td>${r.time}</td>
+            </tr>
+        `;
+    }).join("");
 }
+
 
 function renderAudit(rows) {
     const tbody = document.querySelector("#auditTable tbody");

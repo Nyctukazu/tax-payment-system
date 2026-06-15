@@ -103,7 +103,7 @@ body {
 
 .user-chip {
     align-self: center;
-    background: var(--accent-color1);
+    background: linear-gradient(135deg, var(--accent-color1), var(--accent-color2));
     color: var(--main-color1);
     padding: 0.4rem 0.75rem;
     border-radius: 999px;
@@ -253,21 +253,6 @@ body {
     .kpi-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-:root {
-    --bg: #fbf2e6;
-    --nav: #23254f;
-    --nav-soft: #39408f;
-    --text: #24294c;
-    --muted: #7b7e91;
-    --panel: #f7f7f8;
-    --border: #e8e3da;
-    --accent: #ea8a2d;
-    --green: #2ebd59;
-    --red: #ef4444;
-}
-
-
-
 /*=====================================*/
 .app-shell {
     min-height: 100vh;
@@ -295,7 +280,7 @@ body {
 }
 
 .role-chip {
-    background: linear-gradient(135deg, #f2994a, #d94884);
+    background: linear-gradient(135deg, var(--accent-color1), var(--accent-color2));
     padding: 0.25rem 0.75rem;
     border-radius: 999px;
     font-size: 0.72rem;
