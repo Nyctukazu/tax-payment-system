@@ -157,6 +157,7 @@ body {
     border-radius: 12px;
     padding: 0.8rem;
     box-shadow: var(--shadow);
+    position: relative;
 
     h3 { 
         margin: 0 0 0.7rem; 
@@ -171,10 +172,10 @@ body {
 }
 
 .bar-chart {
-    height: 190px;
-    display: flex;
-    align-items: end;
-    gap: 12px;
+    width: 100%;
+    height: 210px;
+    display: block;
+    overflow: visible !important;
 }
 
 .bar {
@@ -195,20 +196,19 @@ body {
     }
 }
 
-
 .donut {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    margin: 0 auto;
-    position: relative;
-
+    width: 180px;
+    height: 180px;
+    border-radius: 50%; 
+    position: relative !important;
+    display: block;
 }
+
 .donut::after {
     content: "";
     position: absolute;
-    inset: 28px;
-    background: #fff;
+    inset: 50px; 
+    background: #ffffff;
     border-radius: 50%;
 }
 
@@ -218,6 +218,7 @@ body {
     padding: 0;
     display: grid;
     gap: 0.3rem;
+    position: relative !important;
 
     li { 
         font-size: 0.82rem; 
