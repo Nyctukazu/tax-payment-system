@@ -28,9 +28,14 @@ public record DashboardResponse(
     ) {}
 
     public record ChartBundle(
-        List<Integer> trend,
+        List<TrendItem> trend,
         List<VelocityItem> velocity,
         List<SectorItem> sectors
+    ) {}
+
+    public record TrendItem(
+        String label,
+        Integer value
     ) {}
 
     public record VelocityItem(

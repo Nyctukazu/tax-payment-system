@@ -1,4 +1,4 @@
-import { evaluationMockData } from "../evaluation-mock-data.js";
+import { evaluationMockData } from "../mock/evaluation-mock-data.js";
 import { fetchJson, postJson } from "../api/http-client.js";
 
 export async function getEvaluationInbox(config = window.APP_CONFIG || {}) {

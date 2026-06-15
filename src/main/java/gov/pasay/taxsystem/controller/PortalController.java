@@ -21,9 +21,19 @@ public class PortalController {
         return "client/client-login";
     }
 
+    @GetMapping("/client-forget")
+    public String ClientForget() {
+        return "client/client-login-forget";
+    }
+
     @GetMapping("/client-register")
     public String ClientRegister() {
         return "client/client-register";
+    }
+
+    @GetMapping("/client-dashboard")
+    public String ClientDashboard() {
+        return "client/client-dashboard";
     }
 
     @GetMapping("/admin-dashboard")
