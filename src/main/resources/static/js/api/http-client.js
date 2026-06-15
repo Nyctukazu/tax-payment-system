@@ -3,6 +3,7 @@ export async function fetchJson(url, options = {}) {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json",
             ...(options.headers || {})
         },
         ...options
@@ -10,6 +11,10 @@ export async function fetchJson(url, options = {}) {
 
     if (!response.ok) {
         throw new Error(`Request failed. HTTP ${response.status}`);
+    }
+
+    if (response.status === 204) {
+        return null;
     }
 
     return response.json();

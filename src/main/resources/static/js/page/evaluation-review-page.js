@@ -10,9 +10,9 @@ let state = {
     calculatedTotal: null
 };
 
-init();
+initEvaluationReview();
 
-async function init() {
+export async function initEvaluationReview() {
     try {
         const requestId = new URLSearchParams(window.location.search).get("requestId");
         const record = await getEvaluationByRequestId(requestId);

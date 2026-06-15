@@ -6,7 +6,7 @@
         <title th:text="${pageTitle} ?: 'Evaluate Form'">Evaluate Form</title>
         <link rel="stylesheet" th:href="@{/css/admin/admin-style.css}" href="/css/admin/admin-style.css">
     </head>
-    <body>
+    <body id="pageEvaluationReview">
 
         <admin-header></admin-header>
         <admin-sidebar></admin-sidebar>
@@ -82,12 +82,11 @@
 
     <script th:inline="javascript">
         window.APP_CONFIG = {
-            useMockData: /*[[${useMockData}]]*/ false,
+            useMockData: /*[[${useMockData}]]*/ true,
             useMockFallback: /*[[${useMockFallback}]]*/ true,
             apiUrl: /*[[@{/api/evaluations}]]*/ '/api/evaluations'
         };
     </script>
     <script type="module" th:src="@{/js/admin-app.js}" src="/js/admin-app.js"></script>
-    <script type="module" th:src="@{/js/evaluate-review-page.js}" src="/js/evaluate-review-page.js"></script>
     </body>
 </html>

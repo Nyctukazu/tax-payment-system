@@ -1,8 +1,8 @@
-import { getEvaluationInbox } from "./services/evaluation-service.js";
+import { getEvaluationInbox } from "../services/evaluation-service.js";
 
-init();
+initEvaluationInbox();
 
-async function init() {
+export async function initEvaluationInbox() {
     try {
         const items = await getEvaluationInbox();
         renderTable(items);

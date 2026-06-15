@@ -1,24 +1,14 @@
-import { dashboardMockData } from "../dashboard-mock-data.js";
+import { fetchJson } from "../api/http-client.js";
 
 export async function getDashboardData(config = window.APP_CONFIG || {}) {
-    const useMockData = config.userMockData !== false;
-    const apiUrl = config.apiUrl || "/api/dashboard";
-
-    if (useMockData) {
+    const apiUrl = config.apiUrl || "/api/v1/dashboard";
+ 
+    try {
+        return await fetchJson(apiUrl);
+    } catch (error) {
         await wait(120);
-        return structuredClone(dashboardMockData);
+        throw new Error(`Failed to load evaluations from backend. ${error.message}`);
     }
-
-    const response = await fetch(apiUrl, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" }
-    });
-
-    if (!response.ok) {
-        throw new Error(`Failed to load dashboard data. HTTP ${response.status}`);
-    }
-
-    return response.json();
 }
 
 function wait(ms) {

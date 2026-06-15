@@ -6,7 +6,7 @@
         <title th:text="${pageTitle} ?: 'Incoming Applications Inbox'">Incoming Applications Inbox</title>
         <link rel="stylesheet" th:href="@{/css/admin/admin-style.css}" href="/css/admin/admin-style.css">
     </head>
-    <body>
+    <body id="pageEvaluationInbox">
 
         <admin-header></admin-header>
         <admin-sidebar></admin-sidebar>
@@ -41,13 +41,12 @@
 
     <script th:inline="javascript">
         window.APP_CONFIG = {
-            useMockData: /*[[${useMockData}]]*/ false,
+            useMockData: /*[[${useMockData}]]*/ true,
             useMockFallback: /*[[${useMockFallback}]]*/ true,
             apiUrl: /*[[@{/api/evaluations}]]*/ '/api/evaluations',
             reviewPageUrl: /*[[@{/evaluation/review}]]*/ '/evaluation/review'
         };
     </script>
     <script type="module" th:src="@{/js/admin-app.js}" src="/js/admin-app.js"></script>
-    <script type="module" th:src="@{/js/evaluation-inbox-page.js}" src="/js/evaluation-inbox-page.js"></script>
     </body>
 </html>

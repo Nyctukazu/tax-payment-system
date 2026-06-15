@@ -6,7 +6,7 @@
         <title th:text"${pageTitle}">Dashboard</title>
         <link rel="stylesheet" th:href="@{/css/admin/admin-style.css}" href="/css/admin/admin-style.css">
     </head>
-    <body>
+    <body id="pageDashboard">
 
         <admin-header></admin-header>
         <admin-sidebar></admin-sidebar>
@@ -80,9 +80,9 @@
         <script th:inline="javascript">
             window.APP_CONFIG = {
                 useMockData: /*[[${useMockData}]]*/ false,
-                apiUrl: /*[[@{/api/dashboard}]]*/ '/api/dashboard'
+                apiUrl: /*[[@{/api/v1/dashboard}]]*/ '/api/v1/dashboard'
             }
         </script>
-        <script type="module" th:src="@{/js/admin-app.js}" src="/js/admin-app.js"></script>
+        <script type="module" th:src="@{/js/admin-app.js}" src="/js/admin-app.js" defer></script>
     </body>
 </html>
