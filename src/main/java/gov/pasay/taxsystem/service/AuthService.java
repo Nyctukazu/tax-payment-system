@@ -55,9 +55,9 @@ public class AuthService {
         return Optional.of(response);
     }
 
-    @Transactional // Added for database transactional safety
+    @Transactional 
     public String register(RegisterRequest request) {
-        if (userRepo.existsByEmail(request.email())) { // Optimized performance check
+        if (userRepo.existsByEmail(request.email())) {
             throw new IllegalArgumentException("Email is already registered");
         }
 
@@ -70,7 +70,7 @@ public class AuthService {
             taxpayer.setFirstName(request.firstName());
             taxpayer.setLastName(request.lastName());
             taxpayer.setMobileNumber(request.mobileNumber());
-            taxpayer.setOwnerTin("PENDING"); // Safe fallback string so your database doesn't complain about nulls
+            taxpayer.setOwnerTin("PENDING"); 
             
             userRepo.save(taxpayer); 
             return "Taxpayer registered successfully!";
@@ -95,7 +95,7 @@ public class AuthService {
         throw new IllegalArgumentException("Invalid role specified. Must be 'TAXPAYER' or 'ADMIN'.");
     }
 
-    @Transactional // Ensures clean rollbacks if database initialization fails
+    @Transactional
     public Optional<User> loginOrRegisterGoogleUser(String email, String name) {
         Optional<User> existingUser = userRepo.findByEmail(email);
         if (existingUser.isPresent()) {
@@ -105,8 +105,8 @@ public class AuthService {
         try {
             TaxpayerModel newTaxpayer = new TaxpayerModel();
             newTaxpayer.setEmail(email);
-            newTaxpayer.setOwnerTin("GOOGLE_AUTH"); // Explicitly setting a fallback to avoid null violations
-            newTaxpayer.setMobileNumber(""); // Keep empty string instead of risking database nulls if configured strict
+            newTaxpayer.setOwnerTin("GOOGLE_AUTH");
+            newTaxpayer.setMobileNumber(""); 
             
             if (name != null && name.contains(" ")) {
                 String[] nameParts = name.split(" ", 2);
@@ -122,7 +122,6 @@ public class AuthService {
             return Optional.of(savedUser);
             
         } catch (Exception e) {
-            // Re-throwing runtime exceptions inside Transactional ensures proper handling
             throw new RuntimeException("Critical failure processing Google auto-registration: " + e.getMessage(), e);
         }
     }

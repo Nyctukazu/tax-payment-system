@@ -1,30 +1,24 @@
 import { postJson } from "../api/http-client.js";
 
 export async function loginWithBackend(email, password) {
-    const apiUrl = "/api/auth/login";
+    const apiUrl = "http://localhost:8080/api/auth/login";
     const loginPayload = {
         email: email,
         password: password
     };
 
     try {
-        const response = await postJson(apiUrl, loginPayload);
+        const data = await postJson(apiUrl, loginPayload);
+        return { success: true, user: data };
 
-        if (response.ok) {
-            const userData = await response.json();
-            return { success: true, data: userData };
-        } else {
-            const errorText = await response.json();
-            return { success: false, error: errorText };
-        }
     } catch (error) {
         console.error("Network error typing to connect to backend:", error);
         return {
             success: false,
-            error: "Unable to reach security authentication server. Please try again later."
-        }
+            error: error.message || "Unable to reach security authentication server. Please try again later."
+        };
     }
-};
+}
 
 export async function RegisterUserWithBackend(formData) {
     const apiUrl = "http://localhost:8080/api/auth/register";

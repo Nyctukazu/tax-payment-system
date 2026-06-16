@@ -38,8 +38,14 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         return authService.login(request.email(), request.password())
-                .<ResponseEntity<?>>map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password"));
+            .<ResponseEntity<?>>map(authResponse -> {
+                return ResponseEntity.ok(authResponse);
+            })
+            .orElseGet(() -> {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "Invalid email or password");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+            });
     }
 
     @PostMapping("/register")
