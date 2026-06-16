@@ -23,81 +23,28 @@
     </header>
 
     <div class="dashboard-container">
-        
+
         <div class="workspace-wrapper">
-            
+
             <main class="workspace">
-                
+
+                <!-- ===================== DASHBOARD VIEW ===================== -->
                 <div id="view-dashboard" class="content-view">
+
                     <section class="card portfolio-card">
                         <div class="card-header">
                             <div>
                                 <h3>My Business Portfolio Grid</h3>
-                                <p class="subtitle">Dynamic cards are displayed cards from the client homepage.</p>
+                                <p class="subtitle">Dynamic cards displayed from the client homepage.</p>
                             </div>
                             <button class="btn btn-blue">View Returns</button>
                         </div>
-                        
-                        <div class="portfolio-grid">
-                            <div class="biz-card">
-                                <div class="biz-icon"><i class="fa-solid fa-mug-hot"></i></div>
-                                <h4>The Daily Grind Café</h4>
-                                <div class="biz-details">
-                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
-                                    <p><span>Type:</span> <span>Food Services</span></p>
-                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
-                                </div>
-                                <div class="biz-actions">
-                                    <button class="btn btn-secondary">Manage</button>
-                                    <button class="btn btn-primary">File Returns</button>
-                                </div>
-                            </div>
-                            
-                            <div class="biz-card">
-                                <div class="biz-icon"><i class="fa-solid fa-ship"></i></div>
-                                <h4>Manila Bay Seafoods</h4>
-                                <div class="biz-details">
-                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
-                                    <p><span>Type:</span> <span>Food Services</span></p>
-                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
-                                </div>
-                                <div class="biz-actions">
-                                    <button class="btn btn-secondary">Manage</button>
-                                    <button class="btn btn-primary">File Returns</button>
-                                </div>
-                            </div>
-                            
-                            <div class="biz-card">
-                                <div class="biz-icon"><i class="fa-solid fa-globe"></i></div>
-                                <h4>Pasay Tech Hub</h4>
-                                <div class="biz-details">
-                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
-                                    <p><span>Type:</span> <span>Food Services</span></p>
-                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
-                                </div>
-                                <div class="biz-actions">
-                                    <button class="btn btn-secondary">Manage</button>
-                                    <button class="btn btn-primary">File Returns</button>
-                                </div>
-                            </div>
-                            
-                            <div class="biz-card">
-                                <div class="biz-icon"><i class="fa-solid fa-bag-shopping"></i></div>
-                                <h4>Aura Boutique</h4>
-                                <div class="biz-details">
-                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
-                                    <p><span>Type:</span> <span>Food Services</span></p>
-                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
-                                </div>
-                                <div class="biz-actions">
-                                    <button class="btn btn-secondary">Manage</button>
-                                    <button class="btn btn-primary">File Returns</button>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Populated by renderPortfolioGrid() -->
+                        <div class="portfolio-grid" id="portfolio-grid"></div>
                     </section>
 
                     <div class="lower-grid">
+
                         <section class="card">
                             <h3>Active Tax Assessment Status</h3>
                             <p class="subtitle">Current summary for today.</p>
@@ -126,153 +73,42 @@
                         </section>
 
                         <section class="card">
-                            <h3>Historical Tax Ledgers & Receipts</h3>
+                            <h3>Historical Tax Ledgers &amp; Receipts</h3>
                             <div class="table-container">
                                 <table class="ledger-table">
-                                   <thead>
-                                       <tr>
-                                           <th>Date</th>
-                                           <th>Type</th>
-                                           <th>Amount</th>
-                                           <th>Status</th>
-                                       </tr>
-                                   </thead>
-                                   <tbody>
-                                       <tr>
-                                           <td>2024-03-12</td>
-                                           <td>Q1 Business Tax</td>
-                                           <td>₱65,000.00</td>
-                                           <td><span class="badge badge-success">Paid</span> <a href="#" class="rcpt-link">RCPT-987654</a></td>
-                                       </tr>
-                                       <tr>
-                                           <td>2024-03-12</td>
-                                           <td>Q1 Business Tax</td>
-                                           <td>₱65,000.00</td>
-                                           <td><span class="badge badge-success">Paid</span> <a href="#" class="rcpt-link">RCPT-987654</a></td>
-                                       </tr>
-                                       <tr>
-                                           <td>2024-03-12</td>
-                                           <td>Q1 Business Tax</td>
-                                           <td>₱65,000.00</td>
-                                           <td><span class="badge badge-success">Paid</span> <a href="#" class="rcpt-link">RCPT-987654</a></td>
-                                       </tr>
-                                       <tr>
-                                           <td>2024-03-12</td>
-                                           <td>Q1 Business Tax</td>
-                                           <td>₱65,000.00</td>
-                                           <td><span class="badge badge-success">Paid</span> <a href="#" class="rcpt-link">RCPT-987654</a></td>
-                                       </tr>
-                                       <tr>
-                                           <td>2024-03-12</td>
-                                           <td>Q1 Business Tax</td>
-                                           <td>₱65,000.00</td>
-                                           <td><span class="badge badge-success">Paid</span> <a href="#" class="rcpt-link">RCPT-987654</a></td>
-                                       </tr>
-                                   </tbody>
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Type</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- Populated by renderLedger() -->
+                                    <tbody id="ledger-tbody"></tbody>
                                 </table>
                             </div>
                         </section>
+
                     </div>
                 </div>
 
+                <!-- ===================== PORTFOLIO VIEW ===================== -->
                 <div id="view-portfolio" class="content-view hidden">
+
                     <div class="portfolio-search-bar card">
                         <input type="text" placeholder="Search portfolio assets..." class="search-input">
                         <button class="btn btn-green"><i class="fa-solid fa-plus"></i> Register New Business Entity</button>
                     </div>
 
-                    <div class="asset-list-container">
-                        <div class="asset-row card">
-                            <div class="asset-identity">
-                                <div class="asset-icon-box"><i class="fa-solid fa-mug-hot"></i></div>
-                                <div>
-                                    <h4>The Daily Grind Café</h4>
-                                    <p class="asset-subtext">Lineage: Food Services & Refreshments</p>
-                                </div>
-                            </div>
-                            <div class="asset-meta">
-                                <p class="meta-label">Tax Registration ID</p>
-                                <p class="meta-val">PX-1234</p>
-                            </div>
-                            <div class="asset-meta">
-                                <p class="meta-label">Latest Ledger Filing</p>
-                                <p class="meta-val">2024-10-15</p>
-                            </div>
-                            <div class="asset-control-btns">
-                                <button class="btn btn-secondary">Manage Assets</button>
-                                <button class="btn btn-blue">File Returns</button>
-                            </div>
-                        </div>
+                    <!-- Populated by renderPortfolioAssets() -->
+                    <div class="asset-list-container" id="asset-list-container"></div>
 
-                        <div class="asset-row card">
-                            <div class="asset-identity">
-                                <div class="asset-icon-box"><i class="fa-solid fa-ship"></i></div>
-                                <div>
-                                    <h4>Manila Bay Seafoods</h4>
-                                    <p class="asset-subtext">Lineage: Commercial Marine Processing</p>
-                                </div>
-                            </div>
-                            <div class="asset-meta">
-                                <p class="meta-label">Tax Registration ID</p>
-                                <p class="meta-val">PX-5678</p>
-                            </div>
-                            <div class="asset-meta">
-                                <p class="meta-label">Latest Ledger Filing</p>
-                                <p class="meta-val">2024-10-15</p>
-                            </div>
-                            <div class="asset-control-btns">
-                                <button class="btn btn-secondary">Manage Assets</button>
-                                <button class="btn btn-blue">File Returns</button>
-                            </div>
-                        </div>
-
-                        <div class="asset-row card">
-                            <div class="asset-identity">
-                                <div class="asset-icon-box"><i class="fa-solid fa-globe"></i></div>
-                                <div>
-                                    <h4>Pasay Tech Hub</h4>
-                                    <p class="asset-subtext">Lineage: Digital Shared Workspaces</p>
-                                </div>
-                            </div>
-                            <div class="asset-meta">
-                                <p class="meta-label">Tax Registration ID</p>
-                                <p class="meta-val">PX-9012</p>
-                            </div>
-                            <div class="asset-meta">
-                                <p class="meta-label">Latest Ledger Filing</p>
-                                <p class="meta-val">2024-10-15</p>
-                            </div>
-                            <div class="asset-control-btns">
-                                <button class="btn btn-secondary">Manage Assets</button>
-                                <button class="btn btn-blue">File Returns</button>
-                            </div>
-                        </div>
-
-                        <div class="asset-row card">
-                            <div class="asset-identity">
-                                <div class="asset-icon-box"><i class="fa-solid fa-bag-shopping"></i></div>
-                                <div>
-                                    <h4>Aura Boutique</h4>
-                                    <p class="asset-subtext">Lineage: Apparel Retailing Distribution</p>
-                                </div>
-                            </div>
-                            <div class="asset-meta">
-                                <p class="meta-label">Tax Registration ID</p>
-                                <p class="meta-val">PX-3456</p>
-                            </div>
-                            <div class="asset-meta">
-                                <p class="meta-label">Latest Ledger Filing</p>
-                                <p class="meta-val">2024-10-15</p>
-                            </div>
-                            <div class="asset-control-btns">
-                                <button class="btn btn-secondary">Manage Assets</button>
-                                <button class="btn btn-blue">File Returns</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
+                <!-- ===================== ASSESSMENTS VIEW ===================== -->
                 <div id="view-assessments" class="content-view hidden">
+
                     <div class="assessments-summary-grid">
                         <div class="summary-box card summary-red">
                             <div>
@@ -301,15 +137,10 @@
                         <div class="assessments-header-bar">
                             <h3>Active Corporate Tax Declarations</h3>
                             <div class="filter-controls">
-                                <select class="filter-dropdown">
-                                    <option>All Entities</option>
-                                </select>
-                                <select class="filter-dropdown">
-                                    <option>All Statuses</option>
-                                </select>
+                                <select class="filter-dropdown"><option>All Entities</option></select>
+                                <select class="filter-dropdown"><option>All Statuses</option></select>
                             </div>
                         </div>
-
                         <div class="table-container">
                             <table class="assessment-data-table">
                                 <thead>
@@ -323,64 +154,17 @@
                                         <th class="text-right">Operations</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>The Daily Grind Café</strong></td>
-                                        <td>PX-1234</td>
-                                        <td>Annual Gross Tax Assessment</td>
-                                        <td>Nov 30, 2024</td>
-                                        <td><strong>₱145,200.00</strong></td>
-                                        <td><span class="lbl-status status-received">Assessment Received</span></td>
-                                        <td class="text-right inline-actions">
-                                            <button class="btn btn-primary btn-sm">Pay Now</button>
-                                            <button class="btn btn-secondary btn-sm">File Protest</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Manila Bay Seafoods</strong></td>
-                                        <td>PX-5678</td>
-                                        <td>Quarterly Local Regulatory Audit</td>
-                                        <td>Dec 15, 2024</td>
-                                        <td class="text-muted">Processing...</td>
-                                        <td><span class="lbl-status status-pending">Pending Generation</span></td>
-                                        <td class="text-right text-muted cell-sm-text">Awaiting Computation</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Pasay Tech Hub</strong></td>
-                                        <td>PX-9012</td>
-                                        <td>Quarterly Local Regulatory Audit</td>
-                                        <td>Dec 15, 2024</td>
-                                        <td class="text-muted">Processing...</td>
-                                        <td><span class="lbl-status status-pending">Pending Generation</span></td>
-                                        <td class="text-right text-muted cell-sm-text">Awaiting Computation</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Aura Boutique</strong></td>
-                                        <td>PX-3456</td>
-                                        <td>Quarterly Local Regulatory Audit</td>
-                                        <td>Dec 15, 2024</td>
-                                        <td class="text-muted">Processing...</td>
-                                        <td><span class="lbl-status status-pending">Pending Generation</span></td>
-                                        <td class="text-right text-muted cell-sm-text">Awaiting Computation</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Master's Gym</strong></td>
-                                        <td>PX-9156</td>
-                                        <td>Annual Gross Tax Assessment</td>
-                                        <td>Dec 30, 2024</td>
-                                        <td class="text-muted">Not Processed Yet</td>
-                                        <td><span class="lbl-status status-missing">No Submission Yet</span></td>
-                                        <td class="text-right inline-actions">
-                                            <button id="btn-create-app" class="btn btn-primary btn-sm">Create Application</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                <!-- Populated by renderAssessmentsTable() -->
+                                <tbody id="assessments-tbody"></tbody>
                             </table>
                         </div>
                     </section>
+
                 </div>
 
+                <!-- ===================== PAYMENT HISTORY VIEW ===================== -->
                 <div id="view-history" class="content-view hidden">
+
                     <div class="assessments-summary-grid">
                         <div class="summary-box card baseline-summary">
                             <div>
@@ -407,24 +191,18 @@
 
                     <div class="history-search-filter card">
                         <div class="search-input-wrapper">
-                            <input type="text" id="history-search-input" maxlength="40" placeholder="Search by Receipt ID, Business Name, or Type..." class="history-search-input">
+                            <input type="text" id="history-search-input" maxlength="40"
+                                   placeholder="Search by Receipt ID, Business Name, or Type..."
+                                   class="history-search-input">
                             <span class="error-text hidden" id="err-history-search">Please use valid alphanumeric characters.</span>
                         </div>
-                        
                         <div class="history-controls-group">
-                            <select class="history-dropdown-filter" id="history-filter-biz">
-                                <option value="all">All Businesses</option>
-                                <option value="The Daily Grind Café">The Daily Grind Café</option>
-                                <option value="Manila Bay Seafoods">Manila Bay Seafoods</option>
-                                <option value="Pasay Tech Hub">Pasay Tech Hub</option>
-                                <option value="Aura Boutique">Aura Boutique</option>
-                            </select>
-                            <select class="history-dropdown-filter" id="history-filter-type">
-                                <option value="all">All Types</option>
-                                <option value="Q1 Business Tax">Q1 Business Tax</option>
-                                <option value="Mayor's Permit Renewal">Mayor's Permit Renewal</option>
-                            </select>
-                            <button class="btn btn-blue csv-btn" id="btn-export-csv"><i class="fa-solid fa-download"></i> Export CSV</button>
+                            <!-- Options populated by renderPaymentHistory() -->
+                            <select class="history-dropdown-filter" id="history-filter-biz"></select>
+                            <select class="history-dropdown-filter" id="history-filter-type"></select>
+                            <button class="btn btn-blue csv-btn" id="btn-export-csv">
+                                <i class="fa-solid fa-download"></i> Export CSV
+                            </button>
                         </div>
                     </div>
 
@@ -441,53 +219,15 @@
                                         <th>Downloadable Receipt</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>2024-03-12</td>
-                                        <td><strong>The Daily Grind Café</strong></td>
-                                        <td>Q1 Business Tax</td>
-                                        <td>₱65,000.00</td>
-                                        <td><span class="badge badge-success">Paid</span></td>
-                                        <td><a href="#" class="rcpt-link"><i class="fa-solid fa-file-pdf"></i> RCPT-987654</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2024-03-12</td>
-                                        <td><strong>Manila Bay Seafoods</strong></td>
-                                        <td>Q1 Business Tax</td>
-                                        <td>₱65,000.00</td>
-                                        <td><span class="badge badge-success">Paid</span></td>
-                                        <td><a href="#" class="rcpt-link"><i class="fa-solid fa-file-pdf"></i> RCPT-987654</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2024-03-12</td>
-                                        <td><strong>Pasay Tech Hub</strong></td>
-                                        <td>Q1 Business Tax</td>
-                                        <td>₱65,000.00</td>
-                                        <td><span class="badge badge-success">Paid</span></td>
-                                        <td><a href="#" class="rcpt-link"><i class="fa-solid fa-file-pdf"></i> RCPT-987654</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2024-03-12</td>
-                                        <td><strong>Aura Boutique</strong></td>
-                                        <td>Q1 Business Tax</td>
-                                        <td>₱65,000.00</td>
-                                        <td><span class="badge badge-success">Paid</span></td>
-                                        <td><a href="#" class="rcpt-link"><i class="fa-solid fa-file-pdf"></i> RCPT-987654</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2024-01-15</td>
-                                        <td><strong>The Daily Grind Café</strong></td>
-                                        <td>Mayor's Permit Renewal</td>
-                                        <td>₱15,000.00</td>
-                                        <td><span class="badge badge-success">Paid</span></td>
-                                        <td><a href="#" class="rcpt-link"><i class="fa-solid fa-file-pdf"></i> RCPT-912345</a></td>
-                                    </tr>
-                                </tbody>
+                                <!-- Populated by renderPaymentHistory() -->
+                                <tbody id="history-tbody"></tbody>
                             </table>
                         </div>
                     </section>
+
                 </div>
 
+                <!-- ===================== FILE ASSESSMENT VIEW ===================== -->
                 <div id="view-file-assessment" class="content-view hidden">
                     <section class="card">
                         <h3>File a New Assessment</h3>
@@ -499,7 +239,9 @@
                     </section>
                 </div>
 
+                <!-- ===================== RECEIPT VIEW ===================== -->
                 <div id="view-receipt" class="content-view hidden">
+
                     <div class="receipt-alert-bar card">
                         <div class="alert-text">
                             <i class="fa-solid fa-circle-check text-green"></i>
@@ -517,7 +259,7 @@
                                 <i class="fa-solid fa-building-columns receipt-logo"></i>
                                 <div>
                                     <h4>Pasay City Treasurer's Office</h4>
-                                    <p>Revenue & Tax Management Division</p>
+                                    <p>Revenue &amp; Tax Management Division</p>
                                     <p>F.B. Harrison St., Pasay City, Metro Manila</p>
                                 </div>
                             </div>
@@ -534,7 +276,7 @@
                                 <p class="meta-label">Taxpayer Account Profile</p>
                                 <h5 class="entity-name">The Daily Grind Café</h5>
                                 <p>Taxpayer ID: PX-1234</p>
-                                <p>Line of Business: Food Services & Refreshments</p>
+                                <p>Line of Business: Food Services &amp; Refreshments</p>
                                 <p>Registered Address: Mall of Asia Complex, Pasay City</p>
                             </div>
                             <div class="details-col">
@@ -573,12 +315,10 @@
                         <div class="receipt-totals-container">
                             <div class="receipt-totals">
                                 <div class="total-row">
-                                    <span>Subtotal Base Liability:</span>
-                                    <span>₱145,200.00</span>
+                                    <span>Subtotal Base Liability:</span><span>₱145,200.00</span>
                                 </div>
                                 <div class="total-row">
-                                    <span>Surcharges / Penalties:</span>
-                                    <span>₱0.00</span>
+                                    <span>Surcharges / Penalties:</span><span>₱0.00</span>
                                 </div>
                                 <div class="total-row">
                                     <span>Payment Status:</span>
@@ -586,8 +326,7 @@
                                 </div>
                                 <div class="calc-divider"></div>
                                 <div class="total-row grand-total">
-                                    <span>Total Charged Volume:</span>
-                                    <span>₱145,200.00</span>
+                                    <span>Total Charged Volume:</span><span>₱145,200.00</span>
                                 </div>
                             </div>
                         </div>
@@ -597,11 +336,14 @@
                             <p>Secure digital signature verification fingerprint: 9f7d8c5c4a2e1fa0dfc6b1a5f6e5d2c</p>
                         </div>
                     </div>
+
                 </div>
 
+                <!-- ===================== AUDIT LOGS VIEW ===================== -->
                 <div id="view-general-history" class="content-view hidden">
+
                     <div class="history-logs-header">
-                        <h3>History & Audit Logs</h3>
+                        <h3>History &amp; Audit Logs</h3>
                         <p class="subtitle">Database access terminal providing tracking verification for all localized transaction logs.</p>
                     </div>
 
@@ -612,24 +354,15 @@
 
                     <div class="history-search-filter card">
                         <div class="search-input-wrapper">
-                            <input type="text" id="logs-search-input" maxlength="50" placeholder="Search logs or transaction hashes..." class="history-search-input">
+                            <input type="text" id="logs-search-input" maxlength="50"
+                                   placeholder="Search logs or transaction hashes..."
+                                   class="history-search-input">
                             <span class="error-text hidden" id="err-logs-search">Please use valid alphanumeric characters.</span>
                         </div>
                         <div class="history-controls-group">
-                            <select class="history-dropdown-filter" id="logs-filter-biz">
-                                <option value="all">All Business Entities</option>
-                                <option value="The Daily Grind Café">The Daily Grind Café</option>
-                                <option value="Aura Boutique">Aura Boutique</option>
-                                <option value="Pasay Tech Hub">Pasay Tech Hub</option>
-                                <option value="Manila Bay Seafoods">Manila Bay Seafoods</option>
-                            </select>
-                            <select class="history-dropdown-filter" id="logs-filter-action">
-                                <option value="all">All Event Actions</option>
-                                <option value="Annual Gross Tax Payment">Annual Gross Tax Payment</option>
-                                <option value="Quarterly Regulatory Settlement">Quarterly Regulatory Settlement</option>
-                                <option value="Annual Business Registration Fee">Annual Business Registration Fee</option>
-                                <option value="Quarterly Local Audit Fee Payment">Quarterly Local Audit Fee Payment</option>
-                            </select>
+                            <!-- Options populated by renderAuditLogs() -->
+                            <select class="history-dropdown-filter" id="logs-filter-biz"></select>
+                            <select class="history-dropdown-filter" id="logs-filter-action"></select>
                         </div>
                     </div>
 
@@ -651,78 +384,33 @@
                                         <th class="text-right">Operations Matrix</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="text-muted">2026-06-13 17:12:04</td>
-                                        <td><strong>TXN-987654321</strong></td>
-                                        <td>The Daily Grind Café</td>
-                                        <td>Annual Gross Tax Payment</td>
-                                        <td><strong>₱145,200.00</strong></td>
-                                        <td><span class="lbl-status status-received">Success</span></td>
-                                        <td class="text-right inline-actions">
-                                            <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-print"></i> Print</button>
-                                            <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-download"></i> Download</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-muted">2026-04-10 09:34:11</td>
-                                        <td><strong>TXN-543210987</strong></td>
-                                        <td>Aura Boutique</td>
-                                        <td>Quarterly Regulatory Settlement</td>
-                                        <td><strong>₱34,500.00</strong></td>
-                                        <td><span class="lbl-status status-received">Success</span></td>
-                                        <td class="text-right inline-actions">
-                                            <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-print"></i> Print</button>
-                                            <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-download"></i> Download</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-muted">2026-01-19 14:22:50</td>
-                                        <td><strong>TXN-112233445</strong></td>
-                                        <td>Pasay Tech Hub</td>
-                                        <td>Annual Business Registration Fee</td>
-                                        <td><strong>₱12,000.00</strong></td>
-                                        <td><span class="lbl-status status-received">Success</span></td>
-                                        <td class="text-right inline-actions">
-                                            <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-print"></i> Print</button>
-                                            <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-download"></i> Download</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-muted">2025-10-15 11:05:18</td>
-                                        <td><strong>TXN-657788554</strong></td>
-                                        <td>Manila Bay Seafoods</td>
-                                        <td>Quarterly Local Audit Fee Payment</td>
-                                        <td><strong>₱58,900.00</strong></td>
-                                        <td><span class="lbl-status status-missing">Failed Gateway</span></td>
-                                        <td class="text-right inline-actions">
-                                            <button class="btn btn-secondary btn-sm" disabled style="opacity:0.3;"><i class="fa-solid fa-print"></i> Print</button>
-                                            <button class="btn btn-secondary btn-sm" disabled style="opacity:0.3;"><i class="fa-solid fa-download"></i> Download</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                <!-- Populated by renderAuditLogs() -->
+                                <tbody id="logs-tbody"></tbody>
                             </table>
                         </div>
                     </section>
+
                 </div>
 
+                <!-- ===================== SETTINGS VIEW ===================== -->
                 <div id="view-settings" class="content-view hidden">
                     <div class="settings-layout">
+
                         <div class="settings-sidebar">
                             <nav class="settings-nav">
                                 <a href="#" class="settings-nav-item active"><i class="fa-regular fa-user"></i> Account Profile</a>
                                 <a href="#" class="settings-nav-item"><i class="fa-regular fa-id-card"></i> Tax Credentials</a>
                                 <a href="#" class="settings-nav-item"><i class="fa-regular fa-bell"></i> Notifications</a>
-                                <a href="#" class="settings-nav-item"><i class="fa-solid fa-shield-halved"></i> Security & Privacy</a>
+                                <a href="#" class="settings-nav-item"><i class="fa-solid fa-shield-halved"></i> Security &amp; Privacy</a>
                                 <a href="#" class="settings-nav-item"><i class="fa-solid fa-code"></i> API Access</a>
                             </nav>
                         </div>
-                
+
                         <div class="settings-content">
+
                             <section class="card">
                                 <h3>Account Profile Information</h3>
                                 <p class="subtitle">Manage your primary contact configuration and representative information.</p>
-                                
                                 <div class="settings-form-grid" id="settings-form">
                                     <div class="form-group">
                                         <label>Authorized Representative Full Name</label>
@@ -743,44 +431,22 @@
                                         <label>Preferred Assessment Language</label>
                                         <select class="form-control">
                                             <option>English</option>
+                                            <option>Filipino</option>
                                         </select>
                                     </div>
                                 </div>
                             </section>
-                
+
                             <section class="card">
                                 <h3>Tax Portal System Preferences</h3>
                                 <p class="subtitle">Configure automated workflows, notifications, and ledger processing styles.</p>
-                                
-                                <div class="settings-list">
-                                    <div class="settings-list-item">
-                                        <div class="item-text">
-                                            <h4>Automated Assessment Fetching</h4>
-                                            <p>Allow PasayBiz to automatically pull newly released quarterly business tax ledgers from the city server.</p>
-                                        </div>
-                                        <div class="toggle-switch active"></div>
-                                    </div>
-                                    <div class="settings-list-item">
-                                        <div class="item-text">
-                                            <h4>SMS Compliance Alerts</h4>
-                                            <p>Receive localized SMS alerts regarding your upcoming tax filing deadlines and payment confirmations.</p>
-                                        </div>
-                                        <div class="toggle-switch active"></div>
-                                    </div>
-                                    <div class="settings-list-item">
-                                        <div class="item-text">
-                                            <h4>Ollama AI Smart Hints</h4>
-                                            <p>Display interactive inline suggestions from the AI Assistant directly inside tax calculation workflows.</p>
-                                        </div>
-                                        <div class="toggle-switch"></div>
-                                    </div>
-                                </div>
+                                <!-- Populated by renderSettingsToggles() -->
+                                <div class="settings-list" id="settings-toggles"></div>
                             </section>
-                
+
                             <section class="card danger-zone-card">
                                 <h3 class="text-danger">Danger Zone</h3>
                                 <p class="subtitle">Irreversible modifications related to your enterprise account authentication state.</p>
-                                
                                 <div class="danger-zone-action">
                                     <div class="item-text">
                                         <h4>Deactivate Local Tax Profile</h4>
@@ -789,28 +455,29 @@
                                     <button class="btn btn-danger-outline">Unlink Profile</button>
                                 </div>
                             </section>
-                
+
                             <div class="settings-actions-footer">
                                 <button class="btn btn-ghost">Cancel changes</button>
                                 <button id="btn-save-settings" class="btn btn-green">Save Settings</button>
                             </div>
+
                         </div>
                     </div>
                 </div>
 
+                <!-- ===================== CREATE APPLICATION VIEW ===================== -->
                 <div id="view-create-application" class="content-view hidden">
                     <div class="create-app-layout">
-                        
+
                         <div class="card form-panel">
+
                             <div class="form-section-block">
                                 <h4 class="section-title">Entity Configuration</h4>
                                 <div class="form-row">
                                     <div class="form-group flex-1">
                                         <label>Select Registered Business</label>
-                                        <select class="form-control">
-                                            <option>The Daily Grind Café (PX-1234)</option>
-                                            <option>Master's Gym (PX-9156)</option>
-                                        </select>
+                                        <!-- Populated by renderCreateAppBusinessSelect() -->
+                                        <select id="app-biz-select" class="form-control"></select>
                                     </div>
                                     <div class="form-group flex-1">
                                         <label>Assessment Period / Fiscal Year</label>
@@ -835,7 +502,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Detailed Nature of Business Operations Description</label>
-                                    <input type="text" id="app-desc" class="form-control" maxlength="500" value="Cafeteria and restaurant retail operations selling coffee, pastries, and meals.">
+                                    <input type="text" id="app-desc" class="form-control" maxlength="500"
+                                           value="Cafeteria and restaurant retail operations selling coffee, pastries, and meals.">
                                     <span class="error-text hidden" id="err-app-desc">Please provide a detailed description (min 10 chars).</span>
                                 </div>
                             </div>
@@ -850,27 +518,28 @@
                                 </div>
                                 <span class="error-text hidden" id="err-app-dropzone">You must upload supporting documents.</span>
                             </div>
+
                         </div>
 
                         <div class="summary-panel">
                             <div class="card calc-summary-card">
                                 <h4 class="calc-title">Estimated Computation</h4>
                                 <div class="calc-row">
-                                    <span>Declared Gross Receipts:</span>
-                                    <span>₱1,000,000.00</span>
+                                    <span>Taxable Gross (after exemptions):</span>
+                                    <span id="calc-gross">₱1,000,000.00</span>
                                 </div>
                                 <div class="calc-row">
                                     <span>Pasay Base Tax Rate:</span>
-                                    <span>1.50%</span>
+                                    <span id="calc-rate">1.50%</span>
                                 </div>
                                 <div class="calc-row">
                                     <span>Regulatory Local Fees:</span>
-                                    <span>₱200.00</span>
+                                    <span id="calc-fee">₱200.00</span>
                                 </div>
                                 <div class="calc-divider"></div>
                                 <div class="calc-total-row">
                                     <span>Total Estimated Due:</span>
-                                    <span class="calc-total">₱15,200.00</span>
+                                    <span class="calc-total" id="calc-total">₱15,200.00</span>
                                 </div>
                             </div>
 
@@ -885,21 +554,21 @@
                                 Submit to Municipal Auditor <i class="fa-solid fa-paper-plane"></i>
                             </button>
                         </div>
-                        
+
                     </div>
                 </div>
 
             </main>
 
+            <!-- ===================== AI PANEL ===================== -->
             <aside class="ai-panel hidden" id="ai-chat-panel">
                 <div class="ai-header">
                     <div>
                         <h4>Embedded AI Assistant Pop-Out</h4>
-                        <span class="ai-version">Ollama 3.2 AI Assistant</span>
+                        <span class="ai-version">Ollama AI Assistant</span>
                     </div>
                     <button class="close-panel-btn" id="close-ai-btn" type="button"><i class="fa-solid fa-xmark"></i></button>
                 </div>
-                
                 <div class="ai-chat-body" id="chat-stream">
                     <div class="chat-intro">
                         <p><strong><i class="fa-solid fa-robot"></i> PasayBiz AI Assistant</strong></p>
@@ -909,31 +578,29 @@
                         Calculate tax for 1M PHP gross revenue retail store in Pasay City
                     </div>
                     <div class="chat-bubble bot-msg">
-                        Based on the 2024 Revenue Code for a Retail Store in Pasay City with ₱1M gross revenue, the estimated annual tax is approximately ₱15,000. <a href="#">[Link]</a>
+                        Based on the 2024 Revenue Code for a Retail Store in Pasay City with ₱1M gross revenue, the estimated annual tax is approximately ₱15,200. <a href="#">[Link]</a>
                     </div>
                     <p class="follow-up-prompt" id="ai-status-prompt">How can I assist further?</p>
                 </div>
-
                 <div class="ai-footer">
                     <input type="text" placeholder="Ask PasayBiz AI..." class="ai-input" id="ai-input-field">
                     <button class="ai-send-btn" type="button" id="ai-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
                 </div>
             </aside>
+
         </div>
 
+        <!-- ===================== SIDEBAR ===================== -->
         <aside class="sidebar-right" id="sidebar-menu">
             <nav class="sidebar-menu-links">
                 <a href="#" class="menu-item active" id="nav-dashboard"><i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span></a>
                 <a href="#" class="menu-item" id="nav-portfolio"><i class="fa-solid fa-briefcase"></i> <span>Business Portfolio</span></a>
                 <a href="#" class="menu-item" id="nav-assessments"><i class="fa-solid fa-file-invoice-dollar"></i> <span>Tax Assessments</span></a>
                 <a href="#" class="menu-item" id="nav-history"><i class="fa-solid fa-credit-card"></i> <span>Payment History</span></a>
-                
                 <a href="#" class="menu-item" id="ai-menu-trigger"><i class="fa-solid fa-robot"></i> <span>AI Assistant</span></a>
-                
                 <a href="#" class="menu-item" id="nav-file-assessment"><i class="fa-solid fa-clipboard-list"></i> <span>File Assessment</span></a>
                 <a href="#" class="menu-item" id="nav-receipt"><i class="fa-solid fa-receipt"></i> <span>Receipt</span></a>
                 <a href="#" class="menu-item" id="nav-general-history"><i class="fa-solid fa-clock-rotate-left"></i> <span>History</span></a>
-                
                 <a href="#" class="menu-item" id="nav-settings"><i class="fa-solid fa-gear"></i> <span>Settings</span></a>
             </nav>
         </aside>
