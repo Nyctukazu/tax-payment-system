@@ -12,7 +12,8 @@ public record DashboardResponse(
 ) {
     public record UserSummary(
         String displayName,
-        String dateLabel
+        String dateLabel,
+        String adminClass
     ) {}
 
     public record NotificationItem(

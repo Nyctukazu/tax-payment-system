@@ -9,5 +9,5 @@ import gov.pasay.taxsystem.model.entity.AdminModel;
 
 @Repository
 public interface AdminRepository extends JpaRepository<AdminModel, Long>{
-    Optional<AdminModel> findByEmail(String email);
+    Optional<AdminModel> findByAdminClass(String adminCLass);
 }

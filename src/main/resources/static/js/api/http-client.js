@@ -9,8 +9,18 @@ export async function fetchJson(url, options = {}) {
         ...options
     });
 
+    // Handle Error Responses (Like HTTP 400 Bad Request) cleanly
     if (!response.ok) {
-        throw new Error(`Request failed. HTTP ${response.status}`);
+        let errorMessage = `Request failed. HTTP ${response.status}`;
+        try {
+            const errorData = await response.json();
+            if (errorData && errorData.error) {
+                errorMessage = errorData.error; // Extracts "Email is already registered"
+            }
+        } catch (e) {
+            // Fallback if the error response isn't structured JSON
+        }
+        throw new Error(errorMessage);
     }
 
     if (response.status === 204) {

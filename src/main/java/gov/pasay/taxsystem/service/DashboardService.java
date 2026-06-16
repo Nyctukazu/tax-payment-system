@@ -22,7 +22,7 @@ public class DashboardService {
 
     public DashboardResponse getDashboardData(Long userId) {
         DashboardResponse.UserSummary user = new DashboardResponse.UserSummary(
-            "Laurence Ryan Cruz", "June 2026"
+            "Laurence Ryan Cruz", "June 2026", "SUPERADMIN"
         );
 
         List<DashboardResponse.NotificationItem> notifications = 
@@ -34,17 +34,6 @@ public class DashboardService {
                     n.getCreatedAt().toString()
                 ))
                 .collect(Collectors.toList());
-
-        List<DashboardResponse.AuditTrailItem> auditTrail = 
-            auditLogRepo.findTop10ByOrderByTimestampDesc()
-                .stream()
-                .map(log -> new DashboardResponse.AuditTrailItem(
-                    log.getTimestamp().toString(),
-                    log.getAction(),
-                    log.getActor()
-                ))
-                .collect(Collectors.toList());
-
 
         List<DashboardResponse.KpiCard> kpis = List.of(
             new DashboardResponse.KpiCard("Total Revenue", "₱1,240,000", "+12%")
@@ -59,13 +48,39 @@ public class DashboardService {
                     new DashboardResponse.TrendItem("Saturday", 70),
                     new DashboardResponse.TrendItem("Sunday", 0)
                 
-                ), 
-            List.of(), 
-            List.of()
+            ), 
+            List.of( new DashboardResponse.VelocityItem("Approved", 500, "#1d4ed8"),
+                    new DashboardResponse.VelocityItem("Pending", 250, "#f59e0b"),
+                    new DashboardResponse.VelocityItem("For Review", 95, "#22c55e"),
+                    new DashboardResponse.VelocityItem("Rejected", 90, "#ef4444")
+
+
+            ), 
+            List.of( new DashboardResponse.SectorItem("Retail", 34, "#1d4ed8"),
+                    new DashboardResponse.SectorItem("Real Estate", 21, "#22c55e"),
+                    new DashboardResponse.SectorItem("Manufactoring", 18, "#f59e0b"),
+                    new DashboardResponse.SectorItem("Services", 115, "#06b6d4"),
+                    new DashboardResponse.SectorItem("Tech", 12, "#7c3aed")
+
+            )
         );
 
+        List<DashboardResponse.BulletinItem> bulletin = List.of(
+            new DashboardResponse.BulletinItem("High", "URGENT: Tax Engine DB update required.", "2:00 PM")
+        );
+
+        List<DashboardResponse.AuditTrailItem> auditTrail = 
+            auditLogRepo.findTop10ByOrderByTimestampDesc()
+                .stream()
+                .map(log -> new DashboardResponse.AuditTrailItem(
+                    log.getTimestamp().toString(),
+                    log.getAction(),
+                    log.getActor()
+                ))
+                .collect(Collectors.toList());
+
         return new DashboardResponse(
-            user, notifications, kpis, charts, List.of(), List.of()
+            user, notifications, kpis, charts, bulletin, auditTrail
         );
     }
 }

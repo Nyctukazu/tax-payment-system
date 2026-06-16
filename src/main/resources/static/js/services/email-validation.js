@@ -1,45 +1,9 @@
-// ./services/email-validation.js
-
-// 1. Authorized Admin Whitelist Configuration
-const authorizedAdmins = [
-    "leo123123123@gmail.com"
-];
-
-// ==========================================
-// ROOT-LEVEL EXPORTS (Accessible by other modules)
-// ==========================================
-
-export function clearValidationErrors() {
-    document.querySelectorAll(".validation-error-msg").forEach(msg => msg.remove());
-    document.querySelectorAll(".input-error").forEach(input => {
-        input.classList.remove("input-error", "auth-denied");
-    });
-}
-
-export function validateEmailField(input, checkAuthorization = false) {
-    const emailValue = input.value.trim();
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    let errorContainer = input.parentElement.querySelector(".validation-error-msg");
-
-    if (emailValue === "") {
-        removeError(input, errorContainer);
-        return false;
+// 1. Core utilities placed at the top so they are defined first
+export function removeError(input, errorContainer) {
+    if (errorContainer) {
+        errorContainer.remove();
     }
-
-    // Check 1: Structural Format Check
-    if (!emailPattern.test(emailValue)) {
-        showErrorMessage(input, "Please enter a valid email address format.", false);
-        return false;
-    }
-
-    // Check 2: Admin Registration Verification
-    if (checkAuthorization && !authorizedAdmins.includes(emailValue)) {
-        showErrorMessage(input, "Access Denied: This email is not registered as an authorized administrator.", true);
-        return false;
-    }
-
-    removeError(input, errorContainer);
-    return true;
+    input.classList.remove("input-error", "auth-denied");
 }
 
 export function showErrorMessage(input, message, isAuthError = false) {
@@ -61,18 +25,33 @@ export function showErrorMessage(input, message, isAuthError = false) {
     }
 }
 
-export function removeError(input, errorContainer) {
-    if (errorContainer) {
-        errorContainer.remove();
-    }
-    input.classList.remove("input-error", "auth-denied");
+export function clearValidationErrors() {
+    document.querySelectorAll(".validation-error-msg").forEach(msg => msg.remove());
+    document.querySelectorAll(".input-error").forEach(input => {
+        input.classList.remove("input-error", "auth-denied");
+    });
 }
 
-// ==========================================
-// LOCAL DOM DRIVERS
-// ==========================================
+export function validateEmailField(input) {
+    const emailValue = input.value.trim();
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    let errorContainer = input.parentElement.querySelector(".validation-error-msg");
+
+    if (emailValue === "") {
+        removeError(input, errorContainer);
+        return false;
+    }
+
+    if (!emailPattern.test(emailValue)) {
+        showErrorMessage(input, "Please enter a valid email address format.", false);
+        return false;
+    }
+
+    removeError(input, errorContainer);
+    return true;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. View Toggle Drivers
     const loginCard = document.getElementById("login-card");
     const forgotCard = document.getElementById("forgot-card");
     const successCard = document.getElementById("success-card");

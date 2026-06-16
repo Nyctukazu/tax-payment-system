@@ -1,7 +1,6 @@
 package gov.pasay.taxsystem.service;
 
-import gov.pasay.taxsystem.repository.TaxpayerRepository;
-import gov.pasay.taxsystem.repository.AdminRepository;
+import gov.pasay.taxsystem.repository.UserRepository;
 import gov.pasay.taxsystem.model.entity.TaxpayerModel;
 import gov.pasay.taxsystem.model.entity.AdminModel;
 import gov.pasay.taxsystem.model.entity.User;
@@ -11,6 +10,7 @@ import gov.pasay.taxsystem.dto.RegisterRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -22,35 +22,24 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private TaxpayerRepository taxpayerRepo;
+    private UserRepository userRepo; 
 
-    @Autowired
-    private AdminRepository adminRepo;
+    public Optional<AuthResponse> login(String email, String inputRawPassword) {
+        Optional<User> userOpt = userRepo.findByEmail(email);
 
-    public Optional<User> login(String email, String inputRawPassword) {
-        User matchedUser = null;
-
-        Optional<TaxpayerModel> taxpayerOpt = taxpayerRepo.findByEmail(email);
-        if (taxpayerOpt.isPresent()) {
-            matchedUser = taxpayerOpt.get();
-        } else {
-            Optional<AdminModel> adminOpt = adminRepo.findByEmail(email);
-            if (adminOpt.isPresent()) {
-                matchedUser = adminOpt.get();
-            }
-        }
-
-        if (matchedUser == null || !passwordEncoder.matches(inputRawPassword, matchedUser.getPassword())) {
+        if (userOpt.isEmpty() || !passwordEncoder.matches(inputRawPassword, userOpt.get().getPassword())) {
             return Optional.empty();
         }
 
+        User matchedUser = userOpt.get();
         AuthResponse response;
+        
         if (matchedUser instanceof AdminModel admin) {
             response = new AuthResponse(
                 "Welcome Admin!",
                 "ADMIN",
-                admin.getFirstName().toString(),
-                admin.getAdminClass().name()
+                admin.getFirstName(), 
+                admin.getAdminClass() != null ? admin.getAdminClass().name() : null
             );
         } else if (matchedUser instanceof TaxpayerModel taxpayer) {
             response = new AuthResponse(
@@ -63,34 +52,31 @@ public class AuthService {
             return Optional.empty();
         }
 
-        return Optional.ofNullable(matchedUser);
+        return Optional.of(response);
     }
 
+    @Transactional 
     public String register(RegisterRequest request) {
-        
-        if (taxpayerRepo.findByEmail(request.email()).isPresent() ||
-            adminRepo.findByEmail(request.email()).isPresent()) {
-                throw new IllegalArgumentException("Email is already registered");
+        if (userRepo.existsByEmail(request.email())) {
+            throw new IllegalArgumentException("Email is already registered");
         }
 
         String encodedPassword = passwordEncoder.encode(request.password());
 
         if ("TAXPAYER".equalsIgnoreCase(request.accountType())) {
             TaxpayerModel taxpayer = new TaxpayerModel();
-
             taxpayer.setEmail(request.email());
             taxpayer.setPassword(encodedPassword);
             taxpayer.setFirstName(request.firstName());
             taxpayer.setLastName(request.lastName());
             taxpayer.setMobileNumber(request.mobileNumber());
-            taxpayerRepo.save(taxpayer);
+            taxpayer.setOwnerTin("PENDING"); 
             
+            userRepo.save(taxpayer); 
             return "Taxpayer registered successfully!";
-        }
-
+        } 
         else if ("ADMIN".equalsIgnoreCase(request.accountType())) {
             AdminModel admin = new AdminModel();
-
             admin.setEmail(request.email());
             admin.setPassword(encodedPassword);
             admin.setFirstName(request.firstName());
@@ -102,25 +88,28 @@ public class AuthService {
             }
             admin.setAdminClass(request.adminClass());
 
-            adminRepo.save(admin);
+            userRepo.save(admin); 
             return "Admin registered successfully!";
         }
-        throw new IllegalArgumentException("Invalid role specified.  Must be 'TAXPAYER' or 'ADMIN'.");
+        
+        throw new IllegalArgumentException("Invalid role specified. Must be 'TAXPAYER' or 'ADMIN'.");
     }
 
-
+    @Transactional
     public Optional<User> loginOrRegisterGoogleUser(String email, String name) {
-        Optional<TaxpayerModel> existingTaxpayer = taxpayerRepo.findByEmail(email);
-        if (existingTaxpayer.isPresent()) {
-            return Optional.of(existingTaxpayer.get());
+        Optional<User> existingUser = userRepo.findByEmail(email);
+        if (existingUser.isPresent()) {
+            return existingUser;
         }
 
         try {
-            TaxpayerModel newTaxpayer = new TaxpayerModel ();
+            TaxpayerModel newTaxpayer = new TaxpayerModel();
             newTaxpayer.setEmail(email);
+            newTaxpayer.setOwnerTin("GOOGLE_AUTH");
+            newTaxpayer.setMobileNumber(""); 
             
             if (name != null && name.contains(" ")) {
-                String[] nameParts = name.split("", 2);
+                String[] nameParts = name.split(" ", 2);
                 newTaxpayer.setFirstName(nameParts[0]);
                 newTaxpayer.setLastName(nameParts[1]);
             } else {
@@ -129,13 +118,11 @@ public class AuthService {
             }
             newTaxpayer.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
 
-            TaxpayerModel savedTaxpayer = taxpayerRepo.save(newTaxpayer);
-
-            return Optional.of(savedTaxpayer);
+            User savedUser = userRepo.save(newTaxpayer);
+            return Optional.of(savedUser);
+            
         } catch (Exception e) {
-            System.err.println(" Critical failure processing Google auto-registration: " + e.getMessage());
-            return Optional.empty();
+            throw new RuntimeException("Critical failure processing Google auto-registration: " + e.getMessage(), e);
         }
-        
     }
 }

@@ -17,7 +17,7 @@ export async function initDashboard() {
 function renderHeader(user) {
     document.getElementById("welcomeTitle").textContent = `Welcome back, ${user.displayName}!`;
     document.getElementById("welcomeSubtitle").textContent = `Here is your system summary for ${user.dateLabel}.`;
-    document.getElementById("userChip").textContent = user.displayName; 
+    document.getElementById("userChip").textContent = user.adminClass; 
 }
 
 function renderNotifications(items) {
@@ -186,44 +186,269 @@ function renderTrendChart(trendItems) {
 
 function renderBarChart(items) {
     const host = document.getElementById("barChart");
-    const max = Math.max(...items.map(x => x.value), 1); 
-    host.innerHTML = items.map(item => {
-        const height = Math.max(10, Math.round((item.value / max) * 170));
-        return `<div class="bar" style="height:${height}px;background:${item.color}">
-            <span>${item.label}</span>
-        </div>`;
+    if (!host || !items || items.length === 0) return;
+
+    const w = 320
+    const h = 210
+
+    const values = items.map(x => x.value);
+    const max = Math.max(...values, 1); 
+    const min = 0;
+
+    const paddingLeft = 45;
+    const paddingRight = 20;
+    const paddingTop = 20;
+    const paddingBottom = 40;
+
+    const chartHeight = h - paddingTop - paddingBottom;
+    const chartWidth = w - paddingLeft - paddingRight;
+
+    const yTicks = [0, max / 2, max];
+    const gridElements = yTicks.map(tickVal => {
+        const yPos = h - paddingBottom - (tickVal / max) * chartHeight;
+        return `
+            <line x1="${paddingLeft}" y1="${yPos}" x2="${w - paddingRight}" y2="${yPos}" stroke="#e5e7eb" stroke-dasharray="4 4" stroke-width="1" />
+            <text x="${paddingLeft - 8}" y="${yPos + 4}" text-anchor="end" fill="#9ca3af" font-size="10" font-family="sans-serif">
+                ${Math.round(tickVal)}
+            </text>
+        `;
     }).join("");
+
+    const totalBars = items.length;
+    const barGap = 12;
+    const totalGapsSpace = barGap * (totalBars - 1);
+    const barWidth = Math.max(5, (chartWidth - totalGapsSpace) / totalBars);
+
+    const barAndLabelElements = items.map((item, i) => {
+        const barHeight = Math.max(4, (item.value / max) * chartHeight);
+        const xPos = paddingLeft + i * (barWidth + barGap);
+        const yPos = h - paddingBottom - barHeight;
+
+        return `
+            <rect 
+                class="chart-bar"
+                data-index="${i}"
+                x="${xPos}" 
+                y="${yPos}" 
+                width="${barWidth}" 
+                height="${barHeight}" 
+                fill="${item.color}" 
+                rx="4" ry="4"
+                style="transition: fill-opacity 0.2s ease, transform 0.2s ease; cursor: pointer;"
+            />
+            <text 
+                x="${xPos + barWidth / 2}" 
+                y="${h - 12}" 
+                text-anchor="middle" 
+                fill="#6b7280" 
+                font-size="11" 
+                font-family="sans-serif"
+            >
+                ${item.label}
+            </text>
+        `
+    }).join("");
+
+    host.innerHTML = `
+        <svg id="barChartSvg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+            ${gridElements}
+            ${barAndLabelElements}
+
+            <g id="barTooltipGroup" opacity="0" pointer-events="none">
+                <rect id="barTipRect" rx="4" fill="#1f2937" height="24" />
+                <text id="barTipText" fill="#ffffff" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle" y="15"></text>
+            </g>
+        </svg>
+    `;
+
+    const svg = document.getElementById("barChartSvg");
+    const tooltipGroup = svg.querySelector("#barTooltipGroup");
+    const tipRect = svg.querySelector("#barTipRect");
+    const tipText = svg.querySelector("#barTipText");
+    const bars = svg.querySelectorAll(".chart-bar");
+
+    bars.forEach(bar => {
+        bar.addEventListener("mouseenter", (e) => {
+            const index = parseInt(bar.getAttribute("data-index"));
+            const item = items[index];
+
+            bars.forEach(b => b.setAttribute("fill-opacity", "0.4"));
+            bar.setAttribute("fill-opacity", "1");
+
+            const barX = parseFloat(bar.getAttribute("x"));
+            const barY = parseFloat(bar.getAttribute("y"));
+            const width = parseFloat(bar.getAttribute("width"));
+
+            tipText.textContent = `${item.label}: ${item.value}`;
+            
+            const textWidth = tipText.getComputedTextLength() + 16;
+            tipRect.setAttribute("width", textWidth);
+            tipRect.setAttribute("x", -textWidth / 2);
+
+            const tipX = barX + width / 2;
+            let tipY = barY - 28;
+            if (tipY < 5) tipY = barY + 12;
+
+            tooltipGroup.setAttribute("transform", `translate(${tipX}, ${tipY})`);
+            tooltipGroup.setAttribute("opacity", "1");
+        });
+
+        bar.addEventListener("mouseleave", () => {
+            bars.forEach(b => b.setAttribute("fill-opacity", "1"));
+            tooltipGroup.setAttribute("opacity", "0");
+        });
+    });
 }
 
 function renderDonut(items) {
-    const total = items.reduce((a, b) => a + b.value, 0);
-    let current = 0;
-    const slices = items.map(item => {
-        const start = Math.round((current / total) * 360);
-        current += item.value;
-        const end = Math.round((current/total) * 360);
-        return `${item.color} ${start}deg ${end}deg`;
-    });
-    
     const donut = document.getElementById("donutChart");
-    donut.style.background = `conic-gradient(${slices.join(", ")})`;
+    const legendContainer = document.getElementById("donutLegend");
+    if (!donut || !items || items.length === 0) return;
 
-    const legend = document.getElementById("donutLegend");
-    legend.innerHTML = items.map(item =>
-        `<li><span style="color:${item.color};font-weight:700">■</span> ${item.label} (${item.value}%)</li>`
-    ).join("");
+    const total = items.reduce((a, b) => a + b.value, 0) || 1;
+    
+    let currentDegree = 0;
+    const slicesData = items.map(item => {
+        const start = currentDegree;
+        const sliceDegrees = (item.value / total) * 360;
+        currentDegree += sliceDegrees;
+        return {
+            ...item,
+            start: Math.round(start),
+            end: Math.round(currentDegree)
+        };
+    });
+
+    function generateGradientString(highlightedIndex = null) {
+        const gradientSlices = slicesData.map((slice, i) => {
+            let color = slice.color;
+            if (highlightedIndex !== null && i !== highlightedIndex) {
+                color = `color-mix(in srgb, ${slice.color} 45%, #1f2937)`; 
+            }
+            return `${color} ${slice.start}deg ${slice.end}deg`;
+        });
+        return `conic-gradient(${gradientSlices.join(", ")})`;
+    }
+
+    donut.style.background = generateGradientString();
+
+    if (legendContainer) {
+        legendContainer.innerHTML = items.map((item, i) => `
+            <li class="legend-item" data-index="${i}" style="cursor: pointer; transition: opacity 0.2s ease;">
+                <span style="color:${item.color}; font-weight:700; margin-right: 6px;">■</span> 
+                ${item.label} (${Math.round((item.value / total) * 100)}%)
+            </li>
+        `).join("");
+    }
+
+    let tooltip = document.getElementById("donutTooltip");
+    if (!tooltip) {
+        tooltip = document.createElement("div");
+        tooltip.id = "donutTooltip";
+        tooltip.style.cssText = `
+            position: fixed;
+            background: #1f2937;
+            color: #ffffff;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: sans-serif;
+            font-weight: bold;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+            white-space: nowrap;
+            z-index: 9999; 
+            transform: translate(-50%, -130%); 
+        `;
+        document.body.appendChild(tooltip);
+    }
+
+    const legendItems = legendContainer ? legendContainer.querySelectorAll(".legend-item") : [];
+
+    function handleHighlight(index) {
+        donut.style.background = generateGradientString(index);
+        legendItems.forEach((item, i) => {
+            item.style.opacity = i === index ? "1" : "0.3";
+        });
+    }
+
+    function handleReset() {
+        donut.style.background = generateGradientString();
+        legendItems.forEach(item => item.style.opacity = "1");
+        tooltip.style.opacity = "0";
+    }
+
+    donut.addEventListener("mousemove", (e) => {
+        const rect = donut.getBoundingClientRect();
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        let angle = Math.atan2(mouseY - centerY, mouseX - centerX) * (180 / Math.PI);
+        angle = (angle + 90 + 360) % 360;
+
+        const hoveredIndex = slicesData.findIndex(slice => angle >= slice.start && angle < slice.end);
+
+        if (hoveredIndex !== -1) {
+            const activeItem = slicesData[hoveredIndex];
+            const pct = Math.round((activeItem.value / total) * 100);
+
+            handleHighlight(hoveredIndex);
+
+            tooltip.textContent = `${activeItem.label}: ${activeItem.value} (${pct}%)`;
+            tooltip.style.opacity = "1";
+            
+            tooltip.style.left = `${e.clientX}px`;
+            tooltip.style.top = `${e.clientY}px`;
+        } else {
+            handleReset();
+        }
+    });
+
+    donut.addEventListener("mouseleave", handleReset);
+
+    legendItems.forEach(item => {
+        item.addEventListener("mouseenter", () => {
+            const index = parseInt(item.getAttribute("data-index"));
+            handleHighlight(index);
+        });
+        item.addEventListener("mouseleave", handleReset);
+    });
 }
+
 
 function renderBulletin(rows) {
     const tbody = document.querySelector("#bulletinTable tbody");
-    tbody.innerHTML = rows.map(r => `
-        <tr>
-            <td><span class="tag">${r.level}</span></td>
-            <td>${r.message}</td>
-            <td>${r.time}</td>
-        </tr>
-    `).join("");
+    if (!tbody || !rows) return;
+
+    const levelStyles = {
+        high: "background-color: #ef4444; color: #ffffff; font-weight: bold;", 
+        medium: "background-color: #f97316; color: #ffffff; font-weight: bold;",
+        low: "background-color: #eab308; color: #1f2937; font-weight: bold;" 
+    };
+
+    tbody.innerHTML = rows.map(r => {
+        const normalizedLevel = (r.level || "").toLowerCase().trim();
+        
+        const currentStyle = levelStyles[normalizedLevel] || "background-color: #9ca3af; color: #ffffff;";
+
+        return `
+            <tr>
+                <td>
+                    <span class="tag" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; display: inline-block; ${currentStyle}">
+                        ${r.level}
+                    </span>
+                </td>
+                <td>${r.message}</td>
+                <td>${r.time}</td>
+            </tr>
+        `;
+    }).join("");
 }
+
 
 function renderAudit(rows) {
     const tbody = document.querySelector("#auditTable tbody");

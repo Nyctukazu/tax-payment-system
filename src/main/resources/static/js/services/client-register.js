@@ -1,4 +1,12 @@
+import { initStartHeader } from "../components/StartHeader.js";
+import { initializeParticles } from "../components/particles.js";
+import { RegisterUserWithBackend } from "./authService.js";
+
+
 document.addEventListener('DOMContentLoaded', () => {
+  initStartHeader();
+  initializeParticles();
+  
   const form = document.getElementById('registrationForm');
   const submitBtn = document.getElementById('submitBtn');
   
@@ -40,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+
   // 2. Comprehensive Validation Rules
   const validators = {
     firstName: (val) => {
@@ -58,10 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!val.trim()) return true; 
       const containsSymbols = /[^0-9]/.test(val);
       if (containsSymbols) return false;
-      return val.length === 11; 
+      return val.length === 10; 
     },
     password: (val) => {
-      return val.length >= 8 && 
+      return val.length >= 11 && 
              /[A-Z]/.test(val) && 
              /[\W_]/.test(val) && 
              /\d/.test(val);
@@ -85,10 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const checks = {
-      length: val.length >= 8,
-      capital: /[A-Z]/.test(val),
-      symbol: /[\W_]/.test(val),
-      number: /\d/.test(val)
+      length: val.length >= 12,
+      capital: (val.match(/[A-Z]/g) || []).length >= 1,
+      symbol: (val.match(/[\W_]/g) || []).length >= 3,
+      number: (val.match(/\d/g) || []).length >= 2
     };
 
     let score = 0;
@@ -176,17 +185,46 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // STEP 1 DISPATCH: SLIDE TO STEP 2 UPLOAD
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    Object.keys(fields).forEach(key => {
-      if (key !== 'terms') validateField(key, true);
-    });
+  if (form) {
+    form.addEventListener('submit', async (event) => {
+      // Prevent browser from reloading the page
+      event.preventDefault();
 
-    if (!submitBtn.disabled) {
-      step1.classList.remove('active-step');
-      step2.classList.add('active-step');
-    }
-  });
+      const formData = {
+        firstName: fields.firstName.value.trim(),
+        lastName: fields.lastName.value.trim(),
+        email: fields.email.value.trim(),
+        mobileNumber: fields.mobileNumber.value.trim(),
+        password: fields.password.value,
+        accountType: "TAXPAYER",
+        adminClass: null  
+      };
+
+      submitBtn.disabled = true;
+      const originalText = submitBtn.innerText;
+      submitBtn.innerText = "Registering...";
+
+      try {
+        const result = await RegisterUserWithBackend(formData);
+
+        if (result.success) {
+          if (step1) step1.classList.remove('active-step');
+          if (step2) step2.classList.remove('active-step');
+          if (step3) step3.classList.add('active-step');
+        } else {
+          submitBtn.disabled = false;
+          submitBtn.innerText = originalText;
+          alert(result.error || "An error occurred during registration.");
+        }
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.innerText = originalText;
+        console.error("Submission crash details:", err);
+        alert("A critical interface error occurred. Please try again.");
+      }
+    });
+  }
+
 
   // ==================== STEP 2: PROFILE UPLOAD ACTIONS ====================
   const hiddenFileInput = document.getElementById('hiddenFileInput');

@@ -1,33 +1,45 @@
-/* Base Layout Reset */
+@import "../base/variable.css";
+@import "../components/components.css";
+@import "../modules/particles.css";
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: Inter;
 }
 
 body {
-  background-color: #FCEBE4; /* Figma's "White Serenade" canvas */
-  display: flex;
+  background: linear-gradient(135deg, var(--main-color1), var(--main-color2));
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px);
   padding: 20px;
 }
 
-/* UI Registration Card Container */
 .register-container {
-  background: linear-gradient(135deg, #2E1B29 0%, #17132B 50%, #111827 100%); 
+  align-items: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, var(--secondary-color1), var(--secondary-color2)); 
   width: 100%;
   max-width: 400px;
   border-radius: 24px;
   padding: 40px 28px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--shadow);
   text-align: center;
   color: #FFFFFF;
 }
 
-/* Multi-step Display Rules */
 .form-step {
   display: none;
 }
@@ -36,7 +48,6 @@ body {
   display: block;
 }
 
-/* Header Logo Styling */
 .logo-container {
   display: flex;
   flex-direction: column;
@@ -45,17 +56,6 @@ body {
   opacity: 0.5;
 }
 
-.logo-icon {
-  font-size: 26px;
-  margin-bottom: 4px;
-}
-
-.logo-text {
-  font-size: 11px;
-  letter-spacing: 2.5px;
-}
-
-/* Typography Layouts */
 h2 {
   font-size: 26px;
   font-weight: 600;
@@ -65,19 +65,17 @@ h2 {
 
 .subtitle {
   font-size: 13px;
-  color: #9CA3AF;
+  color: var(--muted);
   margin-bottom: 32px;
   line-height: 1.4;
 }
 
-/* Form Structural Component Groups */
 .form-group {
   margin-bottom: 18px;
   text-align: left;
   position: relative;
 }
 
-/* Input Fields Foundation */
 input[type="text"],
 input[type="email"],
 input[type="tel"],
@@ -94,13 +92,11 @@ select {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Focus State Dynamic Ring Indicator */
 input:focus, select:focus {
   border-color: #A78BFA;
-  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.25);
+  box-shadow: var(--shadow);
 }
 
-/* Inline Dynamic Field Pass Verification */
 input.valid {
   border-color: #10B981 !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2310b981'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
@@ -110,12 +106,10 @@ input.valid {
   padding-right: 42px;
 }
 
-/* Inline Dynamic Field Fail Verification */
 input.invalid {
   border-color: #EF4444 !important;
 }
 
-/* Error Labels Configuration */
 .error-message {
   color: #EF4444;
   font-size: 11px;
@@ -131,7 +125,6 @@ input.invalid + .error-message,
   display: block;
 }
 
-/* Password Strength Meter UI Component */
 .strength-meter {
   display: flex;
   gap: 4px;
@@ -147,13 +140,11 @@ input.invalid + .error-message,
   transition: background-color 0.3s ease;
 }
 
-/* Dynamic Strength Color Assignments */
 .strength-meter.weak .bar:nth-child(1) { background-color: #EF4444; }
 .strength-meter.fair .bar:nth-child(1), .strength-meter.fair .bar:nth-child(2) { background-color: #F59E0B; }
 .strength-meter.good .bar:nth-child(1), .strength-meter.good .bar:nth-child(2), .strength-meter.good .bar:nth-child(3) { background-color: #3B82F6; }
 .strength-meter.strong .bar { background-color: #10B981; }
 
-/* Word Requirements checklist block */
 .password-requirements-box {
   margin-top: 10px;
   background: rgba(255, 255, 255, 0.05);
@@ -180,7 +171,6 @@ input.invalid + .error-message,
 .requirement-item.met { color: #10B981 !important; }
 .requirement-item.unmet { color: #EF4444 !important; }
 
-/* Composite Element Layout structures */
 .phone-input-wrapper {
   display: flex;
   gap: 8px;
@@ -206,13 +196,12 @@ select {
 .toggle-password {
   position: absolute;
   right: 16px;
-  color: #6B7280;
+  color: var(--muted);
   cursor: pointer;
   z-index: 5;
   font-size: 15px;
 }
 
-/* Terms / Privacy Area layout styles */
 .checkbox-group label {
   display: flex;
   align-items: center;
@@ -240,7 +229,14 @@ select {
   opacity: 0.85;
 }
 
-/* ==================== STEP 2 SPECIFIC STYLES ==================== */
+.login-prompt {
+  padding: 10px;
+
+  a {
+    color: var(--accent-color1);
+  }
+}
+
 .photo-selection-area {
   display: flex;
   flex-direction: column;
@@ -373,11 +369,10 @@ select {
   margin-bottom: 40px;
 }
 
-/* Rounded emerald check badge matching your exact Figma layout style view */
 .success-badge {
   width: 76px;
   height: 76px;
-  background-color: #10B981; /* Pure vibrant green background matching Figma asset */
+  background-color: #10B981;
   color: #FFFFFF;
   border-radius: 50%;
   display: flex;
@@ -411,7 +406,6 @@ select {
   color: #A78BFA;
 }
 
-/* Universal Base Buttons styling hook handles step 1 submit */
 button[type="submit"] {
   width: 100%;
   padding: 14px;
