@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name = "viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text"${pageTitle}">Queue</title>
+        <link rel="stylesheet" th:href="@{/css/admin/admin-style.css}" href="/css/admin/admin-style.css">
+    </head>
+    <body id="pageQueue">
+
+        <admin-header></admin-header>
+        <admin-sidebar></admin-sidebar>
+
+        <script type="module" th:src="@{/js/admin-app.js}" src="/js/admin-app.js" defer></script>
+    </body>
+</html>

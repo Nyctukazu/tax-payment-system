@@ -51,6 +51,11 @@ public class PortalController {
         return "admin/evaluate-review";
     }
 
+    @GetMapping("/queue")
+    public String Queue() {
+        return "admin/queue";
+    }
+
     @GetMapping("/user-control")
     public String UserControl() {
         return "admin/user-control";
