@@ -24,27 +24,12 @@
 body {
     padding-top: 90px;
     background: linear-gradient(180deg, var(--main-color1), var(--main-color2));
-    color: var(--text-primary);
+    color: #fff;
     display: flex;
     flex-direction: column;
     height: 100vh;
     overflow: hidden;
 }
-
-.top-navbar {
-    height: 60px;
-    background-color: var(--bg-navbar);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 25px;
-    z-index: 100;
-}
-
-.portal-logo-text { font-weight: bold; font-size: 1.1rem; }
-.navbar-right { display: flex; gap: 20px; align-items: center; }
-.nav-icon-btn { background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; transition: color 0.2s; }
-.nav-icon-btn:hover { color: var(--text-primary); }
 
 .dashboard-container {
     display: flex;
@@ -798,7 +783,6 @@ body {
 .btn-lg { padding: 14px 20px; font-size: 0.85rem; }
 .submit-auditor-btn { display: flex; justify-content: center; align-items: center; gap: 8px; }
 
-/* --- Form Validation Styles --- */
 .history-search-input.input-error {
     border-color: #FF6B6B;
     background-color: rgba(239, 68, 68, 0.05);

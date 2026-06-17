@@ -185,9 +185,9 @@ body {
 .sidebar-item {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    padding-right: 2rem;
-    height: 64px;
+    justify-content: flex-start;
+    padding-left: 2rem;
+    height: 40px;
     text-decoration: none;
     color: #ffffff;
     font-weight: 500;

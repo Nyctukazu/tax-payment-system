@@ -5,13 +5,36 @@ class AppSidebar extends HTMLElement {
             <div class="sidebar-overlay" id="sidebarOverlay"></div>
             <aside class="sidebar-drawer" id="sidebarDrawer">
                 <div class="sidebar-links-container">
-                    <a href="/admin-dashboard" class="sidebar-item">
+                    <a href="/client-dashboard" class="sidebar-item">
+                        <i class="fa-solid fa-chart-pie sidebar-icon"></i>
                         <span class="sidebar-text">Dashboard Overview</span>
                     </a>
-                    <a href="/profile" class="sidebar-item">
-                        <span class="sidebar-text">Admin Profile</span>
+                    <a href="/business-portfolio" class="sidebar-item">
+                        <i class="fa-solid fa-briefcase sidebar-icon"></i>
+                        <span class="sidebar-text">Business Portfolio</span>
                     </a>
-                    <a href="/settings" class="sidebar-item">
+                    <a href="/tax-assessments" class="sidebar-item">
+                        <i class="fa-solid fa-file-invoice-dollar sidebar-icon"></i>
+                        <span class="sidebar-text">Tax Assessments</span>
+                    </a>
+                    <a href="/payment-history" class="sidebar-item">
+                        <i class="fa-solid fa-credit-card sidebar-icon"></i> 
+                        <span class="sidebar-text">Payment History</span>
+                    </a>
+                    <a href="/file-assessment" class="sidebar-item">
+                        <i class="fa-solid fa-clipboard-list sidebar-icon"></i>
+                        <span class="sidebar-text">File Assessment</span>
+                    </a>
+                    <a href="/receipts" class="sidebar-item">
+                        <i class="fa-solid fa-receipt sidebar-icon"></i>
+                        <span class="sidebar-text">Receipts</span>
+                    </a>
+                    <a href="/history" class="sidebar-item">
+                        <i class="fa-solid fa-clock-rotate-left sidebar-icon"></i>
+                        <span class="sidebar-text">History</span>
+                    </a>
+                    <a href="/system-settings" class="sidebar-item">
+                        <i class="fa-solid fa-gear sidebar-icon"></i>
                         <span class="sidebar-text">System Settings</span>
                     </a>
                     <a href="/portal" class="sidebar-item logout-accent">

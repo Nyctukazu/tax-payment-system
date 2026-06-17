@@ -5,7 +5,7 @@ class AppHeader extends HTMLElement {
         const currentPath = window.location.pathname;
         const userRole = (sessionStorage.getItem("userRole") || 'CLERK').toUpperCase();
         
-        const isDashboard = currentPath === '/admin-dashboard' ? 'active' : '';
+        const isDashboard = currentPath === '/client-dashboard' ? 'active' : '';
         const isQueuePage = currentPath.includes('queue') ? 'active' : '';
         const isEvaluatePage = currentPath.includes('evaluate') ? 'active' : '';
         const isUserControl = currentPath.includes('user-control') ? 'active' : ''; 
@@ -14,11 +14,11 @@ class AppHeader extends HTMLElement {
 
         this.innerHTML = `
             <header class="navbar-wrapper">
-                <div class="navbar-brand"><img class="logo-image" src="images/logo.jpg">PasayBiz Admin</div>
+                <div class="navbar-brand"><img class="logo-image" src="images/logo.jpg">PasayBiz</div>
 
                 <nav class="navbar-links">
                     
-                    <a href="/admin-dashboard" class="nav-item ${isDashboard}">
+                    <a href="/client-dashboard" class="nav-item ${isDashboard}">
                         <div class="icon-glow-ring"></div>
                         <div class="icon-circle">
                             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tax Assessment</title>
+        <link rel="stylesheet" href="css/client/client-dashboard.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <script type="module" src="js/services/client-dashboard.js" defer></script>
+    </head>
+    <body class="tax-assessment">
+
+        <app-header></app-header>
+        <app-sidebar></app-sidebar>
+
+        <div class="workspace-wrapper">
+            
+            <main class="workspace">
+
+          <div id="view-assessments" class="content-view">
+                    <div class="assessments-summary-grid">
+                        <div class="summary-box card summary-red">
+                            <div>
+                                <p class="summary-title">Total Outstanding Balance</p>
+                                <p class="summary-value value-red">₱145,200.00</p>
+                            </div>
+                            <div class="summary-icon icon-red"><i class="fa-solid fa-calculator"></i></div>
+                        </div>
+                        <div class="summary-box card summary-amber">
+                            <div>
+                                <p class="summary-title">Assessments Received</p>
+                                <p class="summary-value value-amber">3 Pending</p>
+                            </div>
+                            <div class="summary-icon icon-amber"><i class="fa-solid fa-circle-exclamation"></i></div>
+                        </div>
+                        <div class="summary-box card summary-blue">
+                            <div>
+                                <p class="summary-title">Next Due Deadline</p>
+                                <p class="summary-value value-blue">Nov 30, 2024</p>
+                            </div>
+                            <div class="summary-icon icon-blue"><i class="fa-solid fa-calendar-days"></i></div>
+                        </div>
+                    </div>
+
+                    <section class="card assessments-main-card">
+                        <div class="assessments-header-bar">
+                            <h3>Active Corporate Tax Declarations</h3>
+                            <div class="filter-controls">
+                                <select class="filter-dropdown">
+                                    <option>All Entities</option>
+                                </select>
+                                <select class="filter-dropdown">
+                                    <option>All Statuses</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="assessment-data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Business Entity</th>
+                                        <th>Tax ID</th>
+                                        <th>Filing Phase / Category</th>
+                                        <th>Due Deadline</th>
+                                        <th>Amount Due</th>
+                                        <th>Status Tracking</th>
+                                        <th class="text-right">Operations</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>The Daily Grind Café</strong></td>
+                                        <td>PX-1234</td>
+                                        <td>Annual Gross Tax Assessment</td>
+                                        <td>Nov 30, 2024</td>
+                                        <td><strong>₱145,200.00</strong></td>
+                                        <td><span class="lbl-status status-received">Assessment Received</span></td>
+                                        <td class="text-right inline-actions">
+                                            <button class="btn btn-primary btn-sm">Pay Now</button>
+                                            <button class="btn btn-secondary btn-sm">File Protest</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Manila Bay Seafoods</strong></td>
+                                        <td>PX-5678</td>
+                                        <td>Quarterly Local Regulatory Audit</td>
+                                        <td>Dec 15, 2024</td>
+                                        <td class="text-muted">Processing...</td>
+                                        <td><span class="lbl-status status-pending">Pending Generation</span></td>
+                                        <td class="text-right text-muted cell-sm-text">Awaiting Computation</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Pasay Tech Hub</strong></td>
+                                        <td>PX-9012</td>
+                                        <td>Quarterly Local Regulatory Audit</td>
+                                        <td>Dec 15, 2024</td>
+                                        <td class="text-muted">Processing...</td>
+                                        <td><span class="lbl-status status-pending">Pending Generation</span></td>
+                                        <td class="text-right text-muted cell-sm-text">Awaiting Computation</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Aura Boutique</strong></td>
+                                        <td>PX-3456</td>
+                                        <td>Quarterly Local Regulatory Audit</td>
+                                        <td>Dec 15, 2024</td>
+                                        <td class="text-muted">Processing...</td>
+                                        <td><span class="lbl-status status-pending">Pending Generation</span></td>
+                                        <td class="text-right text-muted cell-sm-text">Awaiting Computation</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Master's Gym</strong></td>
+                                        <td>PX-9156</td>
+                                        <td>Annual Gross Tax Assessment</td>
+                                        <td>Dec 30, 2024</td>
+                                        <td class="text-muted">Not Processed Yet</td>
+                                        <td><span class="lbl-status status-missing">No Submission Yet</span></td>
+                                        <td class="text-right inline-actions">
+                                            <button id="btn-create-app" class="btn btn-primary btn-sm">Create Application</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+            </main>
+            </div>
+    </body>
+</html>
