@@ -8,18 +8,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="module" src="js/services/client-dashboard.js" defer></script>
 </head>
-<body>
-
+<body class="pageClientDashboard">
     <app-header></app-header>
     <app-sidebar></app-sidebar>
     <ai-panel></ai-panel>
-
-    <div class="dashboard-container">
-        
-        <div class="workspace-wrapper">
-            
-            <main class="workspace">
-                
+    <div class="dashboard-container">     
+        <div class="workspace-wrapper">          
+            <main class="workspace">           
                 <div id="view-dashboard" class="content-view">
                     <section class="card portfolio-card">
                         <div class="card-header">
@@ -29,63 +24,10 @@
                             </div>
                             <button class="btn btn-blue">View Returns</button>
                         </div>
-                        
-                        <div class="portfolio-grid">
-                            <div class="biz-card">
-                                <div class="biz-icon"><i class="fa-solid fa-mug-hot"></i></div>
-                                <h4>The Daily Grind Café</h4>
-                                <div class="biz-details">
-                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
-                                    <p><span>Type:</span> <span>Food Services</span></p>
-                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
-                                </div>
-                                <div class="biz-actions">
-                                    <button class="btn btn-secondary">Manage</button>
-                                    <button class="btn btn-primary">File Returns</button>
-                                </div>
-                            </div>
-                            
-                            <div class="biz-card">
-                                <div class="biz-icon"><i class="fa-solid fa-ship"></i></div>
-                                <h4>Manila Bay Seafoods</h4>
-                                <div class="biz-details">
-                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
-                                    <p><span>Type:</span> <span>Food Services</span></p>
-                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
-                                </div>
-                                <div class="biz-actions">
-                                    <button class="btn btn-secondary">Manage</button>
-                                    <button class="btn btn-primary">File Returns</button>
-                                </div>
-                            </div>
-                            
-                            <div class="biz-card">
-                                <div class="biz-icon"><i class="fa-solid fa-globe"></i></div>
-                                <h4>Pasay Tech Hub</h4>
-                                <div class="biz-details">
-                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
-                                    <p><span>Type:</span> <span>Food Services</span></p>
-                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
-                                </div>
-                                <div class="biz-actions">
-                                    <button class="btn btn-secondary">Manage</button>
-                                    <button class="btn btn-primary">File Returns</button>
-                                </div>
-                            </div>
-                            
-                            <div class="biz-card">
-                                <div class="biz-icon"><i class="fa-solid fa-bag-shopping"></i></div>
-                                <h4>Aura Boutique</h4>
-                                <div class="biz-details">
-                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
-                                    <p><span>Type:</span> <span>Food Services</span></p>
-                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
-                                </div>
-                                <div class="biz-actions">
-                                    <button class="btn btn-secondary">Manage</button>
-                                    <button class="btn btn-primary">File Returns</button>
-                                </div>
-                            </div>
+
+                        <!-- JS renders biz-card elements into this container -->
+                        <div class="portfolio-grid" id="portfolio-grid">
+                            <p class="empty-state">Loading your businesses...</p>
                         </div>
                     </section>
 
@@ -93,21 +35,12 @@
                         <section class="card">
                             <h3>Active Tax Assessment Status</h3>
                             <p class="subtitle">Current summary for today.</p>
-                            <div class="assessment-box">
-                                <div class="assessment-title">
-                                    <div class="biz-icon"><i class="fa-solid fa-mug-hot"></i></div>
-                                    <span>The Daily Grind Café</span>
-                                </div>
-                                <div class="assessment-body">
-                                    <p><span>Status:</span> <strong>Assessment Received</strong></p>
-                                    <p><span>Deadline:</span> <span>Nov 30, 2024</span></p>
-                                    <p><span>Amount Due:</span> <span class="amount">₱145,200.00</span></p>
-                                </div>
-                                <button class="btn btn-primary btn-block">Pay Now</button>
-                                <button class="btn btn-secondary btn-block">File Protest</button>
+
+                            <!-- JS renders the assessment-title / assessment-body / action buttons here -->
+                            <div class="assessment-box" id="assessment-box">
+                                <p class="empty-state">Loading assessment...</p>
                             </div>
                         </section>
-
                         <section class="card">
                             <h3>Actions</h3>
                             <div class="action-buttons">
@@ -116,7 +49,6 @@
                                 <button class="btn btn-secondary btn-block text-left">Contact Assessor</button>
                             </div>
                         </section>
-
                         <section class="card">
                             <h3>Historical Tax Ledgers & Receipts</h3>
                             <div class="table-container">
@@ -129,45 +61,15 @@
                                            <th>Status</th>
                                        </tr>
                                    </thead>
-                                   <tbody>
-                                       <tr>
-                                           <td>2024-03-12</td>
-                                           <td>Q1 Business Tax</td>
-                                           <td>₱65,000.00</td>
-                                           <td><span class="badge badge-success">Paid</span> <a href="#" class="rcpt-link">RCPT-987654</a></td>
-                                       </tr>
-                                       <tr>
-                                           <td>2024-03-12</td>
-                                           <td>Q1 Business Tax</td>
-                                           <td>₱65,000.00</td>
-                                           <td><span class="badge badge-success">Paid</span> <a href="#" class="rcpt-link">RCPT-987654</a></td>
-                                       </tr>
-                                       <tr>
-                                           <td>2024-03-12</td>
-                                           <td>Q1 Business Tax</td>
-                                           <td>₱65,000.00</td>
-                                           <td><span class="badge badge-success">Paid</span> <a href="#" class="rcpt-link">RCPT-987654</a></td>
-                                       </tr>
-                                       <tr>
-                                           <td>2024-03-12</td>
-                                           <td>Q1 Business Tax</td>
-                                           <td>₱65,000.00</td>
-                                           <td><span class="badge badge-success">Paid</span> <a href="#" class="rcpt-link">RCPT-987654</a></td>
-                                       </tr>
-                                       <tr>
-                                           <td>2024-03-12</td>
-                                           <td>Q1 Business Tax</td>
-                                           <td>₱65,000.00</td>
-                                           <td><span class="badge badge-success">Paid</span> <a href="#" class="rcpt-link">RCPT-987654</a></td>
-                                       </tr>
+                                   <!-- JS renders <tr> rows into this tbody -->
+                                   <tbody id="ledger-body">
+                                       <tr><td colspan="4" class="empty-state">Loading ledger...</td></tr>
                                    </tbody>
                                 </table>
                             </div>
                         </section>
                     </div>
                 </div>
-
-                
                 <div id="view-create-application" class="content-view hidden">
                     <div class="create-app-layout">
                         
@@ -177,9 +79,9 @@
                                 <div class="form-row">
                                     <div class="form-group flex-1">
                                         <label>Select Registered Business</label>
-                                        <select class="form-control">
-                                            <option>The Daily Grind Café (PX-1234)</option>
-                                            <option>Master's Gym (PX-9156)</option>
+                                        <!-- JS populates <option> elements here -->
+                                        <select class="form-control" id="app-business-select">
+                                            <option>Loading businesses...</option>
                                         </select>
                                     </div>
                                     <div class="form-group flex-1">
@@ -189,31 +91,10 @@
                                 </div>
                             </div>
 
-                            <div class="form-section-block">
-                                <h4 class="section-title">Financial Metrics Ledger</h4>
-                                <div class="form-row">
-                                    <div class="form-group flex-1">
-                                        <label>Annual Gross Sales / Receipts (PHP)</label>
-                                        <input type="number" id="app-gross" class="form-control" min="0" max="1000000000" value="1000000">
-                                        <span class="error-text hidden" id="err-app-gross">Must be a valid positive number.</span>
-                                    </div>
-                                    <div class="form-group flex-1">
-                                        <label>Non-Essential / Exempt Revenue (PHP)</label>
-                                        <input type="number" id="app-exempt" class="form-control" min="0" value="0">
-                                        <span class="error-text hidden" id="err-app-exempt">Cannot exceed gross sales.</span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Detailed Nature of Business Operations Description</label>
-                                    <input type="text" id="app-desc" class="form-control" maxlength="500" value="Cafeteria and restaurant retail operations selling coffee, pastries, and meals.">
-                                    <span class="error-text hidden" id="err-app-desc">Please provide a detailed description (min 10 chars).</span>
-                                </div>
-                            </div>
-
                             <div class="form-section-block no-border">
                                 <h4 class="section-title">Mandatory Evidentiary Uploads</h4>
                                 <p class="section-desc">Sworn Statement of Gross Sales, BIR 1701/1702, or Audited Financial Statements</p>
-                                <div class="upload-dropzone" id="app-dropzone">
+                                <div class="upload-dropzone" id="app-dropzone" data-has-file="false">
                                     <i class="fa-solid fa-cloud-arrow-up" id="dropzone-icon"></i>
                                     <p class="dropzone-title" id="dropzone-text">Drag and drop corporate financial documents here</p>
                                     <p class="dropzone-sub">Supported variants: PDF, JPG, PNG up to 25MB scale limit</p>
@@ -227,30 +108,20 @@
                                 <h4 class="calc-title">Estimated Computation</h4>
                                 <div class="calc-row">
                                     <span>Declared Gross Receipts:</span>
-                                    <span>₱1,000,000.00</span>
+                                    <span id="calc-gross-receipts">₱1,000,000.00</span>
                                 </div>
                                 <div class="calc-row">
                                     <span>Pasay Base Tax Rate:</span>
-                                    <span>1.50%</span>
-                                </div>
-                                <div class="calc-row">
-                                    <span>Regulatory Local Fees:</span>
-                                    <span>₱200.00</span>
-                                </div>
-                                <div class="calc-divider"></div>
-                                <div class="calc-total-row">
-                                    <span>Total Estimated Due:</span>
-                                    <span class="calc-total">₱15,200.00</span>
+                                    <!-- JS updates this when the selected business changes -->
+                                    <span id="calc-tax-rate">—</span>
                                 </div>
                             </div>
-
                             <div class="notice-alert">
                                 <i class="fa-solid fa-circle-exclamation"></i>
                                 <div>
                                     <strong>Notice to Filer:</strong> This constitutes a preliminary estimate generated by the system algorithm. Final binding computations will be locked following official review from the Pasay City Treasurer's Office assessment pool.
                                 </div>
                             </div>
-
                             <button id="btn-submit-app" class="btn btn-green btn-block btn-lg submit-auditor-btn">
                                 Submit to Municipal Auditor <i class="fa-solid fa-paper-plane"></i>
                             </button>
@@ -263,5 +134,7 @@
         </div>
 
     </div>
+
+    <script src="dashboard.js"></script>
 </body>
 </html>
