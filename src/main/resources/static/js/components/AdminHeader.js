@@ -2,12 +2,14 @@ class AdminHeader extends HTMLElement {
     connectedCallback() {
 
         const currentPath = window.location.pathname;
-        const userRole = (window.USER_ROLE || 'CLERK').toLowerCase();
+        const userRole = (sessionStorage.getItem("userRole") || 'CLERK').toUpperCase();
         
-        const isDashboard = currentPath === '/admin-dashboard' || currentPath.endsWith('index.html') ? 'active' : '';
-        const isQueuePage = currentPath.includes('about') ? 'active' : '';
+        const isDashboard = currentPath === '/admin-dashboard' ? 'active' : '';
+        const isQueuePage = currentPath.includes('queue') ? 'active' : '';
         const isEvaluatePage = currentPath.includes('evaluate') ? 'active' : '';
         const isUserControl = currentPath.includes('user-control') ? 'active' : ''; 
+
+        const hasAccessToUserControl = userRole === 'SUPERADMIN';
 
         this.innerHTML = `
             <header class="navbar-wrapper">
@@ -42,7 +44,7 @@ class AdminHeader extends HTMLElement {
                         <span class="nav-label">Evaluate</span>
                     </a>
 
-                    ${userRole === 'SUPERADMIN' ? `
+                    ${hasAccessToUserControl ? `
                     <a href="/user-control" class="nav-item ${isUserControl}">
                         <div class="icon-glow-ring"></div>
                         <div class="icon-circle">

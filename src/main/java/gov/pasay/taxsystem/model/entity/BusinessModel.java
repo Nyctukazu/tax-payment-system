@@ -41,6 +41,10 @@ public class BusinessModel {
     @Column(name = "ownership_type", nullable = false)
     private OwnershipType ownershipType;
 
+    @Column(name = "business_tin", nullable = false, unique = true, length = 15)
+    private String businessTin; // Added to store official Taxpayer Identification Numbers
+
+
     private String businessName;
 
     private String businessId;

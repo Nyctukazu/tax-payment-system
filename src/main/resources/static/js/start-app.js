@@ -98,12 +98,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (result.success) {
                     const userRole = result.user.role || result.user.accountType; 
                     const displayName = result.user.displayName;
+                    const adminClass = result.user.adminClass;
 
                     if (isAdminPortal && userRole !== "ADMIN") {
                         throw new Error("Access Denied: You do not possess administrator system authorization.");
                     }
 
-                    sessionStorage.setItem("userRole", userRole);
+                    sessionStorage.setItem("userRole", adminClass || userRole);
                     sessionStorage.setItem("userName", displayName);
 
                     if (userRole === "ADMIN") {

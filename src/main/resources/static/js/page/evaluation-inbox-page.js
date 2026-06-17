@@ -13,11 +13,21 @@ export async function initEvaluationInbox() {
 
 function renderTable(items) {
     const tbody = document.querySelector("#applicationsTable tbody");
-    const reviewPageUrl = window.APP_CONFIG?.reviewPageUrl || "/evaluation/review";
+    const reviewPageUrl = window.APP_CONFIG?.reviewPageUrl || "/evaluate-review";
+
+    if (!items || items.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align: center; font-weight: 600; padding: 20px;">
+                    No pending tax evaluation applications found.
+                </td>
+            </tr>`;
+        return;
+    }
 
     tbody.innerHTML = items.map(item => `
         <tr>
-            <td>${item.requestId}</td>
+            <td><strong>${item.requestId}</strong></td>
             <td>${item.businessName}</td>
             <td>${item.businessType}</td>
             <td>${item.taxYear}</td>

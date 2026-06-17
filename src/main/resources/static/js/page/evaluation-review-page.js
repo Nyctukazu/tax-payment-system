@@ -10,8 +10,6 @@ let state = {
     calculatedTotal: null
 };
 
-initEvaluationReview();
-
 export async function initEvaluationReview() {
     try {
         const requestId = new URLSearchParams(window.location.search).get("requestId");

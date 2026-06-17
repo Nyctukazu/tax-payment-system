@@ -1,5 +1,5 @@
 export async function fetchJson(url, options = {}) {
-    const response = await fetch(url, {
+    const response = await fetch(`${url.startsWith('/') ? '' : '/'}${url}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -9,21 +9,24 @@ export async function fetchJson(url, options = {}) {
         ...options
     });
 
-    // Handle Error Responses (Like HTTP 400 Bad Request) cleanly
     if (!response.ok) {
         let errorMessage = `Request failed. HTTP ${response.status}`;
         try {
             const errorData = await response.json();
             if (errorData && errorData.error) {
-                errorMessage = errorData.error; // Extracts "Email is already registered"
+                errorMessage = errorData.error; 
             }
         } catch (e) {
-            // Fallback if the error response isn't structured JSON
+
+            try {
+                const textError = await response.text();
+                if (textError) errorMessage = textError;
+            } catch (textErr) {}
         }
         throw new Error(errorMessage);
     }
 
-    if (response.status === 204) {
+    if (response.status === 204 || response.status === 205) {
         return null;
     }
 

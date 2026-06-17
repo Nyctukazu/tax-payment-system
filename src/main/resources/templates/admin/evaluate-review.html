@@ -82,9 +82,9 @@
 
     <script th:inline="javascript">
         window.APP_CONFIG = {
-            useMockData: /*[[${useMockData}]]*/ true,
-            useMockFallback: /*[[${useMockFallback}]]*/ true,
-            apiUrl: /*[[@{/api/evaluations}]]*/ '/api/evaluations'
+            useMockData: false,       
+            useMockFallback: false,    
+            apiUrl: /*[[@{/api/evaluate-inbox}]]*/ '/api/evaluate-inbox'
         };
     </script>
     <script type="module" th:src="@{/js/admin-app.js}" src="/js/admin-app.js"></script>

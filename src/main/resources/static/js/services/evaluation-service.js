@@ -8,7 +8,7 @@ export async function getEvaluationInbox(config = window.APP_CONFIG || {}) {
     }
 
     try {
-        return await fetchJson(config.apiUrl || "/api/evaluations");
+        return await fetchJson(config.apiUrl || "/api/evaluate-inbox");
 
     } catch (error) {
         if (config.useMockFallback === false) {
@@ -27,7 +27,7 @@ export async function getEvaluationByRequestId(requestId, config = window.APP_CO
     }
 
     try {
-        return await fetchJson(`${config.apiUrl || "/api/evaluations"}/${encodeURIComponent(requestId)}`);
+        return await fetchJson(`${config.apiUrl || "/api/evaluate-inbox"}/${encodeURIComponent(requestId)}`);
     } catch (error) {
         if (config.useMockFallback === false) {
             throw new Error(`Failed to load evaluation detail from backend. ${error.message}`);
@@ -52,7 +52,7 @@ export async function calculateAssessment(requestId, payload, config = window.AP
     }
 
     try {
-        return await postJson(`${config.apiUrl || "/api/evaluations"}/${encodeURIComponent(requestId)}/calculate`, payload);
+        return await postJson(`${config.apiUrl || "/api/evaluate-inbox"}/${encodeURIComponent(requestId)}/calculate`, payload);
     } catch (error) {
         if (config.useMockFallback === false) {
             throw new Error(`Failed to calculate assessment from backend. ${error.message}`);
@@ -76,7 +76,7 @@ export async function routeToSupervisor(requestId, payload, config = window.APP_
     }
 
     try {
-        return await postJson(`${config.apiUrl || "/api/evaluations"}/${encodeURIComponent(requestId)}/route`, payload);
+        return await postJson(`${config.apiUrl || "/api/evaluate-inbox"}/${encodeURIComponent(requestId)}/route`, payload);
     } catch (error) {
         if (config.useMockFallback === false) {
             throw new Error(`Failed to route assessment from backend. ${error.message}`);

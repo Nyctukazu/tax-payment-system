@@ -6,7 +6,7 @@ public record EvaluationResponse(
     String requestId,
     String businessName,
     String businessTin,
-    String businessType,
+    String businessClass,
     Integer taxYear,
     String submittedAt,
     String ownershipType,

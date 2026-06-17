@@ -11,6 +11,28 @@
     box-sizing: border-box;
 }
 
+.error-banner {
+    color: #ff3b30;
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    text-align: 1.4;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+}
+
+.hidden {
+    display: block !important;
+    opacity: 0 !important;
+    transform: translateY(-4px) !important;
+    pointer-events: none;
+    margin-bottom: 0px;
+    height: 0px;
+    overflow: hidden;
+}
+
 .login-card {
     background: linear-gradient(135deg, var(--secondary-color1) 0%, var(--secondary-color2) 100%);
     width: 100%;
@@ -393,25 +415,6 @@
         margin-bottom: 22px;
         line-height: 1.4;
     }
-
-
-.error-banner {
-    color: #ff3b30;
-    font-size: 0.8rem;
-    font-weight: 700;
-    line-height: 1.4;
-    margin-bottom: 20px;
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.25s ease-out, transform 0.25s ease-out;
-}
-
-.hidden {
-    display: block !important; 
-    opacity: 0 !important;
-    transform: translateY(-4px) !important;
-    pointer-events: none; 
-}
 
     input::placeholder {
         color: #999999;
