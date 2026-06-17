@@ -1,5 +1,6 @@
 @import "../base/variable.css";
 @import "../components/components.css";
+@import "../components/button.css";
 
 :root {
     --bg-main: #FCEBE6; 
@@ -104,40 +105,6 @@ body {
     background-color: #1A2332;
     border-left: 3px solid var(--accent-blue);
 }
-
-.ai-panel {
-    width: 320px;
-    background-color: var(--bg-ai-panel);
-    border-left: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    transition: width 0.3s ease, opacity 0.2s ease;
-}
-
-.ai-panel.hidden {
-    width: 0;
-    overflow: hidden;
-    border-left: none;
-    opacity: 0;
-}
-
-.ai-header { padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
-.ai-header h4 { font-size: 0.9rem; }
-.ai-version { font-size: 0.7rem; color: var(--text-muted); }
-.close-panel-btn { background: none; border: none; color: var(--text-muted); font-size: 1rem; cursor: pointer; }
-
-.ai-chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-.chat-intro { font-size: 0.8rem; }
-.chat-bubble { padding: 10px 14px; border-radius: 6px; font-size: 0.82rem; line-height: 1.4; max-width: 90%; }
-.user-msg { background-color: var(--accent-blue); color: white; align-self: flex-end; }
-.bot-msg { background-color: rgba(255,255,255,0.04); border: 1px solid var(--border-color); align-self: flex-start; }
-.bot-msg a { color: #38BDF8; text-decoration: none; }
-.follow-up-prompt { font-size: 0.8rem; color: var(--text-muted); }
-
-.ai-footer { padding: 15px; border-top: 1px solid var(--border-color); display: flex; gap: 10px; }
-.ai-input { flex: 1; background-color: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 4px; padding: 8px 12px; color: white; font-size: 0.82rem; outline: none; }
-.ai-send-btn { background-color: var(--accent-blue); border: none; color: white; padding: 0 12px; border-radius: 4px; cursor: pointer; }
 
 .card { 
     background-color: var(--bg-dark-cards); 
