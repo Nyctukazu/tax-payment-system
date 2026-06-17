@@ -1,7 +1,5 @@
 import { getDashboardData } from "../services/dashboard-service.js";
 
-initDashboard();
-
 export async function initDashboard() {
     const data = await getDashboardData();
     renderHeader(data.user);

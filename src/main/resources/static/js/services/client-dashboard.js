@@ -1,5 +1,9 @@
+import { initClientHeader } from "../components/AppHeader.js";
+import { initClientSidebar } from "../components/AppSidebar.js";
+
 window.addEventListener("DOMContentLoaded", () => {
-    
+    initClientHeader();
+    initClientSidebar();
     // Core Layout Toggles
     const menuToggleBtn = document.getElementById("menu-toggle-btn");
     const sidebarMenu = document.getElementById("sidebar-menu");
