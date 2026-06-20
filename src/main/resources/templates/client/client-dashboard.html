@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PasayBiz Portal - Dashboard</title>
-    <link rel="stylesheet" href="css/client/client-dashboard.css">
+    <link rel="stylesheet" href="/css/client/client-dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="js/services/client-dashboard.js" defer></script>
 </head>
@@ -48,19 +48,8 @@
                         <section class="card">
                             <h3>Active Tax Assessment Status</h3>
                             <p class="subtitle">Current summary for today.</p>
-                            <div class="assessment-box">
-                                <div class="assessment-title">
-                                    <div class="biz-icon"><i class="fa-solid fa-mug-hot"></i></div>
-                                    <span>The Daily Grind Café</span>
-                                </div>
-                                <div class="assessment-body">
-                                    <p><span>Status:</span> <strong>Assessment Received</strong></p>
-                                    <p><span>Deadline:</span> <span>Nov 30, 2024</span></p>
-                                    <p><span>Amount Due:</span> <span class="amount">₱145,200.00</span></p>
-                                </div>
-                                <button class="btn btn-primary btn-block">Pay Now</button>
-                                <button class="btn btn-secondary btn-block">File Protest</button>
-                            </div>
+                            <!-- Populated by renderActiveTaxAssessment() -->
+                            <div class="assessment-box" id="active-assessment-box"></div>
                         </section>
 
                         <section class="card">
@@ -137,8 +126,9 @@
                         <div class="assessments-header-bar">
                             <h3>Active Corporate Tax Declarations</h3>
                             <div class="filter-controls">
-                                <select class="filter-dropdown"><option>All Entities</option></select>
-                                <select class="filter-dropdown"><option>All Statuses</option></select>
+                                <!-- Populated by initializeAssessmentsFilters() -->
+                                <select class="filter-dropdown" id="assess-filter-biz"><option value="all">All Entities</option></select>
+                                <select class="filter-dropdown" id="assess-filter-status"><option value="all">All Statuses</option></select>
                             </div>
                         </div>
                         <div class="table-container">
@@ -253,89 +243,8 @@
                         </div>
                     </div>
 
-                    <div class="receipt-card card">
-                        <div class="receipt-header">
-                            <div class="receipt-header-left">
-                                <i class="fa-solid fa-building-columns receipt-logo"></i>
-                                <div>
-                                    <h4>Pasay City Treasurer's Office</h4>
-                                    <p>Revenue &amp; Tax Management Division</p>
-                                    <p>F.B. Harrison St., Pasay City, Metro Manila</p>
-                                </div>
-                            </div>
-                            <div class="receipt-header-right">
-                                <h4 class="text-green">Official Receipt</h4>
-                                <p>Transaction OR: <strong>OR-987654321</strong></p>
-                                <p>Date of Issue: <strong>2026-06-13 17:13</strong></p>
-                                <p>Payment Mode: <strong>Electronic Fund Transfer</strong></p>
-                            </div>
-                        </div>
-
-                        <div class="receipt-details">
-                            <div class="details-col">
-                                <p class="meta-label">Taxpayer Account Profile</p>
-                                <h5 class="entity-name">The Daily Grind Café</h5>
-                                <p>Taxpayer ID: PX-1234</p>
-                                <p>Line of Business: Food Services &amp; Refreshments</p>
-                                <p>Registered Address: Mall of Asia Complex, Pasay City</p>
-                            </div>
-                            <div class="details-col">
-                                <p class="meta-label">Filing Specifics</p>
-                                <p>Assessment Context: Annual Gross Tax Declaration</p>
-                                <p>Filing Period: Fiscal Year 2024</p>
-                                <p>Audit Reference: AUD-2024-88A</p>
-                            </div>
-                        </div>
-
-                        <table class="receipt-table">
-                            <thead>
-                                <tr>
-                                    <th>Revenue Code Item / Description</th>
-                                    <th class="text-right">Base Assessment Scale</th>
-                                    <th class="text-right">Rate Index</th>
-                                    <th class="text-right">Total Settle Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Section 2A-01: Municipal Gross Tax on Retailers (Food Services)</td>
-                                    <td class="text-right">₱1,000,000.00</td>
-                                    <td class="text-right">1.45%</td>
-                                    <td class="text-right">₱145,000.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Section 4C-02: Local Environmental Regulatory Fee</td>
-                                    <td class="text-right">--</td>
-                                    <td class="text-right">Flat Rate</td>
-                                    <td class="text-right">₱200.00</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div class="receipt-totals-container">
-                            <div class="receipt-totals">
-                                <div class="total-row">
-                                    <span>Subtotal Base Liability:</span><span>₱145,200.00</span>
-                                </div>
-                                <div class="total-row">
-                                    <span>Surcharges / Penalties:</span><span>₱0.00</span>
-                                </div>
-                                <div class="total-row">
-                                    <span>Payment Status:</span>
-                                    <span class="text-green font-bold">Paid in Full</span>
-                                </div>
-                                <div class="calc-divider"></div>
-                                <div class="total-row grand-total">
-                                    <span>Total Charged Volume:</span><span>₱145,200.00</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="receipt-footer">
-                            <p>This document serves as an official electronic receipt of tax payment execution processed under Pasay City local regulatory laws.</p>
-                            <p>Secure digital signature verification fingerprint: 9f7d8c5c4a2e1fa0dfc6b1a5f6e5d2c</p>
-                        </div>
-                    </div>
+                    <!-- Populated by renderReceipt() -->
+                    <div class="receipt-card card" id="receipt-content"></div>
 
                 </div>
 
@@ -481,7 +390,8 @@
                                     </div>
                                     <div class="form-group flex-1">
                                         <label>Assessment Period / Fiscal Year</label>
-                                        <input type="text" class="form-control" value="Annual Declaration - 2024" readonly>
+                                        <!-- Populated by populatePeriodOptions() -->
+                                        <select id="app-period" class="form-control"></select>
                                     </div>
                                 </div>
                             </div>
@@ -559,7 +469,6 @@
                 </div>
 
             </main>
-<<<<<<< HEAD
 
             <!-- ===================== AI PANEL ===================== -->
             <aside class="ai-panel hidden" id="ai-chat-panel">
@@ -589,8 +498,6 @@
                 </div>
             </aside>
 
-=======
->>>>>>> f37956f4c209bf7aa0d15bdbe1fe04b6b1d54791
         </div>
 
         <!-- ===================== SIDEBAR ===================== -->
