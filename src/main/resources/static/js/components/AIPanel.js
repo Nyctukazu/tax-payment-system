@@ -30,7 +30,7 @@ class AIPanel extends HTMLElement {
                 </div>
                 <div class="messages-container" id="msgContainer"></div>
                 <div class="input-area">
-                    <input type="text" id="chatInput" placeholder="Type a message..." autocomplete="off">
+                    <input type="text" id="chatInput" placeholder="Type a message..." autocomplete="off" maxlength="1000">
                     <button class="global-btn" id="sendBtn">Send</button>
                 </div>
             </div>
