@@ -137,7 +137,7 @@ class AIPanel extends HTMLElement {
         const loadingDiv = this.addLoadingIndicator();
 
         try {
-            const BACKEND_URL = 'http://localhost:8080/api/ai/chat';
+            const BACKEND_URL = '/api/ai/chat';
             const response = await fetch(BACKEND_URL, {
                 method: 'POST',
                 headers: {
