@@ -143,7 +143,7 @@ class AIPanel extends HTMLElement {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ message: text }) // Matches ChatRequest(String message)
+                body: JSON.stringify({ message: text })
             });
 
             if (loadingDiv) loadingDiv.remove();

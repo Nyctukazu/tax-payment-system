@@ -5,17 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PasayBiz Portal - Dashboard</title>
     <link rel="stylesheet" href="/css/client/client-dashboard.css">
+    <link rel="stylesheet" href="/css/components/AIStyles.css">
+    <link rel="stylesheet" href="/css/components/components.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script type="module" src="js/services/client-dashboard.js" defer></script>
+    <script type="module" src="/js/services/client-dashboard.js" defer></script>
 </head>
 <body class="pageClientDashboard">
     <app-header></app-header>
     <app-sidebar></app-sidebar>
     <ai-panel></ai-panel>
     
+    
+
     <div class="dashboard-container">     
         <div class="workspace-wrapper">          
             <main class="workspace">   
+                <h1 id="welcome-message">Loading...</h1>
                 <!--
                 <div id="view-dashboard" class="content-view">
 
@@ -621,38 +626,11 @@
 
             </main>
 
-            <!-- ===================== AI PANEL ===================== -->
-            <aside class="ai-panel hidden" id="ai-chat-panel">
-                <div class="ai-header">
-                    <div>
-                        <h4>Embedded AI Assistant Pop-Out</h4>
-                        <span class="ai-version">Ollama AI Assistant</span>
-                    </div>
-                    <button class="close-panel-btn" id="close-ai-btn" type="button"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-                <div class="ai-chat-body" id="chat-stream">
-                    <div class="chat-intro">
-                        <p><strong><i class="fa-solid fa-robot"></i> PasayBiz AI Assistant</strong></p>
-                        <p class="subtitle">How can I help you today with your Pasay local taxes?</p>
-                    </div>
-                    <div class="chat-bubble user-msg">
-                        Calculate tax for 1M PHP gross revenue retail store in Pasay City
-                    </div>
-                    <div class="chat-bubble bot-msg">
-                        Based on the 2024 Revenue Code for a Retail Store in Pasay City with ₱1M gross revenue, the estimated annual tax is approximately ₱15,200. <a href="#">[Link]</a>
-                    </div>
-                    <p class="follow-up-prompt" id="ai-status-prompt">How can I assist further?</p>
-                </div>
-                <div class="ai-footer">
-                    <input type="text" placeholder="Ask PasayBiz AI..." class="ai-input" id="ai-input-field">
-                    <button class="ai-send-btn" type="button" id="ai-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
-                </div>
-            </aside>
 
         </div>
 
     </div>
 
-    <script src="dashboard.js"></script>
+    <script src="js/services/dashboard.js"></script>
 </body>
 </html>

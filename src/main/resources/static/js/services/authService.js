@@ -9,6 +9,7 @@ export async function loginWithBackend(email, password) {
 
     try {
         const data = await postJson(apiUrl, loginPayload);
+        localStorage.setItem("currentUser", JSON.stringify(data)); 
         return { success: true, user: data };
 
     } catch (error) {

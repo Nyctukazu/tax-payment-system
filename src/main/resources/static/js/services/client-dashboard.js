@@ -1,3 +1,7 @@
+import { initClientHeader } from "../components/AppHeader.js";
+import { initClientSidebar } from "../components/AppSidebar.js";
+import { initAIPanel } from "../components/AIPanel.js";
+
 /* =========================================================
    PasayBiz Portal — client-dashboard.js
    Fully dynamic: Portfolio, Returns, Assessments, Payment
@@ -356,7 +360,6 @@ function loadStore() {
     if (raw) {
         try {
             const data = JSON.parse(raw);
-            // Ensure lastViewedReceiptId exists
             if (!data.lastViewedReceiptId && data.payments && data.payments.length > 0) {
                 data.lastViewedReceiptId = data.payments[0].id;
             }
@@ -407,9 +410,6 @@ function showSaveIndicator(success) {
 
 let DB = loadStore();
 
-/* =========================================================
-   4) HELPERS
-   ========================================================= */
 function peso(n) {
     if (n == null) return '--';
     return '₱' + Number(n).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -2034,46 +2034,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.receipt-alert-bar .btn-secondary:nth-child(2)')?.addEventListener('click', () => downloadReceiptPdf(null));
 
     showView('dashboard');
+    initClientHeader();
+    initClientSidebar();
+    initAIPanel();
 });
-
-/* =========================================================
-   20) AI CHAT
-   ========================================================= */
-function handleAIChat() {
-    const input = document.getElementById('ai-input-field');
-    const body = document.getElementById('chat-stream');
-    const status = document.getElementById('ai-status-prompt');
-    if (!input || !body) return;
-    const msg = input.value.trim();
-    if (!msg) return;
-    input.value = '';
-
-    const userBubble = document.createElement('div');
-    userBubble.className = 'chat-bubble user-msg';
-    userBubble.textContent = msg;
-    body.insertBefore(userBubble, status);
-
-    let reply = '';
-    const lower = msg.toLowerCase();
-    if (lower.includes('tax') && lower.includes('retail')) {
-        reply = `For a retail store in Pasay City, the local business tax rate is ${describeTaxBrackets()}, plus a ${peso(CONFIG.fees.regulatory.amount)} regulatory fee.`;
-    } else if (lower.includes('deadline') || lower.includes('due')) {
-        const active = getActiveAssessments().sort((a,b) => new Date(a.deadline)-new Date(b.deadline));
-        reply = active[0] ? `Your next deadline is ${fmtDate(active[0].deadline)} for ${getBiz(active[0].bizId)?.name} — ${peso(active[0].amountDue)} due.` : 'You have no upcoming deadlines.';
-    } else if (lower.includes('outstanding') || lower.includes('balance')) {
-        const total = getActiveAssessments().reduce((s,a)=>s+a.amountDue,0);
-        reply = `Your total outstanding balance is ${peso(total)} across ${getActiveAssessments().length} active assessments.`;
-    } else if (lower.includes('mayor') || lower.includes('permit')) {
-        reply = "Mayor's Permit renewals are due every January. You can file via the portal under 'File Assessment' or visit the Pasay City Business Permits and Licensing Office.";
-    } else if (lower.includes('business') && lower.includes('register')) {
-        reply = "To register a new business, click 'Register New Business Entity' in the Business Portfolio view.";
-    } else {
-        reply = `I can help with tax calculations, deadlines, assessment status, and filing procedures for Pasay City. Your query: "${msg}" — could you clarify what you need?`;
-    }
-
-    const botBubble = document.createElement('div');
-    botBubble.className = 'chat-bubble bot-msg';
-    botBubble.textContent = reply;
-    body.insertBefore(botBubble, status);
-    body.scrollTop = body.scrollHeight;
-}

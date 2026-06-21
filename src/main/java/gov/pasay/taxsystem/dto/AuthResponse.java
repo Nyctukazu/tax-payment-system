@@ -4,5 +4,6 @@ public record AuthResponse (
     String message,
     String role,
     String displayName,
-    String adminClass
+    String adminClass,
+    String token
 ) {}

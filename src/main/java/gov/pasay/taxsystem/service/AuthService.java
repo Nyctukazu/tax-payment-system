@@ -1,9 +1,11 @@
 package gov.pasay.taxsystem.service;
 
 import gov.pasay.taxsystem.repository.UserRepository;
+import gov.pasay.taxsystem.repository.UserSessionRepository;
 import gov.pasay.taxsystem.model.entity.TaxpayerModel;
 import gov.pasay.taxsystem.model.entity.AdminModel;
 import gov.pasay.taxsystem.model.entity.User;
+import gov.pasay.taxsystem.model.entity.UserSession;
 import gov.pasay.taxsystem.dto.AuthResponse;
 import gov.pasay.taxsystem.dto.RegisterRequest;
 
@@ -24,6 +26,10 @@ public class AuthService {
     @Autowired
     private UserRepository userRepo; 
 
+    @Autowired
+    private UserSessionRepository userSessionRepo;
+
+    @Transactional
     public Optional<AuthResponse> login(String email, String inputRawPassword) {
         Optional<User> userOpt = userRepo.findByEmail(email);
 
@@ -32,6 +38,10 @@ public class AuthService {
         }
 
         User matchedUser = userOpt.get();
+        String token = UUID.randomUUID().toString();
+        String userRole = (matchedUser instanceof AdminModel) ? "ADMIN" : "TAXPAYER";
+        UserSession session = new UserSession(token, matchedUser.getEmail(), userRole);
+        userSessionRepo.saveAndFlush(session);
         AuthResponse response;
         
         if (matchedUser instanceof AdminModel admin) {
@@ -39,14 +49,16 @@ public class AuthService {
                 "Welcome Admin!",
                 "ADMIN",
                 admin.getFirstName(), 
-                admin.getAdminClass() != null ? admin.getAdminClass().name() : null
+                admin.getAdminClass() != null ? admin.getAdminClass().name() : null,
+                token
             );
         } else if (matchedUser instanceof TaxpayerModel taxpayer) {
             response = new AuthResponse(
                 "Welcome Client!",
                 "TAXPAYER",
                 taxpayer.getFirstName(),
-                null           
+                null,
+                token
             );
         } else {
             return Optional.empty();
@@ -96,33 +108,49 @@ public class AuthService {
     }
 
     @Transactional
-    public Optional<User> loginOrRegisterGoogleUser(String email, String name) {
+    public Optional<AuthResponse> loginOrRegisterGoogleUser(String email, String name) {
         Optional<User> existingUser = userRepo.findByEmail(email);
+        User userToAuthenticate;
+
         if (existingUser.isPresent()) {
-            return existingUser;
-        }
+            userToAuthenticate = existingUser.get();
+        } else {
 
-        try {
-            TaxpayerModel newTaxpayer = new TaxpayerModel();
-            newTaxpayer.setEmail(email);
-            newTaxpayer.setOwnerTin("GOOGLE_AUTH");
-            newTaxpayer.setMobileNumber(""); 
-            
-            if (name != null && name.contains(" ")) {
-                String[] nameParts = name.split(" ", 2);
-                newTaxpayer.setFirstName(nameParts[0]);
-                newTaxpayer.setLastName(nameParts[1]);
-            } else {
-                newTaxpayer.setFirstName(name != null ? name : "Citizen");
-                newTaxpayer.setLastName("");
+            try {
+                TaxpayerModel newTaxpayer = new TaxpayerModel();
+                newTaxpayer.setEmail(email);
+                newTaxpayer.setOwnerTin("GOOGLE_AUTH");
+                newTaxpayer.setMobileNumber(""); 
+                
+                if (name != null && name.contains(" ")) {
+                    String[] nameParts = name.split(" ", 2);
+                    newTaxpayer.setFirstName(nameParts[0]);
+                    newTaxpayer.setLastName(nameParts[1]);
+                } else {
+                    newTaxpayer.setFirstName(name != null ? name : "Citizen");
+                    newTaxpayer.setLastName("");
+                }
+                newTaxpayer.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
+                userToAuthenticate = userRepo.save(newTaxpayer);
+                
+            } catch (Exception e) {
+                throw new RuntimeException("Critical failure processing Google auto-registration: " + e.getMessage(), e);
             }
-            newTaxpayer.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
-
-            User savedUser = userRepo.save(newTaxpayer);
-            return Optional.of(savedUser);
-            
-        } catch (Exception e) {
-            throw new RuntimeException("Critical failure processing Google auto-registration: " + e.getMessage(), e);
         }
+
+        String token = UUID.randomUUID().toString();
+
+        UserSession googleSession = new UserSession(token, userToAuthenticate.getEmail(), "TAXPAYER");
+        userSessionRepo.saveAndFlush(googleSession);
+
+        AuthResponse response = new AuthResponse(
+            "Google Authentication Successful",
+            "TAXPAYER",
+            userToAuthenticate.getFirstName(),
+            null,
+            token
+        );
+
+        return Optional.of(response);
     }
 }

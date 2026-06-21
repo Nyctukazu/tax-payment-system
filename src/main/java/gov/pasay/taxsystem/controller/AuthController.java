@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
@@ -106,4 +107,16 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing Google Authentication.");
         }
     }
+
+
+    @GetMapping("/user/profile")
+    public ResponseEntity<?> getUserProfile() {
+        Map<String, String> profileData = new HashMap<>();
+        profileData.put("name", "Pasay Taxpayer");
+        profileData.put("status", "Active");
+        profileData.put("message", "Your security token is working perfectly!");
+        
+        return ResponseEntity.ok(profileData);
+    }
+
 }
