@@ -6,18 +6,17 @@
     <title>PasayBiz Portal - Dashboard</title>
     <link rel="stylesheet" href="/css/client/client-dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="js/services/client-dashboard.js" defer></script>
+    <script src="/js/services/client-dashboard.js" defer></script>
 </head>
 <body>
 
     <header class="top-navbar">
         <div class="navbar-left">
-            <span class="portal-logo-text">PasayBiz Portal</span>
+            <a href="/portal" class="portal-logo-text" style="text-decoration:none;color:inherit;">PasayBiz Portal</a>
         </div>
         <div class="navbar-right">
-            <button class="nav-icon-btn"><i class="fa-solid fa-house"></i></button>
-            <button class="nav-icon-btn"><i class="fa-solid fa-circle-info"></i></button>
-            <button class="nav-icon-btn"><i class="fa-solid fa-phone"></i></button>
+            <button class="nav-icon-btn" id="info-btn" type="button" title="What you can do here"><i class="fa-solid fa-circle-info"></i></button>
+            <button class="nav-icon-btn" id="contact-btn" type="button" title="Contact us"><i class="fa-solid fa-phone"></i></button>
             <button class="nav-icon-btn" id="menu-toggle-btn" type="button"><i class="fa-solid fa-bars"></i></button>
         </div>
     </header>
@@ -305,17 +304,7 @@
                 <div id="view-settings" class="content-view hidden">
                     <div class="settings-layout">
 
-                        <div class="settings-sidebar">
-                            <nav class="settings-nav">
-                                <a href="#" class="settings-nav-item active"><i class="fa-regular fa-user"></i> Account Profile</a>
-                                <a href="#" class="settings-nav-item"><i class="fa-regular fa-id-card"></i> Tax Credentials</a>
-                                <a href="#" class="settings-nav-item"><i class="fa-regular fa-bell"></i> Notifications</a>
-                                <a href="#" class="settings-nav-item"><i class="fa-solid fa-shield-halved"></i> Security &amp; Privacy</a>
-                                <a href="#" class="settings-nav-item"><i class="fa-solid fa-code"></i> API Access</a>
-                            </nav>
-                        </div>
-
-                        <div class="settings-content">
+                        <div class="settings-content" style="width:100%;">
 
                             <section class="card">
                                 <h3>Account Profile Information</h3>
@@ -324,6 +313,7 @@
                                     <div class="form-group">
                                         <label>Authorized Representative Full Name</label>
                                         <input type="text" id="set-name" class="form-control" maxlength="50" value="Juan Dela Cruz">
+                                        <span class="char-counter" id="counter-set-name" style="font-size:0.7rem;color:var(--text-muted);float:right;"></span>
                                         <span class="error-text hidden" id="err-set-name">Please enter a valid full name.</span>
                                     </div>
                                     <div class="form-group">
@@ -347,7 +337,7 @@
                             </section>
 
                             <section class="card">
-                                <h3>Tax Portal System Preferences</h3>
+                                <h3>Notifications &amp; System Preferences</h3>
                                 <p class="subtitle">Configure automated workflows, notifications, and ledger processing styles.</p>
                                 <!-- Populated by renderSettingsToggles() -->
                                 <div class="settings-list" id="settings-toggles"></div>
@@ -359,14 +349,14 @@
                                 <div class="danger-zone-action">
                                     <div class="item-text">
                                         <h4>Deactivate Local Tax Profile</h4>
-                                        <p>Temporarily unlink your corporate assets and portfolio tracking details from the unified municipal view.</p>
+                                        <p>Archives all of your registered businesses and removes them from your active portfolio. Your payment history and records are kept and can be restored later.</p>
                                     </div>
-                                    <button class="btn btn-danger-outline">Unlink Profile</button>
+                                    <button class="btn btn-danger-outline" id="btn-unlink-profile">Unlink Profile</button>
                                 </div>
                             </section>
 
                             <div class="settings-actions-footer">
-                                <button class="btn btn-ghost">Cancel changes</button>
+                                <button class="btn btn-ghost" id="btn-cancel-settings">Cancel changes</button>
                                 <button id="btn-save-settings" class="btn btn-green">Save Settings</button>
                             </div>
 
@@ -414,6 +404,7 @@
                                     <label>Detailed Nature of Business Operations Description</label>
                                     <input type="text" id="app-desc" class="form-control" maxlength="500"
                                            value="Cafeteria and restaurant retail operations selling coffee, pastries, and meals.">
+                                    <span class="char-counter" id="counter-app-desc" style="font-size:0.7rem;color:var(--text-muted);float:right;"></span>
                                     <span class="error-text hidden" id="err-app-desc">Please provide a detailed description (min 10 chars).</span>
                                 </div>
                             </div>

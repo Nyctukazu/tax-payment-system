@@ -64,16 +64,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return emailRegex.test(val.trim());
     },
     mobileNumber: (val) => {
-      if (!val.trim()) return true; 
+      if (!val.trim()) return true;
       const containsSymbols = /[^0-9]/.test(val);
       if (containsSymbols) return false;
-      return val.length === 10; 
+      // Accept either the local 11-digit format with leading 0 (e.g. 09123456789,
+      // matching the field's placeholder) or the bare 10-digit subscriber number.
+      return val.length === 10 || (val.length === 11 && val.startsWith('0'));
     },
     password: (val) => {
-      return val.length >= 11 && 
-             /[A-Z]/.test(val) && 
-             /[\W_]/.test(val) && 
-             /\d/.test(val);
+      return val.length >= 12 &&
+             (val.match(/[A-Z]/g) || []).length >= 1 &&
+             (val.match(/[\W_]/g) || []).length >= 3 &&
+             (val.match(/\d/g) || []).length >= 2;
     },
     confirmPassword: (val) => {
       return val === fields.password.value && val.length > 0;

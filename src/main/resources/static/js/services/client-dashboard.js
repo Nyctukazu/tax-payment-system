@@ -26,6 +26,14 @@ const CONFIG = {
         officeHours: 'Monday–Friday, 8:00 AM – 5:00 PM',
     },
 
+    supportContact: {
+        generalEmail: 'support@pasaybiz.gov.ph',
+        generalPhone: '(02) 8551-2345',
+        hotline: '8888 (Pasay City Hotline)',
+        officeHours: 'Monday–Friday, 8:00 AM – 5:00 PM',
+        address: 'Pasay City Hall, F.B. Harrison St., Pasay City, Metro Manila',
+    },
+
     taxBrackets: [
         { minTaxable: 5000000, rate: 0.0200, label: '2.00%' },
         { minTaxable: 2000000, rate: 0.0175, label: '1.75%' },
@@ -55,6 +63,10 @@ const CONFIG = {
         grossSalesMax: 1000000000, // ₱1 billion ceiling — same scale as the filing form
     },
 
+    // Minimal illustrative list — a production system would use a maintained
+    // word list or third-party moderation API instead of a hardcoded array.
+    blockedWords: ['fuck', 'shit', 'bitch', 'asshole', 'bastard'],
+
     businessTypes: [
         'Food & Beverage', 'Retail', 'IT Services', 'Health & Wellness',
         'Real Estate', 'Manufacturing', 'Professional Services',
@@ -67,6 +79,12 @@ const CONFIG = {
         'Counter Payment',
         'GCash / Maya',
     ],
+
+    fileUpload: {
+        maxSizeBytes: 5 * 1024 * 1024, // 5 MB
+        allowedMimeTypes: ['application/pdf', 'image/jpeg', 'image/png'],
+        allowedExtensions: ['.pdf', '.jpg', '.jpeg', '.png'],
+    },
 
     activeStatuses: ['Assessment Received', 'Pending Review', 'Overdue'],
 
@@ -420,6 +438,63 @@ function nowTs() {
     return new Date().toISOString().replace('T', ' ').slice(0, 16);
 }
 
+/* Attaches a live "X / max" character counter to an input/textarea.
+   Turns red and near the limit as a soft warning, consistent with the
+   "live counter shown; block submit if exceeded" pattern used app-wide. */
+function attachCharCounter(inputId, counterId, maxLength) {
+    const input = document.getElementById(inputId);
+    const counter = document.getElementById(counterId);
+    if (!input || !counter) return;
+
+    const update = () => {
+        const len = input.value.length;
+        counter.textContent = `${len} / ${maxLength}`;
+        counter.style.color = len >= maxLength ? '#EF4444' : (len >= maxLength * 0.9 ? '#F59E0B' : 'var(--text-muted)');
+    };
+    input.addEventListener('input', update);
+    update();
+}
+
+/* Disables a button and swaps in a spinner for the duration of `action`.
+   Re-enables the button only if `action` throws/returns false — on success
+   the button should usually stay disabled because the view changes anyway. */
+function withSubmitLock(btn, action) {
+    if (!btn || btn.disabled) return;
+    const originalHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+
+    let result;
+    try {
+        result = action();
+    } catch (err) {
+        console.error('Action failed:', err);
+        btn.disabled = false;
+        btn.innerHTML = originalHTML;
+        return;
+    }
+
+    if (result === false) {
+        btn.disabled = false;
+        btn.innerHTML = originalHTML;
+    } else {
+        // Re-enable shortly after so the button isn't permanently stuck
+        // if the user navigates back to this same view/form.
+        setTimeout(() => { btn.disabled = false; btn.innerHTML = originalHTML; }, 1200);
+    }
+}
+
+function containsProfanity(text) {
+    const lower = text.toLowerCase();
+    return CONFIG.blockedWords.some(w => lower.includes(w));
+}
+
+/* Returns true (valid) only if the trimmed value is non-empty and at
+   least minLength characters — whitespace-only input is treated as empty. */
+function isNonEmptyTrimmed(value, minLength = 1) {
+    return !!value && value.trim().length >= minLength;
+}
+
 function calcTax(gross, exempt) {
     const taxable = Math.max(0, gross - exempt);
     const bracket = CONFIG.taxBrackets.find(b => taxable > b.minTaxable) || CONFIG.taxBrackets[CONFIG.taxBrackets.length - 1];
@@ -647,6 +722,7 @@ function registerNewBusiness() {
         <div style="display:flex;flex-direction:column;gap:16px;">
             <label style="${labelStyle}">Business Name
                 <input type="text" id="nb-name" maxlength="${v.nameMaxLength}" style="${fieldStyle}" placeholder="e.g., Sunshine Bakery">
+                <span id="counter-nb-name" style="font-size:0.7rem;color:var(--text-muted);float:right;"></span>
                 <span id="nb-err-name" style="${errStyle}display:none;"></span>
             </label>
             <label style="${labelStyle}">Business Type
@@ -658,6 +734,7 @@ function registerNewBusiness() {
             </label>
             <label style="${labelStyle}">Registered Address
                 <input type="text" id="nb-address" maxlength="${v.addressMaxLength}" style="${fieldStyle}" placeholder="e.g., 123 Roxas Blvd., Pasay City">
+                <span id="counter-nb-address" style="font-size:0.7rem;color:var(--text-muted);float:right;"></span>
                 <span id="nb-err-address" style="${errStyle}display:none;"></span>
             </label>
             <label style="${labelStyle}">Annual Gross Sales (PHP)
@@ -672,6 +749,8 @@ function registerNewBusiness() {
 
     overlay.appendChild(dialog);
     document.body.appendChild(overlay);
+    attachCharCounter('nb-name', 'counter-nb-name', v.nameMaxLength);
+    attachCharCounter('nb-address', 'counter-nb-address', v.addressMaxLength);
 
     const closeDialog = () => { overlay.style.opacity = '0'; overlay.style.transition = 'opacity 0.2s'; setTimeout(() => overlay.remove(), 200); };
     dialog.querySelector('#close-newbiz-dialog').onclick = closeDialog;
@@ -686,7 +765,8 @@ function registerNewBusiness() {
         return !msg;
     };
 
-    dialog.querySelector('#nb-submit').onclick = () => {
+    const nbSubmitBtn = dialog.querySelector('#nb-submit');
+    nbSubmitBtn.onclick = () => withSubmitLock(nbSubmitBtn, () => {
         const name = dialog.querySelector('#nb-name').value.trim();
         const type = dialog.querySelector('#nb-type').value;
         const address = dialog.querySelector('#nb-address').value.trim();
@@ -697,6 +777,8 @@ function registerNewBusiness() {
         if (!name) ok = showFieldError('name', 'Business name is required.') && ok;
         else if (name.length < v.nameMinLength) ok = showFieldError('name', `Must be at least ${v.nameMinLength} characters.`) && ok;
         else if (!v.namePattern.test(name)) ok = showFieldError('name', 'Only letters, numbers, and basic punctuation (. , \' & -) are allowed.') && ok;
+        else if (containsProfanity(name)) ok = showFieldError('name', 'Business name contains inappropriate language.') && ok;
+        else if (DB.businesses.some(b => b.name.toLowerCase() === name.toLowerCase())) ok = showFieldError('name', 'A business with this name is already registered.') && ok;
         else ok = showFieldError('name', null) && ok;
 
         if (!type) ok = showFieldError('type', 'Please select a business type.') && ok;
@@ -711,7 +793,7 @@ function registerNewBusiness() {
         else if (gross > v.grossSalesMax) ok = showFieldError('gross', `Must not exceed ${peso(v.grossSalesMax)}.`) && ok;
         else ok = showFieldError('gross', null) && ok;
 
-        if (!ok) return;
+        if (!ok) return false;
 
         const icons = CONFIG.businessIcons;
         const newBiz = {
@@ -737,7 +819,7 @@ function registerNewBusiness() {
         if (document.getElementById('view-portfolio').classList.contains('hidden') === false) renderPortfolioAssets();
 
         toast(`"${newBiz.name}" registered successfully. Tax ID: ${newBiz.taxId}`);
-    };
+    });
 }
 
 /* =========================================================
@@ -794,6 +876,93 @@ function applyForMayorsPermit() {
 /* =========================================================
    9) CONTACT ASSESSOR
    ========================================================= */
+function showPortalInfo() {
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:10000;display:flex;align-items:center;justify-content:center;';
+
+    const dialog = document.createElement('div');
+    dialog.style.cssText = 'background:var(--bg-dark-cards,#1A2332);border:1px solid var(--border-color,#2D3A4F);border-radius:12px;padding:32px;max-width:520px;width:90%;max-height:80vh;overflow-y:auto;color:var(--text-primary,#FFFFFF);box-shadow:0 20px 60px rgba(0,0,0,0.5);';
+
+    const items = [
+        { icon: 'fa-building', text: 'Register and manage multiple business entities under one account.' },
+        { icon: 'fa-file-pen', text: 'File annual or quarterly tax assessments and track their status.' },
+        { icon: 'fa-credit-card', text: 'Pay outstanding assessments and Mayor\'s Permit fees online.' },
+        { icon: 'fa-receipt', text: 'View, print, and download official receipts for every payment.' },
+        { icon: 'fa-clock-rotate-left', text: 'Browse your full payment history and audit trail at any time.' },
+        { icon: 'fa-gear', text: 'Update your contact details and notification preferences in Settings.' },
+    ];
+
+    dialog.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:20px;">
+            <h3 style="margin:0;font-size:1.15rem;"><i class="fa-solid fa-circle-info" style="color:var(--accent-blue);"></i> What You Can Do Here</h3>
+            <button id="close-info-dialog" style="background:none;border:none;color:var(--text-muted);font-size:1.2rem;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+            ${items.map(item => `
+                <div style="display:flex;align-items:start;gap:12px;">
+                    <div style="width:32px;height:32px;flex-shrink:0;background:rgba(30,102,245,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;">
+                        <i class="fa-solid ${item.icon}" style="color:var(--accent-blue);font-size:0.85rem;"></i>
+                    </div>
+                    <p style="margin:6px 0 0 0;font-size:0.85rem;color:var(--text-primary);">${item.text}</p>
+                </div>`).join('')}
+        </div>
+        <button id="btn-close-info" class="btn btn-secondary btn-block" style="margin-top:24px;">Got it</button>`;
+
+    overlay.appendChild(dialog);
+    document.body.appendChild(overlay);
+
+    const closeDialog = () => { overlay.style.opacity = '0'; overlay.style.transition = 'opacity 0.2s'; setTimeout(() => overlay.remove(), 200); };
+    dialog.querySelector('#close-info-dialog').onclick = closeDialog;
+    dialog.querySelector('#btn-close-info').onclick = closeDialog;
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeDialog(); });
+}
+
+function showContactInfo() {
+    const c = CONFIG.supportContact;
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:10000;display:flex;align-items:center;justify-content:center;';
+
+    const dialog = document.createElement('div');
+    dialog.style.cssText = 'background:var(--bg-dark-cards,#1A2332);border:1px solid var(--border-color,#2D3A4F);border-radius:12px;padding:32px;max-width:480px;width:90%;color:var(--text-primary,#FFFFFF);box-shadow:0 20px 60px rgba(0,0,0,0.5);';
+
+    dialog.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:20px;">
+            <h3 style="margin:0;font-size:1.15rem;"><i class="fa-solid fa-phone" style="color:var(--accent-green);"></i> Contact Us</h3>
+            <button id="close-portalcontact-dialog" style="background:none;border:none;color:var(--text-muted);font-size:1.2rem;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.02);border-radius:6px;">
+                <i class="fa-solid fa-envelope" style="color:var(--accent-blue);width:18px;"></i>
+                <span style="font-size:0.85rem;">${c.generalEmail}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.02);border-radius:6px;">
+                <i class="fa-solid fa-phone" style="color:var(--accent-green);width:18px;"></i>
+                <span style="font-size:0.85rem;">${c.generalPhone}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.02);border-radius:6px;">
+                <i class="fa-solid fa-headset" style="color:var(--accent-amber,#F59E0B);width:18px;"></i>
+                <span style="font-size:0.85rem;">${c.hotline}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.02);border-radius:6px;">
+                <i class="fa-regular fa-clock" style="color:var(--text-muted);width:18px;"></i>
+                <span style="font-size:0.85rem;">${c.officeHours}</span>
+            </div>
+            <div style="display:flex;align-items:start;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.02);border-radius:6px;">
+                <i class="fa-solid fa-location-dot" style="color:var(--text-muted);width:18px;margin-top:2px;"></i>
+                <span style="font-size:0.85rem;">${c.address}</span>
+            </div>
+        </div>
+        <button id="btn-close-portalcontact" class="btn btn-secondary btn-block" style="margin-top:20px;">Close</button>`;
+
+    overlay.appendChild(dialog);
+    document.body.appendChild(overlay);
+
+    const closeDialog = () => { overlay.style.opacity = '0'; overlay.style.transition = 'opacity 0.2s'; setTimeout(() => overlay.remove(), 200); };
+    dialog.querySelector('#close-portalcontact-dialog').onclick = closeDialog;
+    dialog.querySelector('#btn-close-portalcontact').onclick = closeDialog;
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeDialog(); });
+}
+
 function contactAssessor() {
     const contact = CONFIG.assessorContact;
     const overlay = document.createElement('div');
@@ -944,16 +1113,51 @@ function fileReturnForBiz(bizId) {
 function editBusiness(bizId) {
     const b = getBiz(bizId);
     if (!b) return;
+    const v = CONFIG.newBusinessValidation;
+
     const name = prompt('Business Name:', b.name);
     if (name === null) return;
+    const trimmedName = name.trim();
+    if (trimmedName.length < v.nameMinLength || trimmedName.length > v.nameMaxLength) {
+        alert(`Business name must be ${v.nameMinLength}–${v.nameMaxLength} characters.`);
+        return;
+    }
+    if (!v.namePattern.test(trimmedName)) {
+        alert("Business name can only contain letters, numbers, and basic punctuation (. , ' & -).");
+        return;
+    }
+    if (containsProfanity(trimmedName)) {
+        alert('Business name contains inappropriate language. Please revise.');
+        return;
+    }
+    if (DB.businesses.some(other => other.id !== b.id && other.name.toLowerCase() === trimmedName.toLowerCase())) {
+        alert('Another business with this name is already registered.');
+        return;
+    }
+
     const type = prompt('Business Type:', b.type);
     if (type === null) return;
+    const trimmedType = type.trim();
+    if (!isNonEmptyTrimmed(trimmedType, v.typeMinLength)) {
+        alert(`Business type must be at least ${v.typeMinLength} characters.`);
+        return;
+    }
+
     const address = prompt('Registered Address:', b.address);
     if (address === null) return;
-    b.name = name.trim() || b.name;
-    b.type = type.trim() || b.type;
-    b.address = address.trim() || b.address;
-    saveStore(DB);
+    const trimmedAddress = address.trim();
+    if (trimmedAddress.length < v.addressMinLength || trimmedAddress.length > v.addressMaxLength) {
+        alert(`Address must be ${v.addressMinLength}–${v.addressMaxLength} characters.`);
+        return;
+    }
+    if (containsProfanity(trimmedAddress)) {
+        alert('Address contains inappropriate language. Please revise.');
+        return;
+    }
+
+    b.name = trimmedName;
+    b.type = trimmedType;
+    b.address = trimmedAddress;
     DB.auditLogs.unshift({ ts: nowTs(), ref: b.id, bizId: b.id, action: 'Business Details Updated', amount: null, status: 'Success' });
     saveStore(DB);
     renderPortfolioAssets();
@@ -1134,10 +1338,15 @@ function handlePayNow(asmtId) {
     const asmt = DB.assessments.find(a => a.id === asmtId);
     if (!asmt) return;
     const biz = getBiz(asmt.bizId);
+
+    const triggerBtn = event?.currentTarget;
+    if (triggerBtn) { if (triggerBtn.disabled) return; triggerBtn.disabled = true; }
+    const reEnable = () => { if (triggerBtn) triggerBtn.disabled = false; };
+
     const modeOptions = CONFIG.paymentModes;
     const choice = parseInt(prompt(`Select payment mode:\n${modeOptions.map((m, i) => `${i + 1}. ${m}`).join('\n')}\n\nEnter number (1-${modeOptions.length}):`)) || 1;
     const mode = modeOptions[Math.min(Math.max(choice - 1, 0), modeOptions.length - 1)];
-    if (!confirm(`Confirm payment of ${peso(asmt.amountDue)} for "${biz.name}" via ${mode}?`)) return;
+    if (!confirm(`Confirm payment of ${peso(asmt.amountDue)} for "${biz.name}" via ${mode}?`)) { reEnable(); return; }
 
     const orId = genOR();
     const fee = CONFIG.fees.regulatory.amount;
@@ -1583,6 +1792,7 @@ function renderCreateApp() {
     }
 
     populatePeriodOptions();
+    attachCharCounter('app-desc', 'counter-app-desc', 500);
 
     const gross = document.getElementById('app-gross');
     const exempt = document.getElementById('app-exempt');
@@ -1591,21 +1801,52 @@ function renderCreateApp() {
     updateCalc();
 
     const btn = document.getElementById('btn-submit-app');
-    if (btn) btn.onclick = submitApplication;
+    if (btn) btn.onclick = () => withSubmitLock(btn, submitApplication);
 
     const dz = document.getElementById('app-dropzone');
     if (dz) {
         dz.addEventListener('click', () => {
             const input = document.createElement('input');
             input.type = 'file';
-            input.accept = '.pdf,.jpg,.jpeg,.png';
+            input.accept = CONFIG.fileUpload.allowedExtensions.join(',');
             input.onchange = (e) => {
-                if (e.target.files[0]) {
-                    document.getElementById('dropzone-text').textContent = '✓ ' + e.target.files[0].name;
-                    dz.classList.add('has-file');
-                    dz.classList.remove('input-error');
-                    document.getElementById('err-app-dropzone').classList.add('hidden');
+                const file = e.target.files[0];
+                const errEl = document.getElementById('err-app-dropzone');
+                if (!file) return;
+
+                const ext = '.' + file.name.split('.').pop().toLowerCase();
+                const validExt = CONFIG.fileUpload.allowedExtensions.includes(ext);
+                // Browsers don't always populate file.type reliably for all OSes,
+                // so we check both the extension and, when available, the real
+                // MIME type reported by the browser.
+                const validMime = !file.type || CONFIG.fileUpload.allowedMimeTypes.includes(file.type);
+
+                if (!validExt || !validMime) {
+                    errEl.textContent = `Unsupported file type. Please upload a ${CONFIG.fileUpload.allowedExtensions.join(', ')} file.`;
+                    errEl.classList.remove('hidden');
+                    dz.classList.add('input-error');
+                    dz.classList.remove('has-file');
+                    document.getElementById('dropzone-text').textContent = 'Drag and drop corporate financial documents here';
+                    input.value = '';
+                    return;
                 }
+
+                if (file.size > CONFIG.fileUpload.maxSizeBytes) {
+                    const maxMb = (CONFIG.fileUpload.maxSizeBytes / (1024 * 1024)).toFixed(0);
+                    errEl.textContent = `File is too large (${(file.size / (1024 * 1024)).toFixed(1)} MB). Maximum allowed size is ${maxMb} MB.`;
+                    errEl.classList.remove('hidden');
+                    dz.classList.add('input-error');
+                    dz.classList.remove('has-file');
+                    document.getElementById('dropzone-text').textContent = 'Drag and drop corporate financial documents here';
+                    input.value = '';
+                    return;
+                }
+
+                document.getElementById('dropzone-text').textContent = '✓ ' + file.name + ` (${(file.size / 1024).toFixed(0)} KB)`;
+                dz.classList.add('has-file');
+                dz.classList.remove('input-error');
+                errEl.classList.add('hidden');
+                dz.dataset.fileName = file.name;
             };
             input.click();
         });
@@ -1635,10 +1876,11 @@ function submitApplication() {
     else { document.getElementById('err-app-gross')?.classList.add('hidden'); document.getElementById('app-gross')?.classList.remove('input-error'); }
     if (exempt > gross) { document.getElementById('err-app-exempt')?.classList.remove('hidden'); document.getElementById('app-exempt')?.classList.add('input-error'); valid = false; }
     else { document.getElementById('err-app-exempt')?.classList.add('hidden'); document.getElementById('app-exempt')?.classList.remove('input-error'); }
-    if (desc.length < 10) { document.getElementById('err-app-desc')?.classList.remove('hidden'); document.getElementById('app-desc')?.classList.add('input-error'); valid = false; }
+    if (!isNonEmptyTrimmed(desc, 10)) { document.getElementById('err-app-desc')?.classList.remove('hidden'); document.getElementById('err-app-desc').textContent = 'Please provide a detailed description (min 10 chars).'; document.getElementById('app-desc')?.classList.add('input-error'); valid = false; }
+    else if (containsProfanity(desc)) { document.getElementById('err-app-desc')?.classList.remove('hidden'); document.getElementById('err-app-desc').textContent = 'Description contains inappropriate language. Please revise.'; document.getElementById('app-desc')?.classList.add('input-error'); valid = false; }
     else { document.getElementById('err-app-desc')?.classList.add('hidden'); document.getElementById('app-desc')?.classList.remove('input-error'); }
     if (!hasFile) { document.getElementById('err-app-dropzone')?.classList.remove('hidden'); document.getElementById('app-dropzone')?.classList.add('input-error'); valid = false; }
-    if (!valid) return;
+    if (!valid) return false;
 
     const { total } = calcTax(gross, exempt);
     const biz = getBiz(bizId);
@@ -1669,21 +1911,38 @@ function renderSettings() {
     const langSel = document.querySelector('#settings-form select');
     if (langSel) langSel.value = s.language;
     renderSettingsToggles();
-
-    document.querySelectorAll('.settings-nav-item').forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.querySelectorAll('.settings-nav-item').forEach(x => x.classList.remove('active'));
-            item.classList.add('active');
-        });
-    });
+    attachCharCounter('set-name', 'counter-set-name', 50);
 
     const saveBtn = document.getElementById('btn-save-settings');
-    if (saveBtn) saveBtn.onclick = saveSettings;
-    const cancelBtn = document.querySelector('.btn-ghost');
+    if (saveBtn) saveBtn.onclick = () => withSubmitLock(saveBtn, saveSettings);
+
+    const cancelBtn = document.getElementById('btn-cancel-settings');
     if (cancelBtn) cancelBtn.onclick = () => { renderSettings(); toast('Changes discarded.'); };
-    const unlinkBtn = document.querySelector('.btn-danger-outline');
-    if (unlinkBtn) unlinkBtn.onclick = () => { if (confirm('Are you sure you want to unlink your profile? This action is irreversible.')) toast('Profile unlinked.'); };
+
+    const unlinkBtn = document.getElementById('btn-unlink-profile');
+    if (unlinkBtn) unlinkBtn.onclick = unlinkProfile;
+}
+
+function unlinkProfile() {
+    const activeBiz = getActiveBusinesses();
+    if (activeBiz.length === 0) {
+        toast('No active businesses to unlink — your profile is already inactive.');
+        return;
+    }
+
+    if (!confirm(`This will archive all ${activeBiz.length} of your active business(es) and remove them from your active portfolio. Your payment history and records will be kept and can be restored later. Continue?`)) return;
+
+    const today = new Date().toISOString().slice(0, 10);
+    activeBiz.forEach(b => {
+        b.archived = true;
+        b.archivedDate = today;
+        b.status = 'Archived';
+        DB.auditLogs.unshift({ ts: nowTs(), ref: b.id, bizId: b.id, action: 'Business Archived (Profile Unlink)', amount: null, status: 'Archived' });
+    });
+
+    saveStore(DB);
+    toast(`Profile unlinked. ${activeBiz.length} business(es) archived.`);
+    renderDashboard();
 }
 
 function renderSettingsToggles() {
@@ -1719,7 +1978,7 @@ function saveSettings() {
     validateField('set-name', 'err-set-name', name && name.length > 2);
     validateField('set-email', 'err-set-email', email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
     validateField('set-phone', 'err-set-phone', phone && phone.length >= 7);
-    if (!valid) return;
+    if (!valid) return false;
 
     DB.settings.name = name;
     DB.settings.email = email;
@@ -1765,6 +2024,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ai-input-field')?.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleAIChat(); });
 
     document.getElementById('menu-toggle-btn')?.addEventListener('click', () => { document.getElementById('sidebar-menu')?.classList.toggle('hidden'); });
+    document.getElementById('info-btn')?.addEventListener('click', showPortalInfo);
+    document.getElementById('contact-btn')?.addEventListener('click', showContactInfo);
     document.querySelector('.portfolio-card .btn-blue')?.addEventListener('click', () => showView('history'));
     document.querySelector('.portfolio-search-bar .btn-green')?.addEventListener('click', registerNewBusiness);
     document.querySelector('.portfolio-search-bar .search-input')?.addEventListener('input', (e) => { renderPortfolioAssets(e.target.value); });
