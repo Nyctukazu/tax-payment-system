@@ -37,6 +37,52 @@ public class EvaluationController {
         this.businessRepository = businessRepository;
     }
 
+    @GetMapping
+    public ResponseEntity<List<EvaluationResponse>> getEvaluationInboxBase() {
+       
+        List<EvaluateModel> evaluations = evaluationRepository.findAllWithDetails();
+
+
+        List<EvaluationResponse> responseList = evaluations.stream().map(eval -> {
+            var biz = eval.getBusiness();
+            var owner = biz.getTaxpayer();
+            String fullOwnerName = owner.getFirstName() + " " + owner.getLastName();
+
+            List<EvaluationResponse.FeeItem> mappedFees = eval.getFees().stream()
+                .map(f -> new EvaluationResponse.FeeItem(f.getFeeKey(), f.getLabel(), f.getAmount(), f.getNote()))
+                .collect(Collectors.toList());
+
+            EvaluationResponse.DocumentDto docDto = null;
+            if (eval.getDocument() != null) {
+                docDto = new EvaluationResponse.DocumentDto(
+                    eval.getDocument().getFileName(),
+                    eval.getDocument().getPages().stream()
+                        .map(p -> new EvaluationResponse.DocumentPageDto(p.getTitle(), p.getBlocks()))
+                        .collect(Collectors.toList())
+                );
+            }
+
+            return new EvaluationResponse(
+                eval.getRequestId(),                                                       
+                biz.getBusinessName(),   
+                biz.getBusinessTin(),                                                  
+                biz.getBusinessClass() != null ? biz.getBusinessClass().name() : "RETAILER",
+                eval.getTaxYear(),                                                          
+                eval.getSubmittedAt().toString(),                                           
+                biz.getOwnershipType() != null ? biz.getOwnershipType().name() : "SOLE PROPRIETORSHIP",
+                fullOwnerName,
+                eval.getDeclaredGrossReceipts(),
+                eval.getTaxCode(),
+                eval.getVerificationStatus(),
+                eval.getBaseBusinessTaxDue(),
+                mappedFees,
+                docDto
+            );
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(responseList);
+    }
+
     @PostMapping("/upload-application")
     public ResponseEntity<?> submitTaxpayerApplication(
             @RequestParam("businessId") Long businessId,

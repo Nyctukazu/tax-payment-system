@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function init() {
     const pageId = document.body.id;
+    console.log("Current pageId detected:", pageId);
 
     switch (pageId) {
         case 'pageDashboard':
@@ -26,6 +27,6 @@ async function init() {
             await initEvaluationReview();
             break;
         default:
-            console.warn('Unknown page layout');
+            console.warn('Unknown page layout', pageId);
     }
 }

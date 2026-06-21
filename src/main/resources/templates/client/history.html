@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>History</title>
+        <link rel="stylesheet" href="css/client/client-dashboard.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <script type="module" src="js/services/client-dashboard.js" defer></script>
+    </head>
+    <body class="pageHistory">
+
+        <app-header></app-header>
+        <app-sidebar></app-sidebar>
+        <ai-panel></ai-panel>
+
+        <div class="workspace-wrapper">
+            
+            <main class="workspace">
+        
+                <div id="view-general-history" class="content-view">
+                    <div class="history-logs-header">
+                        <h3>History & Audit Logs</h3>
+                        <p class="subtitle">Database access terminal providing tracking verification for all localized transaction logs.</p>
+                    </div>
+
+                    <div class="rbac-banner-box">
+                        <i class="fa-solid fa-shield-halved text-blue"></i>
+                        <span><strong>Role-Based Access Control (RBAC) Enforcement:</strong> Print and download permissions are determined by your active account tier. Non-privileged roles retain secure read-only log ledger access.</span>
+                    </div>
+
+                    <div class="history-search-filter card">
+                        <div class="search-input-wrapper">
+                            <input type="text" id="logs-search-input" maxlength="50" placeholder="Search logs or transaction hashes..." class="history-search-input">
+                            <span class="error-text hidden" id="err-logs-search">Please use valid alphanumeric characters.</span>
+                        </div>
+                        <div class="history-controls-group">
+                            <select class="history-dropdown-filter" id="logs-filter-biz">
+                                <option value="all">All Business Entities</option>
+                                <option value="The Daily Grind Café">The Daily Grind Café</option>
+                                <option value="Aura Boutique">Aura Boutique</option>
+                                <option value="Pasay Tech Hub">Pasay Tech Hub</option>
+                                <option value="Manila Bay Seafoods">Manila Bay Seafoods</option>
+                            </select>
+                            <select class="history-dropdown-filter" id="logs-filter-action">
+                                <option value="all">All Event Actions</option>
+                                <option value="Annual Gross Tax Payment">Annual Gross Tax Payment</option>
+                                <option value="Quarterly Regulatory Settlement">Quarterly Regulatory Settlement</option>
+                                <option value="Annual Business Registration Fee">Annual Business Registration Fee</option>
+                                <option value="Quarterly Local Audit Fee Payment">Quarterly Local Audit Fee Payment</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <section class="card history-main-card">
+                        <div class="table-header-block">
+                            <h4>Transaction Record Access Ledger</h4>
+                            <p class="subtitle">Real-time database entries reflecting structural interactions from municipal compliance points.</p>
+                        </div>
+                        <div class="table-container">
+                            <table class="history-data-table" id="logs-data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>Transaction Reference</th>
+                                        <th>Entity Profile</th>
+                                        <th>Action Type</th>
+                                        <th>Amount Settle</th>
+                                        <th>Status Flag</th>
+                                        <th class="text-right">Operations Matrix</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-muted">2026-06-13 17:12:04</td>
+                                        <td><strong>TXN-987654321</strong></td>
+                                        <td>The Daily Grind Café</td>
+                                        <td>Annual Gross Tax Payment</td>
+                                        <td><strong>₱145,200.00</strong></td>
+                                        <td><span class="lbl-status status-received">Success</span></td>
+                                        <td class="text-right inline-actions">
+                                            <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-print"></i> Print</button>
+                                            <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-download"></i> Download</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">2026-04-10 09:34:11</td>
+                                        <td><strong>TXN-543210987</strong></td>
+                                        <td>Aura Boutique</td>
+                                        <td>Quarterly Regulatory Settlement</td>
+                                        <td><strong>₱34,500.00</strong></td>
+                                        <td><span class="lbl-status status-received">Success</span></td>
+                                        <td class="text-right inline-actions">
+                                            <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-print"></i> Print</button>
+                                            <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-download"></i> Download</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">2026-01-19 14:22:50</td>
+                                        <td><strong>TXN-112233445</strong></td>
+                                        <td>Pasay Tech Hub</td>
+                                        <td>Annual Business Registration Fee</td>
+                                        <td><strong>₱12,000.00</strong></td>
+                                        <td><span class="lbl-status status-received">Success</span></td>
+                                        <td class="text-right inline-actions">
+                                            <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-print"></i> Print</button>
+                                            <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-download"></i> Download</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">2025-10-15 11:05:18</td>
+                                        <td><strong>TXN-657788554</strong></td>
+                                        <td>Manila Bay Seafoods</td>
+                                        <td>Quarterly Local Audit Fee Payment</td>
+                                        <td><strong>₱58,900.00</strong></td>
+                                        <td><span class="lbl-status status-missing">Failed Gateway</span></td>
+                                        <td class="text-right inline-actions">
+                                            <button class="btn btn-secondary btn-sm" disabled style="opacity:0.3;"><i class="fa-solid fa-print"></i> Print</button>
+                                            <button class="btn btn-secondary btn-sm" disabled style="opacity:0.3;"><i class="fa-solid fa-download"></i> Download</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+                
+        </main>
+        </div>
+    </body>
+</html>

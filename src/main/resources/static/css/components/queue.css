@@ -1,0 +1,260 @@
+:root {
+    --bg: #fbf2e6;
+    --nav: #252650;
+    --nav-text: #d3d8ff;
+    --panel: rgba(255, 255, 255, 0.74);
+    --panel-border: #ece3d9;
+    --text: #23284a;
+    --muted: #6c708a;
+    --accent: #ef8e2d;
+    --approved: #24a14a;
+    --approved-bg: #cfe9d5;
+    --rejected: #e14a4a;
+    --rejected-bg: #f3d6d6;
+    --pending: #9a6b00;
+    --pending-bg: #f2de9d;
+    --button: #4d3745;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Inter, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+}
+
+.queue-shell {
+    min-height: 100vh;
+}
+
+.queue-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.75rem;
+    background: var(--nav);
+    color: #fff;
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.16);
+}
+
+.brand-block {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.brand-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.role-chip {
+    padding: 0.28rem 0.78rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #f29c38, #c13f8d);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.user-name {
+    font-size: 0.88rem;
+    opacity: 0.92;
+}
+
+.top-nav {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--nav-text);
+    padding: 0.45rem 0.7rem;
+    border-radius: 8px;
+    font-size: 0.88rem;
+}
+
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-weight: 700;
+}
+
+.queue-content {
+    padding: 1.4rem 2.3rem 2.5rem;
+}
+
+.page-heading h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.heading-line {
+    width: 132px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 999px;
+    margin-top: 0.55rem;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0 1.3rem;
+}
+
+.summary-card {
+    background: #1f204f;
+    color: #fff;
+    padding: 1rem 1.1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(29, 31, 75, 0.25);
+}
+
+.summary-label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.5rem;
+}
+
+.summary-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+}
+
+.summary-label.approved,
+.summary-value.approved {
+    color: #58bf47;
+}
+
+.summary-label.rejected,
+.summary-value.rejected {
+    color: #ff3c2d;
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 14px;
+    padding: 1rem 1rem 1.1rem;
+    box-shadow: 0 8px 16px rgba(60, 60, 95, 0.05);
+    margin-bottom: 1.2rem;
+}
+
+.panel-title {
+    margin: 0 0 0.9rem;
+    font-size: 1.35rem;
+}
+
+.history-block + .history-block {
+    margin-top: 1rem;
+}
+
+.history-title {
+    margin: 0 0 0.55rem;
+    font-size: 1rem;
+}
+
+.history-title.approved {
+    color: var(--approved);
+}
+
+.history-title.rejected {
+    color: var(--rejected);
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.queue-table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+    background: transparent;
+}
+
+.queue-table th,
+.queue-table td {
+    padding: 1rem 0.85rem;
+    text-align: left;
+    border-bottom: 1px solid #eadfd2;
+    font-size: 0.9rem;
+}
+
+.queue-table thead th {
+    background: #1f204f;
+    color: #fff;
+    font-size: 0.82rem;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.28rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.status-badge.pending {
+    color: var(--pending);
+    background: var(--pending-bg);
+}
+
+.status-badge.approved {
+    color: var(--approved);
+    background: var(--approved-bg);
+}
+
+.status-badge.rejected {
+    color: #9f2b2b;
+    background: var(--rejected-bg);
+}
+
+.view-button {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    background: var(--button);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.empty-state {
+    color: var(--muted);
+    font-style: italic;
+}
+
+@media (max-width: 920px) {
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .queue-content {
+        padding-inline: 1rem;
+    }
+}
+
+@media (max-width: 760px) {
+    .queue-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .page-heading h1 {
+        font-size: 1.6rem;
+    }
+}

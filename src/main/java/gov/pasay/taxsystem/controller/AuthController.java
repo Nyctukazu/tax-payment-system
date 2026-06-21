@@ -26,7 +26,10 @@ import gov.pasay.taxsystem.dto.RegisterRequest;
 
 @RestController
 @RequestMapping("/api/auth")  
-@CrossOrigin(origins = {"http://localhost:8080", "http://127.0.0.1:8080"}) 
+@CrossOrigin(origins = {"http://localhost:8080", 
+                        "http://127.0.0.1:8080",
+                        "https://tax-payment-system-production.up.railway.app"    
+                    }) 
 public class AuthController {
     
     @Autowired

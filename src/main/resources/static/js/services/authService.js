@@ -68,4 +68,25 @@ export async function registerAdminWithBackend(formData, administrationClassific
             error: error.message || "Unable to reach security authentication server. Please try again later."
         };
     }
+
 }
+
+export async function loginWithGoogleBackend(googleTokenId) {
+    const apiUrl = "/api/auth/google";
+    const googlePayload = {
+        token: googleTokenId
+    };
+
+    try {
+        const data = await postJson(apiUrl, googlePayload);
+        return { success: true, user: data };
+
+    } catch (error) {
+        console.error("Network error trying to connect to Google auth backend:", error);
+        return {
+            success: false,
+            error: error.message || "Unable to reach Google security authentication server."
+        };
+    }
+}
+

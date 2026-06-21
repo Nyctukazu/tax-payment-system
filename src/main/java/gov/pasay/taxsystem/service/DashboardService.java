@@ -26,17 +26,25 @@ public class DashboardService {
         );
 
         List<DashboardResponse.NotificationItem> notifications = 
-            notificationRepo.findTop5ByOrderByCreatedAtDesc()
+            List.of( new DashboardResponse.NotificationItem("New Submission", "REQ-2026-0047 attached new financials.", "Just now"),
+                    new DashboardResponse.NotificationItem("System Alert", "Server maintenance scheduled for the 20th at 12:00 AM", "2 hours ago"),
+                    new DashboardResponse.NotificationItem("Policy Update", "New Tax Ordinance released by City Hall.", "Yesterday"),
+                    new DashboardResponse.NotificationItem("Approved", "REQ-2026-0042 processed successfully.", "Yesterday")
+        );
+           /* notificationRepo.findTop5ByOrderByCreatedAtDesc()
                 .stream()
                 .map(n -> new DashboardResponse.NotificationItem(
                     n.getTitle(),
                     n.getMessage(),
                     n.getCreatedAt().toString()
                 ))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
 
         List<DashboardResponse.KpiCard> kpis = List.of(
-            new DashboardResponse.KpiCard("Total Revenue", "₱1,240,000", "+12%")
+            new DashboardResponse.KpiCard("Total Tax Collected (YTD", "₱145.8M", "+12.5% vs Last Year"),
+            new DashboardResponse.KpiCard("New Applications Today", "38", "25 Pending"),
+            new DashboardResponse.KpiCard("Processing Avg. Time", "3.2 Days", "-1.5% Faster"),
+            new DashboardResponse.KpiCard("Critical Alerts", "7", "5 High Priority")
         );
 
         DashboardResponse.ChartBundle charts = new DashboardResponse.ChartBundle(
@@ -66,18 +74,26 @@ public class DashboardService {
         );
 
         List<DashboardResponse.BulletinItem> bulletin = List.of(
-            new DashboardResponse.BulletinItem("High", "URGENT: Tax Engine DB update required.", "2:00 PM")
+            new DashboardResponse.BulletinItem("High", "URGENT: Tax Engine DB update required.", "2:00 PM"),
+            new DashboardResponse.BulletinItem("High", "Server Maintenance scheduled for the 20th of June", "Yesterday"),
+            new DashboardResponse.BulletinItem("Medium", "New Tax Ordinance released by City Hall", "Last Week"),
+            new DashboardResponse.BulletinItem("Low", "New Update: Ollama 3.2 NLP Chat Model", "12:56 AM")
         );
 
-        List<DashboardResponse.AuditTrailItem> auditTrail = 
-            auditLogRepo.findTop10ByOrderByTimestampDesc()
+        List<DashboardResponse.AuditTrailItem> auditTrail = List.of(
+            new DashboardResponse.AuditTrailItem("3:30 PM", "Approved Business", "Flora S. (Supervisor"),
+            new DashboardResponse.AuditTrailItem("2:15 PM", "Policy Change", "Nikutu Nyan (Super Admin)"),
+            new DashboardResponse.AuditTrailItem("12:45 PM", "Database Sync", "System")          
+        );
+
+            /*auditLogRepo.findTop10ByOrderByTimestampDesc()
                 .stream()
                 .map(log -> new DashboardResponse.AuditTrailItem(
                     log.getTimestamp().toString(),
                     log.getAction(),
                     log.getActor()
                 ))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
 
         return new DashboardResponse(
             user, notifications, kpis, charts, bulletin, auditTrail

@@ -3,7 +3,7 @@ class StartHeader extends HTMLElement {
         this.innerHTML = `
             <header class="navbar">
                 <div class="logo"><img class="logo-image" src="images/logo.jpg">PasayBiz Portal</div>
-                <a type="button" onclick="window.location.replace('/')" class="back-home">&larr; Back to Home</a>
+                <a type="button" href="/portal" class="back-home">&larr; Back to Home</a>
             </header>
 
         `;

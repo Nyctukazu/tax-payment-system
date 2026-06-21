@@ -60,4 +60,39 @@ public class PortalController {
     public String UserControl() {
         return "admin/user-control";
     }
+
+    @GetMapping("/business-portfolio")
+    public String BusinessPortfolio() {
+        return "client/business-portfolio";
+    }
+
+    @GetMapping("/file-assessment")
+    public String FileAssessment() {
+        return "client/file-assessment";
+    }
+
+    @GetMapping("/history")
+    public String History() {
+        return "client/history";
+    }
+
+    @GetMapping("/payment-history")
+    public String PaymentHistory() {
+        return "client/payment-history";
+    }
+
+    @GetMapping("/receipts")
+    public String Receipts() {
+        return "client/receipts";
+    }
+
+    @GetMapping("/system-settings")
+    public String SystemSettings() {
+        return "client/system-settings";
+    }
+
+    @GetMapping("/tax-assessments")
+    public String TaxAssessments() {
+        return "client/tax-assessments";
+    }
 }

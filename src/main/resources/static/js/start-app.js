@@ -1,7 +1,7 @@
 import { initStartHeader } from "./components/StartHeader.js";
 import { initializeParticles } from "./components/particles.js";
 import { passwordValidator } from "./services/password-validation.js";
-import { loginWithBackend } from "./services/authService.js";
+import { loginWithBackend, loginWithGoogleBackend, registerAdminWithBackend, RegisterUserWithBackend } from "./services/authService.js";
 import { validateEmailField } from "./services/email-validation.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -28,38 +28,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const googleToken = response.credential;
         console.log("🚀 Google Token received. Forwarding to backend controller...");
 
-        try {
-            const backendResponse = await fetch("http://localhost:8080/api/auth/google", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify({ token: googleToken })
-            });
+        const result = await loginWithGoogleBackend(response.credential);
 
-            if (backendResponse.ok) {
-                const userData = await backendResponse.json();
-                console.log("🎉 Success! Google session authenticated by Spring Boot.", userData);
-                
-                sessionStorage.setItem("userRole", "TAXPAYER"); 
-                sessionStorage.setItem("userName", userData.firstName || "Citizen");
-
-                window.location.href = "/client-dashboard";
-            } else {
-                let errorText = "Authentication Denied";
-                try {
-                    const errJson = await backendResponse.json();
-                    errorText = errJson.error || errorText;
-                } catch (e) {
-                    errorText = await backendResponse.text();
-                }
-                console.error("❌ Backend rejected authentication token:", errorText);
-                alert("Google Authentication Denied: " + errorText);
+        if (result.success) {
+            console.log("✅ Backend authentication successful. Redirecting...");
+            
+            if (result.user && result.user.token) {
+                localStorage.setItem("authToken", result.user.token);
             }
-        } catch (error) {
-            console.error("❌ Network error connecting to Spring Boot:", error);
-            alert("Unable to contact the authentication server. Please try again later.");
+            
+            window.location.href = "/client-dashboard";
+        } else {
+            console.error("❌ Pasay Tax System Auth failed:", result.error);
+            alert("Authentication failed: " + result.error);
         }
     };
 

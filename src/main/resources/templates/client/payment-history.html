@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Payment History</title>
+        <link rel="stylesheet" href="css/client/client-dashboard.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <script type="module" src="js/services/client-dashboard.js" defer></script>
+    </head>
+    <body class="pagePaymentHistory">
+
+        <app-header></app-header>
+        <app-sidebar></app-sidebar>
+        <ai-panel></ai-panel>
+
+        <div class="workspace-wrapper">
+            
+            <main class="workspace">
+
+                     <div id="view-history" class="content-view">
+                    <div class="assessments-summary-grid">
+                        <div class="summary-box card baseline-summary">
+                            <div>
+                                <p class="summary-title">Total Taxes Paid (YTD)</p>
+                                <p class="summary-value">₱325,000.00</p>
+                                <p class="growth-subtext"><i class="fa-solid fa-arrow-up"></i> 12% vs last year</p>
+                            </div>
+                        </div>
+                        <div class="summary-box card baseline-summary">
+                            <div>
+                                <p class="summary-title">Last Payment Made</p>
+                                <p class="summary-value">₱65,000.00</p>
+                                <p class="meta-subtext">Processed on 2024-03-12</p>
+                            </div>
+                        </div>
+                        <div class="summary-box card baseline-summary">
+                            <div>
+                                <p class="summary-title">Active Registered Businesses</p>
+                                <p class="summary-value">4</p>
+                                <p class="status-subtext"><i class="fa-solid fa-circle-check"></i> All Compliant</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="history-search-filter card">
+                        <div class="search-input-wrapper">
+                            <input type="text" id="history-search-input" maxlength="40" placeholder="Search by Receipt ID, Business Name, or Type..." class="history-search-input">
+                            <span class="error-text hidden" id="err-history-search">Please use valid alphanumeric characters.</span>
+                        </div>
+                        
+                        <div class="history-controls-group">
+                            <select class="history-dropdown-filter" id="history-filter-biz">
+                                <option value="all">All Businesses</option>
+                                <option value="The Daily Grind Café">The Daily Grind Café</option>
+                                <option value="Manila Bay Seafoods">Manila Bay Seafoods</option>
+                                <option value="Pasay Tech Hub">Pasay Tech Hub</option>
+                                <option value="Aura Boutique">Aura Boutique</option>
+                            </select>
+                            <select class="history-dropdown-filter" id="history-filter-type">
+                                <option value="all">All Types</option>
+                                <option value="Q1 Business Tax">Q1 Business Tax</option>
+                                <option value="Mayor's Permit Renewal">Mayor's Permit Renewal</option>
+                            </select>
+                            <button class="btn btn-blue csv-btn" id="btn-export-csv"><i class="fa-solid fa-download"></i> Export CSV</button>
+                        </div>
+                    </div>
+
+                    <section class="card history-main-card">
+                        <div class="table-container">
+                            <table class="history-data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Business Name</th>
+                                        <th>Assessment Type</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Downloadable Receipt</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2024-03-12</td>
+                                        <td><strong>The Daily Grind Café</strong></td>
+                                        <td>Q1 Business Tax</td>
+                                        <td>₱65,000.00</td>
+                                        <td><span class="badge badge-success">Paid</span></td>
+                                        <td><a href="#" class="rcpt-link"><i class="fa-solid fa-file-pdf"></i> RCPT-987654</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2024-03-12</td>
+                                        <td><strong>Manila Bay Seafoods</strong></td>
+                                        <td>Q1 Business Tax</td>
+                                        <td>₱65,000.00</td>
+                                        <td><span class="badge badge-success">Paid</span></td>
+                                        <td><a href="#" class="rcpt-link"><i class="fa-solid fa-file-pdf"></i> RCPT-987654</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2024-03-12</td>
+                                        <td><strong>Pasay Tech Hub</strong></td>
+                                        <td>Q1 Business Tax</td>
+                                        <td>₱65,000.00</td>
+                                        <td><span class="badge badge-success">Paid</span></td>
+                                        <td><a href="#" class="rcpt-link"><i class="fa-solid fa-file-pdf"></i> RCPT-987654</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2024-03-12</td>
+                                        <td><strong>Aura Boutique</strong></td>
+                                        <td>Q1 Business Tax</td>
+                                        <td>₱65,000.00</td>
+                                        <td><span class="badge badge-success">Paid</span></td>
+                                        <td><a href="#" class="rcpt-link"><i class="fa-solid fa-file-pdf"></i> RCPT-987654</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2024-01-15</td>
+                                        <td><strong>The Daily Grind Café</strong></td>
+                                        <td>Mayor's Permit Renewal</td>
+                                        <td>₱15,000.00</td>
+                                        <td><span class="badge badge-success">Paid</span></td>
+                                        <td><a href="#" class="rcpt-link"><i class="fa-solid fa-file-pdf"></i> RCPT-912345</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+                </main>
+                </div>
+
+    </body>
+</html>

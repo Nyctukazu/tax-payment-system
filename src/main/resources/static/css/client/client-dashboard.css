@@ -1,6 +1,7 @@
-/* =========================================================
-   DESIGN TOKENS — all magic values live here
-   ========================================================= */
+@import "../base/variable.css";
+@import "../components/components.css";
+@import "../components/button.css";
+
 :root {
     /* Colors */
     --bg-main:          #FCEBE6;
@@ -55,42 +56,21 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: var(--body);
 }
 
 /* =========================================================
    LAYOUT
    ========================================================= */
 body {
-    background-color: var(--bg-main);
-    color: var(--text-primary);
+    padding-top: 90px;
+    background: linear-gradient(180deg, var(--main-color1), var(--main-color2));
+    color: #fff;
     display: flex;
     flex-direction: column;
     height: 100vh;
     overflow: hidden;
 }
-
-.top-navbar {
-    height: var(--nav-height);
-    background-color: var(--bg-navbar);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 var(--workspace-pad);
-    z-index: 100;
-}
-
-.portal-logo-text { font-weight: bold; font-size: 1.1rem; }
-.navbar-right { display: flex; gap: 20px; align-items: center; }
-.nav-icon-btn {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: color var(--transition-fast);
-}
-.nav-icon-btn:hover { color: var(--text-primary); }
 
 .dashboard-container {
     display: flex;
@@ -153,7 +133,10 @@ body {
     white-space: nowrap;
 }
 
-.menu-item i { width: 16px; text-align: center; }
+.menu-item i {
+    width: 16px;
+    text-align: center;
+}
 
 .menu-item:hover,
 .menu-item.active {
@@ -164,87 +147,6 @@ body {
 .menu-item.active {
     background-color: var(--bg-dark-cards);
     border-left: 3px solid var(--accent-blue);
-}
-
-/* =========================================================
-   AI PANEL
-   ========================================================= */
-.ai-panel {
-    width: var(--ai-panel-width);
-    background-color: var(--bg-ai-panel);
-    border-left: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    transition: width var(--transition-fast), opacity var(--transition-fast);
-}
-
-.ai-panel.hidden {
-    width: 0;
-    overflow: hidden;
-    border-left: none;
-    opacity: 0;
-}
-
-.ai-header {
-    padding: 15px 20px;
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.ai-header h4 { font-size: 0.9rem; }
-.ai-version { font-size: 0.7rem; color: var(--text-muted); }
-.close-panel-btn { background: none; border: none; color: var(--text-muted); font-size: 1rem; cursor: pointer; }
-
-.ai-chat-body {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-.chat-intro { font-size: 0.8rem; }
-.chat-bubble {
-    padding: 10px 14px;
-    border-radius: 6px;
-    font-size: 0.82rem;
-    line-height: 1.4;
-    max-width: 90%;
-}
-.user-msg { background-color: var(--accent-blue); color: white; align-self: flex-end; }
-.bot-msg {
-    background-color: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--border-color);
-    align-self: flex-start;
-}
-.bot-msg a { color: var(--accent-sky); text-decoration: none; }
-.follow-up-prompt { font-size: 0.8rem; color: var(--text-muted); }
-
-.ai-footer {
-    padding: 15px;
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    gap: 10px;
-}
-.ai-input {
-    flex: 1;
-    background-color: rgba(0, 0, 0, 0.2);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    padding: 8px 12px;
-    color: white;
-    font-size: 0.82rem;
-    outline: none;
-}
-.ai-send-btn {
-    background-color: var(--accent-blue);
-    border: none;
-    color: white;
-    padding: 0 12px;
-    border-radius: 4px;
-    cursor: pointer;
 }
 
 /* =========================================================
@@ -746,10 +648,11 @@ body {
 .btn-lg { padding: 14px 20px; font-size: 0.85rem; }
 .submit-auditor-btn { display: flex; justify-content: center; align-items: center; gap: 8px; }
 
-/* =========================================================
-   FORM VALIDATION
-   ========================================================= */
-.history-search-input.input-error,
+.history-search-input.input-error {
+    border-color: #FF6B6B;
+    background-color: rgba(239, 68, 68, 0.05);
+}
+
 .form-control.input-error {
     border-color: var(--color-red);
     background-color: rgba(var(--color-red-raw), 0.05);

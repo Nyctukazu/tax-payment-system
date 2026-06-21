@@ -1,7 +1,5 @@
 import { getEvaluationInbox } from "../services/evaluation-service.js";
 
-initEvaluationInbox();
-
 export async function initEvaluationInbox() {
     try {
         const items = await getEvaluationInbox();

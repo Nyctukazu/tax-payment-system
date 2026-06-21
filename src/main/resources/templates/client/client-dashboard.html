@@ -6,28 +6,17 @@
     <title>PasayBiz Portal - Dashboard</title>
     <link rel="stylesheet" href="/css/client/client-dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="/js/services/client-dashboard.js" defer></script>
+    <script type="module" src="js/services/client-dashboard.js" defer></script>
 </head>
-<body>
-
-    <header class="top-navbar">
-        <div class="navbar-left">
-            <a href="/portal" class="portal-logo-text" style="text-decoration:none;color:inherit;">PasayBiz Portal</a>
-        </div>
-        <div class="navbar-right">
-            <button class="nav-icon-btn" id="info-btn" type="button" title="What you can do here"><i class="fa-solid fa-circle-info"></i></button>
-            <button class="nav-icon-btn" id="contact-btn" type="button" title="Contact us"><i class="fa-solid fa-phone"></i></button>
-            <button class="nav-icon-btn" id="menu-toggle-btn" type="button"><i class="fa-solid fa-bars"></i></button>
-        </div>
-    </header>
-
-    <div class="dashboard-container">
-
-        <div class="workspace-wrapper">
-
-            <main class="workspace">
-
-                <!-- ===================== DASHBOARD VIEW ===================== -->
+<body class="pageClientDashboard">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+    <ai-panel></ai-panel>
+    
+    <div class="dashboard-container">     
+        <div class="workspace-wrapper">          
+            <main class="workspace">   
+                <!--
                 <div id="view-dashboard" class="content-view">
 
                     <section class="card portfolio-card">
@@ -38,8 +27,179 @@
                             </div>
                             <button class="btn btn-blue">View Returns</button>
                         </div>
-                        <!-- Populated by renderPortfolioGrid() -->
-                        <div class="portfolio-grid" id="portfolio-grid"></div>
+
+        
+                        <div class="portfolio-grid" id="portfolio-grid">
+                            <p class="empty-state">Loading your businesses...</p>
+                        </div>
+                    </section>
+
+                    <div class="lower-grid">
+                        <section class="card">
+                            <h3>Active Tax Assessment Status</h3>
+                            <p class="subtitle">Current summary for today.</p>
+
+
+                            <div class="assessment-box" id="assessment-box">
+                                <p class="empty-state">Loading assessment...</p>
+                            </div>
+                        </section>
+                        <section class="card">
+                            <h3>Actions</h3>
+                            <div class="action-buttons">
+                                <button class="btn btn-blue btn-block">New Business Application</button>
+                                <button class="btn btn-secondary btn-block text-left">Apply for Mayor's Permit</button>
+                                <button class="btn btn-secondary btn-block text-left">Contact Assessor</button>
+                            </div>
+                        </section>
+                        <section class="card">
+                            <h3>Historical Tax Ledgers & Receipts</h3>
+                            <div class="table-container">
+                                <table class="ledger-table">
+                                   <thead>
+                                       <tr>
+                                           <th>Date</th>
+                                           <th>Type</th>
+                                           <th>Amount</th>
+                                           <th>Status</th>
+                                       </tr>
+                                   </thead>
+                               
+                                   <tbody id="ledger-body">
+                                       <tr><td colspan="4" class="empty-state">Loading ledger...</td></tr>
+                                   </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div id="view-create-application" class="content-view hidden">
+                    <div class="create-app-layout">
+                        
+                        <div class="card form-panel">
+                            <div class="form-section-block">
+                                <h4 class="section-title">Entity Configuration</h4>
+                                <div class="form-row">
+                                    <div class="form-group flex-1">
+                                        <label>Select Registered Business</label>
+                               
+                                        <select class="form-control" id="app-business-select">
+                                            <option>Loading businesses...</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label>Assessment Period / Fiscal Year</label>
+                                        <input type="text" class="form-control" value="Annual Declaration - 2024" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section-block no-border">
+                                <h4 class="section-title">Mandatory Evidentiary Uploads</h4>
+                                <p class="section-desc">Sworn Statement of Gross Sales, BIR 1701/1702, or Audited Financial Statements</p>
+                                <div class="upload-dropzone" id="app-dropzone" data-has-file="false">
+                                    <i class="fa-solid fa-cloud-arrow-up" id="dropzone-icon"></i>
+                                    <p class="dropzone-title" id="dropzone-text">Drag and drop corporate financial documents here</p>
+                                    <p class="dropzone-sub">Supported variants: PDF, JPG, PNG up to 25MB scale limit</p>
+                                </div>
+                                <span class="error-text hidden" id="err-app-dropzone">You must upload supporting documents.</span>
+                            </div>
+                        </div>
+
+                        <div class="summary-panel">
+                            <div class="card calc-summary-card">
+                                <h4 class="calc-title">Estimated Computation</h4>
+                                <div class="calc-row">
+                                    <span>Declared Gross Receipts:</span>
+                                    <span id="calc-gross-receipts">₱1,000,000.00</span>
+                                </div>
+                                <div class="calc-row">
+                                    <span>Pasay Base Tax Rate:</span>
+                        
+                                    <span id="calc-tax-rate">—</span>
+                                </div>
+                            </div>
+                            <div class="notice-alert">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                <div>
+                                    <strong>Notice to Filer:</strong> This constitutes a preliminary estimate generated by the system algorithm. Final binding computations will be locked following official review from the Pasay City Treasurer's Office assessment pool.
+                                </div>
+                            </div>
+                            <button id="btn-submit-app" class="btn btn-green btn-block btn-lg submit-auditor-btn">
+                                Submit to Municipal Auditor <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        
+                    </div>
+                </div>
+            -->
+       <div id="view-dashboard" class="content-view">
+                    <section class="card portfolio-card">
+                        <div class="card-header">
+                            <div>
+                                <h3>My Business Portfolio Grid</h3>
+                                <p class="subtitle">Dynamic cards are displayed cards from the client homepage.</p>
+                            </div>
+                            <button class="btn btn-blue">View Returns</button>
+                        </div>
+
+                        <div class="portfolio-grid">
+                            <div class="biz-card">
+                                <div class="biz-icon"><i class="fa-solid fa-mug-hot"></i></div>
+                                <h4>The Daily Grind Café</h4>
+                                <div class="biz-details">
+                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
+                                    <p><span>Type:</span> <span>Food Services</span></p>
+                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
+                                </div>
+                                <div class="biz-actions">
+                                    <button class="btn btn-secondary">Manage</button>
+                                    <button class="btn btn-primary">File Returns</button>
+                                </div>
+                            </div>
+
+                            <div class="biz-card">
+                                <div class="biz-icon"><i class="fa-solid fa-ship"></i></div>
+                                <h4>Manila Bay Seafoods</h4>
+                                <div class="biz-details">
+                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
+                                    <p><span>Type:</span> <span>Food Services</span></p>
+                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
+                                </div>
+                                <div class="biz-actions">
+                                    <button class="btn btn-secondary">Manage</button>
+                                    <button class="btn btn-primary">File Returns</button>
+                                </div>
+                            </div>
+
+                            <div class="biz-card">
+                                <div class="biz-icon"><i class="fa-solid fa-globe"></i></div>
+                                <h4>Pasay Tech Hub</h4>
+                                <div class="biz-details">
+                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
+                                    <p><span>Type:</span> <span>Food Services</span></p>
+                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
+                                </div>
+                                <div class="biz-actions">
+                                    <button class="btn btn-secondary">Manage</button>
+                                    <button class="btn btn-primary">File Returns</button>
+                                </div>
+                            </div>
+
+                            <div class="biz-card">
+                                <div class="biz-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+                                <h4>Aura Boutique</h4>
+                                <div class="biz-details">
+                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
+                                    <p><span>Type:</span> <span>Food Services</span></p>
+                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
+                                </div>
+                                <div class="biz-actions">
+                                    <button class="btn btn-secondary">Manage</button>
+                                    <button class="btn btn-primary">File Returns</button>
+                                </div>
+                            </div>
+                        </div>
                     </section>
 
                     <div class="lower-grid">
@@ -491,21 +651,8 @@
 
         </div>
 
-        <!-- ===================== SIDEBAR ===================== -->
-        <aside class="sidebar-right" id="sidebar-menu">
-            <nav class="sidebar-menu-links">
-                <a href="#" class="menu-item active" id="nav-dashboard"><i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span></a>
-                <a href="#" class="menu-item" id="nav-portfolio"><i class="fa-solid fa-briefcase"></i> <span>Business Portfolio</span></a>
-                <a href="#" class="menu-item" id="nav-assessments"><i class="fa-solid fa-file-invoice-dollar"></i> <span>Tax Assessments</span></a>
-                <a href="#" class="menu-item" id="nav-history"><i class="fa-solid fa-credit-card"></i> <span>Payment History</span></a>
-                <a href="#" class="menu-item" id="ai-menu-trigger"><i class="fa-solid fa-robot"></i> <span>AI Assistant</span></a>
-                <a href="#" class="menu-item" id="nav-file-assessment"><i class="fa-solid fa-clipboard-list"></i> <span>File Assessment</span></a>
-                <a href="#" class="menu-item" id="nav-receipt"><i class="fa-solid fa-receipt"></i> <span>Receipt</span></a>
-                <a href="#" class="menu-item" id="nav-general-history"><i class="fa-solid fa-clock-rotate-left"></i> <span>History</span></a>
-                <a href="#" class="menu-item" id="nav-settings"><i class="fa-solid fa-gear"></i> <span>Settings</span></a>
-            </nav>
-        </aside>
-
     </div>
+
+    <script src="dashboard.js"></script>
 </body>
 </html>

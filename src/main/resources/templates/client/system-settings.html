@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>System Settings</title>
+        <link rel="stylesheet" href="css/client/client-dashboard.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <script type="module" src="js/services/client-dashboard.js" defer></script>
+    </head>
+    <body class="pageSystemSettings">
+
+        <app-header></app-header>
+        <app-sidebar></app-sidebar>
+        <ai-panel></ai-panel>
+
+        <div class="workspace-wrapper">
+            
+            <main class="workspace">
+
+                <div id="view-settings" class="content-view">
+                    <div class="settings-layout">
+                        <div class="settings-sidebar">
+                            <nav class="settings-nav">
+                                <a href="#" class="settings-nav-item active"><i class="fa-regular fa-user"></i> Account Profile</a>
+                                <a href="#" class="settings-nav-item"><i class="fa-regular fa-id-card"></i> Tax Credentials</a>
+                                <a href="#" class="settings-nav-item"><i class="fa-regular fa-bell"></i> Notifications</a>
+                                <a href="#" class="settings-nav-item"><i class="fa-solid fa-shield-halved"></i> Security & Privacy</a>
+                                <a href="#" class="settings-nav-item"><i class="fa-solid fa-code"></i> API Access</a>
+                            </nav>
+                        </div>
+                
+                        <div class="settings-content">
+                            <section class="card">
+                                <h3>Account Profile Information</h3>
+                                <p class="subtitle">Manage your primary contact configuration and representative information.</p>
+                                
+                                <div class="settings-form-grid" id="settings-form">
+                                    <div class="form-group">
+                                        <label>Authorized Representative Full Name</label>
+                                        <input type="text" id="set-name" class="form-control" maxlength="50" value="Juan Dela Cruz">
+                                        <span class="error-text hidden" id="err-set-name">Please enter a valid full name.</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Primary Business Email Address</label>
+                                        <input type="email" id="set-email" class="form-control" maxlength="100" value="compliance@thedailygrind.com">
+                                        <span class="error-text hidden" id="err-set-email">Please enter a valid email address.</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Contact Mobile Number</label>
+                                        <input type="text" id="set-phone" class="form-control" maxlength="15" value="+63 917 123 4567">
+                                        <span class="error-text hidden" id="err-set-phone">Please enter a valid contact number.</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Preferred Assessment Language</label>
+                                        <select class="form-control">
+                                            <option>English</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </section>
+                
+                            <section class="card">
+                                <h3>Tax Portal System Preferences</h3>
+                                <p class="subtitle">Configure automated workflows, notifications, and ledger processing styles.</p>
+                                
+                                <div class="settings-list">
+                                    <div class="settings-list-item">
+                                        <div class="item-text">
+                                            <h4>Automated Assessment Fetching</h4>
+                                            <p>Allow PasayBiz to automatically pull newly released quarterly business tax ledgers from the city server.</p>
+                                        </div>
+                                        <div class="toggle-switch active"></div>
+                                    </div>
+                                    <div class="settings-list-item">
+                                        <div class="item-text">
+                                            <h4>SMS Compliance Alerts</h4>
+                                            <p>Receive localized SMS alerts regarding your upcoming tax filing deadlines and payment confirmations.</p>
+                                        </div>
+                                        <div class="toggle-switch active"></div>
+                                    </div>
+                                    <div class="settings-list-item">
+                                        <div class="item-text">
+                                            <h4>Ollama AI Smart Hints</h4>
+                                            <p>Display interactive inline suggestions from the AI Assistant directly inside tax calculation workflows.</p>
+                                        </div>
+                                        <div class="toggle-switch"></div>
+                                    </div>
+                                </div>
+                            </section>
+                
+                            <section class="card danger-zone-card">
+                                <h3 class="text-danger">Danger Zone</h3>
+                                <p class="subtitle">Irreversible modifications related to your enterprise account authentication state.</p>
+                                
+                                <div class="danger-zone-action">
+                                    <div class="item-text">
+                                        <h4>Deactivate Local Tax Profile</h4>
+                                        <p>Temporarily unlink your corporate assets and portfolio tracking details from the unified municipal view.</p>
+                                    </div>
+                                    <button class="btn btn-danger-outline">Unlink Profile</button>
+                                </div>
+                            </section>
+                
+                            <div class="settings-actions-footer">
+                                <button class="btn btn-ghost">Cancel changes</button>
+                                <button id="btn-save-settings" class="btn btn-green">Save Settings</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            </div>
+
+    </body>
+</html>
