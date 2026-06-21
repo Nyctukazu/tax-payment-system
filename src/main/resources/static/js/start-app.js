@@ -1,7 +1,7 @@
 import { initStartHeader } from "./components/StartHeader.js";
 import { initializeParticles } from "./components/particles.js";
 import { passwordValidator } from "./services/password-validation.js";
-import { loginWithBackend } from "./services/authService.js";
+import { loginWithBackend, loginWithGoogleBackend, registerAdminWithBackend, RegisterUserWithBackend } from "./services/authService.js";
 import { validateEmailField } from "./services/email-validation.js";
 
 document.addEventListener("DOMContentLoaded", () => {
