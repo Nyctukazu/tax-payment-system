@@ -590,6 +590,8 @@ function renderPortfolioGrid() {
         </div>`).join('');
 }
 
+window.viewReturnsForBiz = viewReturnsForBiz;
+
 function renderActiveTaxAssessment() {
     const box = document.getElementById('active-assessment-box');
     if (!box) return;
@@ -1056,6 +1058,9 @@ function renderPortfolioAssets(filter = '') {
         </div>`).join('') + renderArchivedBusinessesSection(filter);
 }
 
+window.editBusiness = editBusiness;
+window.deleteBusiness = deleteBusiness;
+
 function renderArchivedBusinessesSection(filter = '') {
     const archived = DB.businesses.filter(b => b.archived &&
         (b.name.toLowerCase().includes(filter.toLowerCase()) ||
@@ -1084,6 +1089,8 @@ function renderArchivedBusinessesSection(filter = '') {
                 </div>`).join('')}
         </div>`;
 }
+
+window.restoreBusiness = restoreBusiness;
 
 function restoreBusiness(bizId) {
     const b = getBiz(bizId);
@@ -1511,6 +1518,10 @@ function renderPaymentHistoryTable(payments, query) {
         </tr>`;
     }).join('');
 }
+
+window.downloadReceiptPdf = downloadReceiptPdf;
+window.openReceipt = openReceipt;
+window.viewPaymentDetails = viewPaymentDetails;
 
 function viewPaymentDetails(paymentId) {
     const payment = DB.payments.find(p => p.id === paymentId);
@@ -1959,6 +1970,8 @@ function renderSettingsToggles() {
             <div class="toggle-switch ${DB.settings.toggles[item.key] ? 'active' : ''}" data-key="${item.key}" onclick="toggleSetting('${item.key}', this)"></div>
         </div>`).join('');
 }
+
+window.toggleSetting = toggleSetting;
 
 function toggleSetting(key, el) {
     DB.settings.toggles[key] = !DB.settings.toggles[key];
