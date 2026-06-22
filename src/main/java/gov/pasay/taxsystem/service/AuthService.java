@@ -33,13 +33,22 @@ public class AuthService {
     public Optional<AuthResponse> login(String email, String inputRawPassword) {
         Optional<User> userOpt = userRepo.findByEmail(email);
 
+        System.out.println("🔍 User Found in DB: " + userOpt.get().getEmail());
+        System.out.println("📥 Input Raw Password: " + inputRawPassword);
+        System.out.println("💾 Database Password String: " + userOpt.get().getPassword());
+
         if (userOpt.isEmpty() || !passwordEncoder.matches(inputRawPassword, userOpt.get().getPassword())) {
+            System.out.println("❌ Password match failed!");
             return Optional.empty();
         }
 
-        User matchedUser = userOpt.get();
+        User matchedUser = (User) org.hibernate.Hibernate.unproxy(userOpt.get());
         String token = UUID.randomUUID().toString();
-        String userRole = (matchedUser instanceof AdminModel) ? "ADMIN" : "TAXPAYER";
+
+        String className = matchedUser.getClass().getSimpleName();
+        boolean isAdmin = className.contains("AdminModel");
+
+        String userRole = isAdmin ? "ADMIN" : "TAXPAYER";
         UserSession session = new UserSession(token, matchedUser.getEmail(), userRole);
         userSessionRepo.saveAndFlush(session);
         AuthResponse response;
@@ -61,11 +70,13 @@ public class AuthService {
                 token
             );
         } else {
+            System.out.println("⚠️ Warning: Unproxied class name was: " + className);
             return Optional.empty();
         }
 
         return Optional.of(response);
     }
+
 
     @Transactional 
     public String register(RegisterRequest request) {

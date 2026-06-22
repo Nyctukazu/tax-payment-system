@@ -16,7 +16,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-import gov.pasay.taxsystem.model.enums.AccountType;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import gov.pasay.taxsystem.model.enums.AccountStatus;
 
 @Entity
 @Table(name = "user_model")
@@ -34,6 +38,14 @@ public abstract class User {
     private String lastName;
     private String email;
     private String mobileNumber;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private AccountStatus status = AccountStatus.ACTIVE; 
 
     @Column(name = "password", nullable = false)
     private String password;

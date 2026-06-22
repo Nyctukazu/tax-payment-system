@@ -5,14 +5,22 @@ export async function loginWithBackend(email, password) {
     const loginPayload = {
         email: email,
         password: password
-    };
+    }; 
+        const passwordInput = loginForm.querySelector("input[type='password']");
+        const passwordValue = passwordInput.value; 
 
+        console.log("🔒 Raw password captured to payload:", passwordValue);
     try {
         const data = await postJson(apiUrl, loginPayload);
         localStorage.setItem("currentUser", JSON.stringify(data)); 
         return { success: true, user: data };
 
     } catch (error) {
+
+        if (error.message === "Invalid email or password") {
+            return { success: false, error: error.message };
+        }
+
         console.error("Network error typing to connect to backend:", error);
         return {
             success: false,
@@ -57,6 +65,8 @@ export async function registerAdminWithBackend(formData, administrationClassific
         accountType: "ADMIN",
         adminClass: administrationClassification
     };
+
+    console.log("Transmitting Payload:", registerPayload);
 
     try {
         const data = await postJson(apiUrl, registerPayload);

@@ -29,25 +29,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         String token = null;
 
+        // Extract via standard Bearer header
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            
-
-            userSessionRepository.findByToken(token).ifPresent(session -> {
-                if (session.getExpiryDate().isAfter(LocalDateTime.now())) {
-
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            session.getEmail(),
-                            null,
-                            Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + session.getRole()))
-                    );
-                    
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-            });
-        }
-
+        } 
+        // Fallback: Extract via browser cookies
         else if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if ("authToken".equals(cookie.getName())) {
@@ -57,14 +44,22 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
+        // Validate and authenticate using the working .getRole() method
         if (token != null) {
             userSessionRepository.findByToken(token).ifPresent(session -> {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        session.getEmail(),
-                        null,
-                        Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + session.getRole()))
-                );
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                if (session.getExpiryDate() != null && session.getExpiryDate().isAfter(LocalDateTime.now())) {
+                    
+                    // Reads 'role' string field directly from your entity database mapping
+                    String assignedRoleFromDb = session.getRole(); 
+                    
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                            session.getEmail(),
+                            null,
+                            Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + assignedRoleFromDb))
+                    );
+                    
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             });
         }
 

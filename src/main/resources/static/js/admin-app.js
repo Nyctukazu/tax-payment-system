@@ -1,9 +1,11 @@
 import { initAdminHeader } from "./components/AdminHeader.js";
 import { initAdminSidebar } from "./components/AdminSidebar.js";
 import { initializeParticles } from "./components/particles.js";
-import { initDashboard } from "./page/dashboard-page.js"
-import { initEvaluationInbox } from "./page/evaluation-inbox-page.js"
-import { initEvaluationReview } from "./page/evaluation-review-page.js"
+import { initDashboard } from "./page/dashboard-page.js";
+import { initEvaluationInbox } from "./page/evaluation-inbox-page.js";
+import { initEvaluationReview } from "./page/evaluation-review-page.js";
+import { initUserControl } from "./page/user-access-page.js";
+
 
 document.addEventListener("DOMContentLoaded", () => {
     initAdminHeader();
@@ -25,6 +27,9 @@ async function init() {
             break;
         case 'pageEvaluationReview':
             await initEvaluationReview();
+            break;
+        case 'pageUserControl':
+            await initUserControl();
             break;
         default:
             console.warn('Unknown page layout', pageId);
