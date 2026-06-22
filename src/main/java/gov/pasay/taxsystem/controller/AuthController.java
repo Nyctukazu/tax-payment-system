@@ -24,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import gov.pasay.taxsystem.service.AuthService;
 import gov.pasay.taxsystem.dto.LoginRequest;
 import gov.pasay.taxsystem.dto.RegisterRequest;
+import gov.pasay.taxsystem.repository.UserSessionRepository;
 
 @RestController
 @RequestMapping("/api/auth")  
@@ -35,6 +36,9 @@ public class AuthController {
     
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private UserSessionRepository userSessionRepo;
 
     @Value("${google.client.id}")
     private String googleClientId;
@@ -109,7 +113,7 @@ public class AuthController {
     }
 
 
-    @GetMapping("/user/profile")
+    @GetMapping("/user/profile/{urlUsername}")
     public ResponseEntity<?> getUserProfile() {
         Map<String, String> profileData = new HashMap<>();
         profileData.put("name", "Pasay Taxpayer");
@@ -118,5 +122,26 @@ public class AuthController {
         
         return ResponseEntity.ok(profileData);
     }
+
+    @PostMapping("/logout")
+public ResponseEntity<?> logout(jakarta.servlet.http.HttpServletRequest request) {
+    String token = null;
+
+    if (request.getCookies() != null) {
+        for (var cookie : request.getCookies()) {
+            if ("authToken".equals(cookie.getName())) {
+                token = cookie.getValue();
+                break;
+            }
+        }
+    }
+
+    if (token != null) {
+        userSessionRepo.findByToken(token).ifPresent(session -> userSessionRepo.delete(session));
+    }
+
+    return ResponseEntity.ok().body(Map.of("message", "Session destroyed successfully"));
+}
+
 
 }

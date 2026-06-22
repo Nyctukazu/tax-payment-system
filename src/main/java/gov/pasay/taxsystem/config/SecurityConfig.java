@@ -41,8 +41,7 @@ public class SecurityConfig {
                     "/admin-login", 
                     "/client-login", 
                     "/client-forget", 
-                    "/client-register",
-                    "/client-dashboard/**",     
+                    "/client-register",    
                     "/admin-dashboard/**",
                     "/error", 
                     "/api/auth/**", 
@@ -51,6 +50,8 @@ public class SecurityConfig {
                     "/services/**",
                     "/images/**"
                 ).permitAll()
+                .requestMatchers("/admin-dashboard/**").hasRole("ADMIN")
+                .requestMatchers("/client-dashboard/**").hasRole("TAXPAYER")
                 .anyRequest().authenticated()
             )
             
@@ -58,10 +59,11 @@ public class SecurityConfig {
                 .crossOriginOpenerPolicy(coop -> coop.policy(CrossOriginOpenerPolicyHeaderWriter.CrossOriginOpenerPolicy.SAME_ORIGIN_ALLOW_POPUPS))
                 .frameOptions(frame -> frame.sameOrigin())
                 .contentSecurityPolicy(csp -> csp.policyDirectives(
-                    "script-src 'self' https://accounts.google.com; " +
+                    "script-src 'self' https://accounts.google.com 'unsafe-inline'; " +
                     "frame-src 'self' https://accounts.google.com; " +
                     "style-src 'self' 'unsafe-inline' https://accounts.google.com https://cdnjs.cloudflare.com; " +
-                    "font-src 'self' https://cdnjs.cloudflare.com;"
+                    "font-src 'self' https://cdnjs.cloudflare.com; " +
+                    "img-src 'self' data: https://githubusercontent.com;"
                 ))
             )
 

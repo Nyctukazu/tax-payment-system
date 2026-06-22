@@ -2,6 +2,7 @@ package gov.pasay.taxsystem.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class PortalController {
@@ -31,13 +32,13 @@ public class PortalController {
         return "client/client-register";
     }
 
-    @GetMapping("/client-dashboard")
-    public String ClientDashboard() {
+    @GetMapping("/client-dashboard/{username}")
+    public String ClientDashboard(@PathVariable String username) {
         return "client/client-dashboard";
     }
 
-    @GetMapping("/admin-dashboard")
-    public String AdminDashboard() {
+    @GetMapping("/admin-dashboard/{username}")
+    public String AdminDashboard(@PathVariable String username) {
         return "admin/dashboard";
     }
 

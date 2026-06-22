@@ -8,6 +8,35 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
+        const logoutBtn = document.getElementById("logout-btn");
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", async (event) => {
+            event.preventDefault();
+            console.log("Initiating secure logout sequence...");
+
+            // 1. Wipe browser local security footprints
+            localStorage.removeItem("currentUser");
+            sessionStorage.clear();
+
+            // 2. Clear the browser authentication cookie
+            document.cookie = "authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=Strict";
+
+            // 3. Clear session tracking row from database
+            try {
+                await fetch("/api/auth/logout", { 
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" }
+                });
+            } catch (err) {
+                console.warn("Backend session cleanup skipped:", err);
+            }
+
+            // 4. Force page replacement so the back button is disabled
+            window.location.replace('/portal');
+        });
+    }
+
     const user = JSON.parse(cachedUser);
 
     try {
