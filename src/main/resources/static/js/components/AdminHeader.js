@@ -4,6 +4,12 @@ class AdminHeader extends HTMLElement {
         const currentPath = window.location.pathname;
         const userRole = (sessionStorage.getItem("userRole") || 'CLERK').toUpperCase();
         
+        let urlUsername = sessionStorage.getItem("userName");
+        if (!urlUsername) {
+            const pathSegments = currentPath.split('/');
+            urlUsername = pathSegments[pathSegments.length - 1] || 'dashboard';
+        }
+
         const isDashboard = currentPath === '/admin-dashboard' ? 'active' : '';
         const isQueuePage = currentPath.includes('queue') ? 'active' : '';
         const isEvaluatePage = currentPath.includes('evaluate') ? 'active' : '';
@@ -17,7 +23,7 @@ class AdminHeader extends HTMLElement {
 
                 <nav class="navbar-links">
                     
-                    <a href="/admin-dashboard" class="nav-item ${isDashboard}">
+                    <a href="/admin-dashboard/${urlUsername}" class="nav-item ${isDashboard}">
                         <div class="icon-glow-ring"></div>
                         <div class="icon-circle">
                             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>

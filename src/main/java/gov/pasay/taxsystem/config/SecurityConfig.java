@@ -3,6 +3,7 @@ package gov.pasay.taxsystem.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,7 +28,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.ignoringRequestMatchers("/api/auth/**"))
+            .csrf(csrf -> csrf.disable())
             
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -42,7 +43,6 @@ public class SecurityConfig {
                     "/client-login", 
                     "/client-forget", 
                     "/client-register",    
-                    "/admin-dashboard/**",
                     "/error", 
                     "/api/auth/**", 
                     "/css/**", 
@@ -52,6 +52,9 @@ public class SecurityConfig {
                 ).permitAll()
                 .requestMatchers("/admin-dashboard/**").hasRole("ADMIN")
                 .requestMatchers("/client-dashboard/**").hasRole("TAXPAYER")
+                .requestMatchers(HttpMethod.GET, "/api/accounts/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/accounts/**").hasAnyRole("ADMIN", "SUPERADMIN")
+
                 .anyRequest().authenticated()
             )
             

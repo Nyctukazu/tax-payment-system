@@ -7,7 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/components/user-access.css}" href="/css/user-access.css">
     <link rel="stylesheet" th:href="@{/css/admin/admin-style.css}" href="/css/admin/admin-style.css">
 </head>
-<body>
+<body id="pageUserControl">
 
     <admin-header></admin-header>
     <admin-sidebar></admin-sidebar>
@@ -42,15 +42,51 @@
                 <h2 class="panel-title">Current System Users</h2>
                 <button id="provisionButton" type="button" class="provision-button">+ Provision New Account</button>
             </div>
+            <div class="table-controls">
+                <!-- Search Field Wrapper -->
+                <div class="search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="tableSearch" class="search-input" placeholder="Search by name or email...">
+                </div>
+
+                <div class="filters">
+                <div class="filter-wrapper">
+                    <select id="typeFilter">
+                    <option value="ALL">All Account Types</option>
+                    <option value="ADMIN">Administrators Only</option>
+                    <option value="TAXPAYER">Taxpayers Only</option>
+                    </select>
+                </div>
+                <div class="filter-wrapper">
+                    <select id="adminFilter">
+                    <option value="ALL">All Admin Class</option>
+                    <option value="CLERK">Clerk</option>
+                    <option value="SUPERVISOR">Supervisor</option>
+                    <option value="SUPERADMIN">Super Admin</option>
+                    </select>
+                </div>
+                <div class="filter-wrapper">
+                    <select id="statusFilter">
+                    <option value="ALL">All Status Types</option>
+                    <option value="ACTIVE">Active</option>
+                    <option value="INACTIVE">Inactive</option>
+                    <option value="SUSPENDED">Suspended</option>
+                    <option value="DELETED">Deleted</option>
+                    </select>
+                </div>
+                </div>
+                
+            </div>
+
 
             <div class="table-wrap">
                 <table class="users-table" id="usersTable">
                     <thead>
                     <tr>
-                        <th>Employee ID</th>
                         <th>Full Name</th>
                         <th>Corporate Email</th>
-                        <th>Assigned Roles</th>
+                        <th>Mobile Number</th>
+                        <th>Account Type</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -72,6 +108,6 @@
     };
 </script>
 <script type="module" th:src="@{/js/admin-app.js}" src="/js/admin-app.js"></script>
-<script type="module" th:src="@{/js/pages/user-access-page.js}" src="/js/pages/user-access-page.js"></script>
+<script type="module" th:src="@{/js/page/user-access-page.js}" src="/js/pages/user-access-page.js"></script>
 </body>
 </html>

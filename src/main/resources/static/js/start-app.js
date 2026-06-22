@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const isAdminPortal = document.body.classList.contains("admin-login-body");
     passwordValidator();
 
+    window.loginForm = loginForm;
+
     window.handleGoogleSignInResponse = async function(response) {
         if (!response || !response.credential) {
             console.error("❌ Google Auth completed but no token was retrieved.");
@@ -37,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.cookie = `authToken=${result.user.token}; path=/; max-age=28800; Secure; SameSite=Strict`;
                 localStorage.setItem("authToken", result.user.token);
             }
-            const urlSafeName = response.user.displayName.toLowerCase().replace(/\s+/g, '-'); 
+            const urlSafeName = result.user.displayName.toLowerCase().replace(/\s+/g, '-'); 
             window.location.href = `/client-dashboard/${urlSafeName}`;
         } else {
             console.error("❌ Pasay Tax System Auth failed:", result.error);
@@ -149,3 +151,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
