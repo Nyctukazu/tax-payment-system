@@ -150,63 +150,20 @@
                             <button class="btn btn-blue">View Returns</button>
                         </div>
 
-                        <div class="portfolio-grid">
-                            <div class="biz-card">
-                                <div class="biz-icon"><i class="fa-solid fa-mug-hot"></i></div>
-                                <h4>The Daily Grind Café</h4>
-                                <div class="biz-details">
-                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
-                                    <p><span>Type:</span> <span>Food Services</span></p>
-                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
-                                </div>
-                                <div class="biz-actions">
-                                    <button class="btn btn-secondary">Manage</button>
-                                    <button class="btn btn-primary">File Returns</button>
+                        <div class="portfolio-slider-wrapper">
+                            <button class="slider-btn slider-btn-prev" id="portfolio-prev" aria-label="Previous">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <div class="portfolio-slider-viewport" id="portfolio-slider-viewport">
+                                <div class="portfolio-grid" id="portfolio-grid">
+                                    <p class="empty-state">Loading your businesses...</p>
                                 </div>
                             </div>
-
-                            <div class="biz-card">
-                                <div class="biz-icon"><i class="fa-solid fa-ship"></i></div>
-                                <h4>Manila Bay Seafoods</h4>
-                                <div class="biz-details">
-                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
-                                    <p><span>Type:</span> <span>Food Services</span></p>
-                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
-                                </div>
-                                <div class="biz-actions">
-                                    <button class="btn btn-secondary">Manage</button>
-                                    <button class="btn btn-primary">File Returns</button>
-                                </div>
-                            </div>
-
-                            <div class="biz-card">
-                                <div class="biz-icon"><i class="fa-solid fa-globe"></i></div>
-                                <h4>Pasay Tech Hub</h4>
-                                <div class="biz-details">
-                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
-                                    <p><span>Type:</span> <span>Food Services</span></p>
-                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
-                                </div>
-                                <div class="biz-actions">
-                                    <button class="btn btn-secondary">Manage</button>
-                                    <button class="btn btn-primary">File Returns</button>
-                                </div>
-                            </div>
-
-                            <div class="biz-card">
-                                <div class="biz-icon"><i class="fa-solid fa-bag-shopping"></i></div>
-                                <h4>Aura Boutique</h4>
-                                <div class="biz-details">
-                                    <p><span>Tax ID:</span> <span>PX-1234</span></p>
-                                    <p><span>Type:</span> <span>Food Services</span></p>
-                                    <p><span>Last Filed:</span> <span>2024-10-15</span></p>
-                                </div>
-                                <div class="biz-actions">
-                                    <button class="btn btn-secondary">Manage</button>
-                                    <button class="btn btn-primary">File Returns</button>
-                                </div>
-                            </div>
+                            <button class="slider-btn slider-btn-next" id="portfolio-next" aria-label="Next">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
                         </div>
+                        <div class="slider-dots" id="portfolio-dots"></div>
                     </section>
 
                     <div class="lower-grid">

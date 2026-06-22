@@ -570,10 +570,23 @@ function renderDashboard() {
     bindDashboardActionButtons();
 }
 
+/* ── Portfolio Slider State ── */
+let _sliderPage = 0;
+const CARDS_PER_PAGE = 3;
+
 function renderPortfolioGrid() {
     const grid = document.getElementById('portfolio-grid');
     if (!grid) return;
-    grid.innerHTML = getActiveBusinesses().map(b => `
+
+    const businesses = getActiveBusinesses();
+
+    if (businesses.length === 0) {
+        grid.innerHTML = '<p class="empty-state">No active businesses in your portfolio.</p>';
+        _updateSliderControls(0, 0);
+        return;
+    }
+
+    grid.innerHTML = businesses.map(b => `
         <div class="biz-card">
             <div class="biz-icon"><i class="fa-solid ${b.icon}"></i></div>
             <h4>${b.name}</h4>
@@ -588,6 +601,72 @@ function renderPortfolioGrid() {
                 <button class="btn btn-secondary" onclick="fileReturnForBiz('${b.id}')">File</button>
             </div>
         </div>`).join('');
+
+    const totalPages = Math.ceil(businesses.length / CARDS_PER_PAGE);
+    _sliderPage = Math.min(_sliderPage, totalPages - 1);
+    _applySliderTransform();
+    _updateSliderControls(businesses.length, totalPages);
+    _initSliderButtons(totalPages);
+}
+
+function _applySliderTransform() {
+    const grid = document.getElementById('portfolio-grid');
+    const viewport = document.getElementById('portfolio-slider-viewport');
+    if (!grid || !viewport) return;
+
+    // Card width = (viewport width - gaps) / CARDS_PER_PAGE
+    const vpWidth = viewport.clientWidth;
+    const gap = 15;
+    const cardWidth = (vpWidth - gap * (CARDS_PER_PAGE - 1)) / CARDS_PER_PAGE;
+    const offset = _sliderPage * CARDS_PER_PAGE * (cardWidth + gap);
+    grid.style.transform = `translateX(-${offset}px)`;
+}
+
+function _updateSliderControls(total, totalPages) {
+    const prevBtn = document.getElementById('portfolio-prev');
+    const nextBtn = document.getElementById('portfolio-next');
+    const dotsEl  = document.getElementById('portfolio-dots');
+
+    if (prevBtn) prevBtn.disabled = _sliderPage === 0;
+    if (nextBtn) nextBtn.disabled = _sliderPage >= totalPages - 1 || total === 0;
+
+    // Render dots
+    if (dotsEl) {
+        dotsEl.innerHTML = Array.from({ length: totalPages }, (_, i) =>
+            `<span class="slider-dot ${i === _sliderPage ? 'active' : ''}" data-page="${i}"></span>`
+        ).join('');
+        dotsEl.querySelectorAll('.slider-dot').forEach(dot => {
+            dot.addEventListener('click', () => {
+                _sliderPage = +dot.dataset.page;
+                _applySliderTransform();
+                _updateSliderControls(total, totalPages);
+            });
+        });
+    }
+}
+
+function _initSliderButtons(totalPages) {
+    const businesses = getActiveBusinesses();
+    const prevBtn = document.getElementById('portfolio-prev');
+    const nextBtn = document.getElementById('portfolio-next');
+
+    // Remove old listeners by cloning
+    if (prevBtn) {
+        const fresh = prevBtn.cloneNode(true);
+        prevBtn.parentNode.replaceChild(fresh, prevBtn);
+        fresh.addEventListener('click', () => {
+            if (_sliderPage > 0) { _sliderPage--; _applySliderTransform(); _updateSliderControls(businesses.length, totalPages); }
+        });
+        fresh.disabled = _sliderPage === 0;
+    }
+    if (nextBtn) {
+        const fresh = nextBtn.cloneNode(true);
+        nextBtn.parentNode.replaceChild(fresh, nextBtn);
+        fresh.addEventListener('click', () => {
+            if (_sliderPage < totalPages - 1) { _sliderPage++; _applySliderTransform(); _updateSliderControls(businesses.length, totalPages); }
+        });
+        fresh.disabled = _sliderPage >= totalPages - 1;
+    }
 }
 
 window.viewReturnsForBiz = viewReturnsForBiz;
