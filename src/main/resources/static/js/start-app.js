@@ -36,8 +36,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (result.user && result.user.token) {
                 localStorage.setItem("authToken", result.user.token);
             }
-            
-            window.location.href = "/client-dashboard";
+            const urlSafeName = response.user.displayName.toLowerCase().replace(/\s+/g, '-'); 
+            window.location.href = `/client-dashboard/${urlSafeName}`;
         } else {
             console.error("❌ Pasay Tax System Auth failed:", result.error);
             alert("Authentication failed: " + result.error);
@@ -88,10 +88,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     sessionStorage.setItem("userRole", adminClass || userRole);
                     sessionStorage.setItem("userName", displayName);
 
+                    const urlSafeName = displayName.toLowerCase().replace(/\s+/g, '-'); 
+
                     if (userRole === "ADMIN") {
-                        window.location.href = "/admin-dashboard";
+                        window.location.href = `/admin-dashboard/${urlSafeName}`;
                     } else {
-                        window.location.href = "/client-dashboard";
+                        window.location.href = `/client-dashboard/${urlSafeName}`;
                     }
                 } else {
                     if (errorBanner) {

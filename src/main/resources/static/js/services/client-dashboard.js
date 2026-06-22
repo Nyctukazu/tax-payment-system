@@ -558,6 +558,7 @@ function showView(name) {
         case 'create-application': renderCreateApp();     break;
     }
 }
+window.showView = showView; 
 
 /* =========================================================
    6) DASHBOARD VIEW
@@ -2032,6 +2033,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-export-csv')?.addEventListener('click', exportCSV);
     document.querySelector('.receipt-alert-bar .btn-secondary:nth-child(1)')?.addEventListener('click', printReceipt);
     document.querySelector('.receipt-alert-bar .btn-secondary:nth-child(2)')?.addEventListener('click', () => downloadReceiptPdf(null));
+
+    
 
     showView('dashboard');
     initClientHeader();
