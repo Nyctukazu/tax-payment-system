@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("✅ Backend authentication successful. Redirecting...");
             
             if (result.user && result.user.token) {
+                document.cookie = `authToken=${result.user.token}; path=/; max-age=28800; Secure; SameSite=Strict`;
                 localStorage.setItem("authToken", result.user.token);
             }
             const urlSafeName = response.user.displayName.toLowerCase().replace(/\s+/g, '-'); 
@@ -80,15 +81,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     const userRole = result.user.role || result.user.accountType; 
                     const displayName = result.user.displayName;
                     const adminClass = result.user.adminClass;
+                    document.cookie = `authToken=${result.user.token}; path=/; max-age=28800; Secure; SameSite=Strict`;
+                    localStorage.setItem("currentUser", JSON.stringify(result.user));
+
 
                     if (isAdminPortal && userRole !== "ADMIN") {
                         throw new Error("Access Denied: You do not possess administrator system authorization.");
                     }
 
+                    const urlSafeName = displayName.toLowerCase().replace(/\s+/g, '-'); 
                     sessionStorage.setItem("userRole", adminClass || userRole);
                     sessionStorage.setItem("userName", displayName);
 
-                    const urlSafeName = displayName.toLowerCase().replace(/\s+/g, '-'); 
 
                     if (userRole === "ADMIN") {
                         window.location.href = `/admin-dashboard/${urlSafeName}`;

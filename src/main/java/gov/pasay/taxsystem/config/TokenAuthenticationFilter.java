@@ -4,6 +4,7 @@ import gov.pasay.taxsystem.model.entity.UserSession;
 import gov.pasay.taxsystem.repository.UserSessionRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String authHeader = request.getHeader("Authorization");
+        String token = null;
 
+        String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7);
+            token = authHeader.substring(7);
+            
 
             userSessionRepository.findByToken(token).ifPresent(session -> {
                 if (session.getExpiryDate().isAfter(LocalDateTime.now())) {
@@ -42,6 +45,26 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                     
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
+            });
+        }
+
+        else if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("authToken".equals(cookie.getName())) {
+                    token = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        if (token != null) {
+            userSessionRepository.findByToken(token).ifPresent(session -> {
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        session.getEmail(),
+                        null,
+                        Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + session.getRole()))
+                );
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             });
         }
 

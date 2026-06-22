@@ -1324,6 +1324,10 @@ function renderAssessmentsTable(filteredAssessments) {
     }).join('');
 }
 
+window.handlePayNow = handlePayNow;
+window.fileReturnForBiz = fileReturnForBiz;
+window.viewReturnForAssessment = viewReturnForAssessment;
+
 function viewReturnForAssessment(asmtId) {
     const asmt = DB.assessments.find(a => a.id === asmtId);
     if (!asmt) return;
@@ -2006,6 +2010,38 @@ function toast(msg) {
     t._to = setTimeout(() => { t.style.opacity = '0'; }, 3500);
 }
 
+async function logout() {
+    const logoutBtn = document.getElementById("logout-btn");
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", async (event) => {
+            event.preventDefault();
+            console.log("Initiating secure logout sequence...");
+
+            // 1. Wipe browser local security footprints
+            localStorage.removeItem("currentUser");
+            sessionStorage.clear();
+
+            // 2. Clear the browser authentication cookie
+            document.cookie = "authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=Strict";
+
+            // 3. Clear session tracking row from database
+            try {
+                await fetch("/api/auth/logout", { 
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" }
+                });
+            } catch (err) {
+                console.warn("Backend session cleanup skipped:", err);
+            }
+
+            window.location.replace('/portal');
+        });
+    }
+}
+
+
+
 /* =========================================================
    19) EVENT BINDINGS
    ========================================================= */
@@ -2034,8 +2070,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.receipt-alert-bar .btn-secondary:nth-child(1)')?.addEventListener('click', printReceipt);
     document.querySelector('.receipt-alert-bar .btn-secondary:nth-child(2)')?.addEventListener('click', () => downloadReceiptPdf(null));
 
-    
+        const cachedUser = localStorage.getItem("currentUser");
+        if (!cachedUser) {
+            alert("Access Denied: Please log in to view your dashboard contract.");
+            window.location.href = "/client-login";
+        }
 
+    
+    logout();
     showView('dashboard');
     initClientHeader();
     initClientSidebar();

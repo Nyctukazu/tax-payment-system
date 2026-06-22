@@ -23,9 +23,14 @@ export async function fetchJson(url, options = {}) {
     });
 
     if (response.status === 401 || response.status === 403) {
-        localStorage.removeItem("currentUser"); 
-        window.location.href = "/client-login";
-        throw new Error("Session expired. Please log in again.");
+        const isAuthRoute = url.includes("/api/auth/");
+        
+        if (!isAuthRoute) {
+            localStorage.removeItem("currentUser"); 
+            document.cookie = "authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=Strict";
+            window.location.href = "/client-login";
+            throw new Error("Session expired. Please log in again.");
+        }
     }
 
     if (!response.ok) {
