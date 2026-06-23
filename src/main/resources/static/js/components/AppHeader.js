@@ -1,18 +1,21 @@
-
 class AppHeader extends HTMLElement {
     connectedCallback() {
 
         const currentPath = window.location.pathname;
         
-        const isDashboard = currentPath === '/client-dashboard' ? 'active' : '';
+        // Extract username from current URL e.g. /client-dashboard/rhey → rhey
+        const pathSegments = currentPath.split('/');
+        const username = pathSegments[pathSegments.length - 1] || '';
+        
+        const isDashboard = currentPath.includes('/client-dashboard') ? 'active' : '';
 
         this.innerHTML = `
             <header class="navbar-wrapper">
-                <div class="navbar-brand"><img class="logo-image" src="images/logo.jpg">PasayBiz</div>
+                <div class="navbar-brand"><img class="logo-image" src="/images/logo.jpg">PasayBiz</div>
 
                 <nav class="navbar-links">
                     
-                    <a href="/client-dashboard" class="nav-item ${isDashboard}">
+                    <a href="/client-dashboard/${username}" class="nav-item ${isDashboard}">
                         <div class="icon-glow-ring"></div>
                         <div class="icon-circle">
                             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>

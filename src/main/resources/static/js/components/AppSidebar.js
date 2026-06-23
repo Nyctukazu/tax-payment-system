@@ -58,6 +58,11 @@ class AppSidebar extends HTMLElement {
         window.addEventListener('toggle-admin-sidebar', toggleSidebar);
 
         overlay.addEventListener('click', toggleSidebar);
+        this.querySelector('#logout-btn').addEventListener('click', () => {
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.href = '/client-login';
+        });
 
         this.querySelector('#sidebarNav')?.addEventListener('click', (e) => {
  

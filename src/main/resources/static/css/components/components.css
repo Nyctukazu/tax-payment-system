@@ -29,6 +29,9 @@ body {
     padding: 10px;
     height: 70%;
     border-right: 1px solid #4b4b7a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .logo-image {
@@ -36,6 +39,7 @@ body {
     width: 50px;
     margin: 5px;
     aspect-ratio: 1/1;
+    object-fit: contain;
 
 }
 
