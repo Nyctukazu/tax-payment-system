@@ -6,10 +6,7 @@ export async function loginWithBackend(email, password) {
         email: email,
         password: password
     }; 
-        const passwordInput = loginForm.querySelector("input[type='password']");
-        const passwordValue = passwordInput.value; 
-
-        console.log("🔒 Raw password captured to payload:", passwordValue);
+    
     try {
         const data = await postJson(apiUrl, loginPayload);
         localStorage.setItem("currentUser", JSON.stringify(data)); 

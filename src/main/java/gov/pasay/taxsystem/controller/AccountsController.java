@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import gov.pasay.taxsystem.dto.AccountResponse;
 import gov.pasay.taxsystem.dto.EditRequest;
+import gov.pasay.taxsystem.dto.StatusToggleRequest;
 import gov.pasay.taxsystem.service.AccountsService;
 import io.micrometer.core.ipc.http.HttpSender.Response;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -37,16 +38,21 @@ public class AccountsController {
         return ResponseEntity.ok(accountsService.getSpecificAccount(id));
     }
 
-    @PatchMapping("/{id}/soft-delete")
-    public ResponseEntity<Void> softDeleteAccount(@PathVariable Long id) {
-        accountsService.softDeleteAccount(id);
-        return ResponseEntity.noContent().build();
+    @PatchMapping("/{id}/toggle-status")
+    public ResponseEntity<Void> toggleAccountStatus(
+            @PathVariable Long id,
+            @RequestBody StatusToggleRequest request) {
+        
+        accountsService.toggleAccountStatus(id, request);
+        return ResponseEntity.ok().build();
+        
     }
+    
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateAccount(@PathVariable Long id, @RequestBody EditRequest request) {
     accountsService.updateAccount(id, request);
     return ResponseEntity.ok().build();
-}
+    }
     
 }

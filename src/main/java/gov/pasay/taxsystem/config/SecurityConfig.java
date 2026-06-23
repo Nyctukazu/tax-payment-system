@@ -52,8 +52,10 @@ public class SecurityConfig {
                 ).permitAll()
                 .requestMatchers("/admin-dashboard/**").hasRole("ADMIN")
                 .requestMatchers("/client-dashboard/**").hasRole("TAXPAYER")
+
                 .requestMatchers(HttpMethod.GET, "/api/accounts/**").hasAnyRole("ADMIN", "SUPERADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/accounts/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                .requestMatchers(HttpMethod.PATCH, "/api/accounts/**").hasAnyRole("ADMIN", "SUPERADMIN") 
 
                 .anyRequest().authenticated()
             )

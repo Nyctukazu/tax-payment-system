@@ -2,6 +2,7 @@ package gov.pasay.taxsystem.service;
 
 import gov.pasay.taxsystem.dto.AccountResponse;
 import gov.pasay.taxsystem.dto.EditRequest;
+import gov.pasay.taxsystem.dto.StatusToggleRequest;
 import gov.pasay.taxsystem.model.entity.AdminModel;
 import gov.pasay.taxsystem.model.entity.TaxpayerModel;
 import gov.pasay.taxsystem.model.entity.User;
@@ -10,6 +11,9 @@ import gov.pasay.taxsystem.model.enums.AccountType;
 import gov.pasay.taxsystem.model.enums.AdminClassification;
 import gov.pasay.taxsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AccountsService {
 
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
@@ -44,6 +49,40 @@ public class AccountsService {
         
         user.setStatus(AccountStatus.DELETED);
         userRepository.save(user);
+    }
+
+    @Transactional
+    public void toggleAccountStatus(Long id, StatusToggleRequest request) {
+
+        checkAdminPass(request.superadminPassword());
+
+        User targetUser = userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Account not found with ID: " + id));
+
+        if (targetUser.getStatus() == AccountStatus.ACTIVE) {
+            targetUser.setStatus(AccountStatus.INACTIVE);
+        } else {
+            targetUser.setStatus(AccountStatus.ACTIVE);
+        }
+        userRepository.save(targetUser);
+    }
+
+    private void checkAdminPass(String adminPassword) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("Access Denied: Unauthenticated session.");
+        }
+
+        String currentSuperAdminEmail = authentication.getName();
+
+        System.out.println(currentSuperAdminEmail);
+
+        User currentSuperadmin = userRepository.findByEmail(currentSuperAdminEmail)
+            .orElseThrow(() -> new RuntimeException("Authenticated administrator session not found."));
+
+        if (!passwordEncoder.matches(adminPassword, currentSuperadmin.getPassword())) {
+            throw new IllegalArgumentException("Verification failed: Invalid Superadmin Password.");
+        }
     }
 
     private AccountResponse convertToResponse(User user) {

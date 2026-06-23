@@ -73,7 +73,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-
+/* 
     @PostMapping("/google")
     public ResponseEntity<?> googleLogin(@RequestBody java.util.Map<String, String> payload) {
         String tokenId = payload.get("token");
@@ -110,7 +110,7 @@ public class AuthController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing Google Authentication.");
         }
-    }
+    } */
 
 
     @GetMapping("/user/profile/{urlUsername}")

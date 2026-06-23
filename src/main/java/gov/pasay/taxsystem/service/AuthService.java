@@ -49,16 +49,23 @@ public class AuthService {
         boolean isAdmin = className.contains("AdminModel");
 
         String userRole = isAdmin ? "ADMIN" : "TAXPAYER";
-        UserSession session = new UserSession(token, matchedUser.getEmail(), userRole);
-        userSessionRepo.saveAndFlush(session);
-        AuthResponse response;
+        String classification = null;
         
         if (matchedUser instanceof AdminModel admin) {
+            classification = (admin.getAdminClass() != null) ? admin.getAdminClass().name() : "STAFF";
+        }
+
+        UserSession session = new UserSession(token, matchedUser.getEmail(), userRole, classification);
+        userSessionRepo.saveAndFlush(session);
+
+        AuthResponse response;
+        if (matchedUser instanceof AdminModel admin) {
+
             response = new AuthResponse(
                 "Welcome Admin!",
-                "ADMIN",
+                userRole,
                 admin.getFirstName(), 
-                admin.getAdminClass() != null ? admin.getAdminClass().name() : null,
+                classification,
                 token
             );
         } else if (matchedUser instanceof TaxpayerModel taxpayer) {
@@ -118,6 +125,7 @@ public class AuthService {
         throw new IllegalArgumentException("Invalid role specified. Must be 'TAXPAYER' or 'ADMIN'.");
     }
 
+    /* 
     @Transactional
     public Optional<AuthResponse> loginOrRegisterGoogleUser(String email, String name) {
         Optional<User> existingUser = userRepo.findByEmail(email);
@@ -163,5 +171,5 @@ public class AuthService {
         );
 
         return Optional.of(response);
-    }
+    } */
 }
