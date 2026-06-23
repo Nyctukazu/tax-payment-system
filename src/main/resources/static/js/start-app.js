@@ -80,23 +80,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 const result = await loginWithBackend(emailValue, passwordValue);
 
                 if (result.success) {
-                    const userRole = result.user.role || result.user.accountType; 
+                    const userRole = result.user.role;
                     const displayName = result.user.displayName;
                     const adminClass = result.user.adminClass;
+
+                    localStorage.setItem("authToken", result.user.token);
+
                     document.cookie = `authToken=${result.user.token}; path=/; max-age=28800; Secure; SameSite=Strict`;
                     localStorage.setItem("currentUser", JSON.stringify(result.user));
 
 
-                    if (isAdminPortal && userRole !== "ADMIN") {
+                    if (isAdminPortal && (!userRole || !userRole.startsWith("ADMIN"))) {
                         throw new Error("Access Denied: You do not possess administrator system authorization.");
                     }
 
-                    const urlSafeName = displayName.toLowerCase().replace(/\s+/g, '-'); 
-                    sessionStorage.setItem("userRole", adminClass || userRole);
+                    sessionStorage.setItem("userRole", adminClass || "TAXPAYER");
                     sessionStorage.setItem("userName", displayName);
 
-
-                    if (userRole === "ADMIN") {
+                    const urlSafeName = displayName.toLowerCase().replace(/\s+/g, '-'); 
+                    if (userRole && userRole.startsWith("ADMIN")) {
                         window.location.href = `/admin-dashboard/${urlSafeName}`;
                     } else {
                         window.location.href = `/client-dashboard/${urlSafeName}`;
