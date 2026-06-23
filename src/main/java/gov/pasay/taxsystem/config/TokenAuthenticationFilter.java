@@ -15,7 +15,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
@@ -28,39 +29,58 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String token = null;
+        String source = "NONE";
 
-        // Extract via standard Bearer header
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
+            source = "AUTHORIZATION HEADER";
         } 
-        // Fallback: Extract via browser cookies
         else if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if ("authToken".equals(cookie.getName())) {
                     token = cookie.getValue();
+                    source = "BROWSER COOKIE";
                     break;
                 }
             }
         }
 
-        // Validate and authenticate using the working .getRole() method
         if (token != null) {
+            System.out.println("🔍 [FILTER CHECK] Detected token from source: " + source + " | Token: [" + token + "]");
             userSessionRepository.findByToken(token).ifPresent(session -> {
                 if (session.getExpiryDate() != null && session.getExpiryDate().isAfter(LocalDateTime.now())) {
                     
-                    // Reads 'role' string field directly from your entity database mapping
-                    String assignedRoleFromDb = session.getRole(); 
+                    // 1. Initialize a clean dynamic list for authorities
+                    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+                    // 2. Read the core role column (Now holds flat "ADMIN" or "TAXPAYER")
+                    String rawRole = session.getRole(); 
+                    if (rawRole != null) {
+                        authorities.add(new SimpleGrantedAuthority("ROLE_" + rawRole.trim().toUpperCase()));
+                    }
+
+                    // 3. Read the separate admin classification column (Holds "SUPERADMIN", "CLERK", etc.)
+                    // Ensure session.getAdminClassification() matches your exact field getter name!
+                    String classification = session.getAdminClass(); 
+                    if (classification != null && !classification.trim().isEmpty()) {
+                        authorities.add(new SimpleGrantedAuthority("ROLE_" + classification.trim().toUpperCase()));
+                    }
+                    
+                    // 🔍 This will print beautiful clean tokens: [ROLE_ADMIN, ROLE_SUPERADMIN]
+                    System.out.println("✅ [FILTER CHECK] Authorities successfully mapped: " + authorities);
                     
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             session.getEmail(),
                             null,
-                            Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + assignedRoleFromDb))
+                            authorities
                     );
                     
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             });
+
+        
         }
 
         filterChain.doFilter(request, response);

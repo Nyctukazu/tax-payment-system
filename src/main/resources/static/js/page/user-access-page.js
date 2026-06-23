@@ -1,6 +1,7 @@
 import { getUserAccessData } from "../services/user-access-service.js";
 import { generateCompliantPassword } from "../services/auto-password.js";
 import { registerAdminWithBackend } from "../services/authService.js";
+import { fetchJson, postJson, putJson, patchJson } from "../api/http-client.js";
 
 let cachedAccountsList = [];
 
@@ -604,13 +605,9 @@ function renderEditAccountForm(user) {
 
             const storedToken = localStorage.getItem("authToken");
 
-            const response = await fetch(`/api/accounts/${user.id}`, { 
-                method: "PUT",
-                headers: { "Content-Type": "application/json",
-                    "Authorization": `Bearer ${storedToken}`
-                 },
-                body: JSON.stringify(updatedPayload)
-            });
+            const urlPath = `/api/accounts/${user.id}`;
+
+            putJson(urlPath , updatedPayload);
 
             if (!response.ok) throw new Error("Could not update target profile.");
 
@@ -774,15 +771,14 @@ function renderCredentialResetForm(user) {
             submitBtn.disabled = true;
             submitBtn.textContent = "Processing...";
 
-            // Send standard partial update patch call directly to user ID path coordinate node
-            const response = await fetch(`/api/accounts/${user.id}/reset-password`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("authToken")}`
-                },
-                body: JSON.stringify({ newPassword, superadminPassword: authPassword })
-            });
+            const requestPackage = {
+                newPassword: newPassword,
+                superadminPassword: authPassword
+            };
+
+            const urlPath = `/api/accounts/${user.id}/reset-password`;
+
+            patchJson(urlPath, requestPackage);
 
             if (!response.ok) throw new Error("Verification failed. Invalid Superadmin Password.");
 
@@ -855,23 +851,42 @@ function renderStatusToggleModal(user) {
 
     formElement.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const superadminPassword = document.getElementById("toggleAuthPass").value;
+        
+        // 🌟 THE FIX: Select the active field directly within the frame execution space
+        const passwordInputField = document.getElementById("toggleAuthPass");
+        if (!passwordInputField) {
+            console.error("❌ Critical: DOM Node #toggleAuthPass could not be found!");
+            return;
+        }
+
+        const superadminPassword = passwordInputField.value;
+        
+        // 🔍 DEBUG: This is guaranteed to print your raw string now!
+        console.log("🔑 Frontend capturing password text value:", superadminPassword);
+
         const submitBtn = formElement.querySelector(".btn-confirm");
 
         try {
             submitBtn.disabled = true;
             submitBtn.textContent = "Processing...";
 
-            const response = await fetch(`/api/accounts/${user.id}/soft-delete`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("authToken")}`
-                },
-                body: JSON.stringify({ superadminPassword }) // Passes password check validation parameters
-            });
+            // Assemble payload package matching your @JsonProperty DTO specifications
+            const updatePayload = {
+                superadminPassword: superadminPassword
+            };
 
-            if (!response.ok) throw new Error("Verification failed. Invalid authentication credentials.");
+            const storedToken = localStorage.getItem("authToken");
+            
+            const urlPath = `/api/accounts/${user.id}/toggle-status`;
+
+            patchJson(urlPath, updatePayload);
+
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                // 🌟 FIX: Throw must always be the ABSOLUTE LAST statement inside a failure block
+                console.log("❌ Server rejected password validation metrics. Data payload:", errData);
+                throw new Error(errData.message || "Verification failed. Invalid authentication credentials.");
+            }
 
             alertsHost.innerHTML = `<div class="alert-banner success"><span>✅</span><span>Account status updated securely!</span></div>`;
             

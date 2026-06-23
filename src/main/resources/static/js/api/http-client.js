@@ -63,3 +63,17 @@ export async function postJson(url, body) {
         body: JSON.stringify(body)
     });
 }
+
+export async function putJson(url, body) {
+    return fetchJson(url, {
+        method: "PUT",
+        body: JSON.stringify(body)
+    });
+}
+
+export async function patchJson(url, body) {
+    return fetchJson(url, {
+        method: "PATCH",
+        body: JSON.stringify(body)
+    });
+}

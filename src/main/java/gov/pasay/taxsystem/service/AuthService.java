@@ -33,35 +33,48 @@ public class AuthService {
     public Optional<AuthResponse> login(String email, String inputRawPassword) {
         Optional<User> userOpt = userRepo.findByEmail(email);
 
-        System.out.println("🔍 User Found in DB: " + userOpt.get().getEmail());
-        System.out.println("📥 Input Raw Password: " + inputRawPassword);
-        System.out.println("💾 Database Password String: " + userOpt.get().getPassword());
-
-        if (userOpt.isEmpty() || !passwordEncoder.matches(inputRawPassword, userOpt.get().getPassword())) {
-            System.out.println("❌ Password match failed!");
+        // 1. Safe check first to avoid NoSuchElementException
+        if (userOpt.isEmpty()) {
+            System.out.println("❌ Login failed: Email not found: " + email);
             return Optional.empty();
         }
 
-        User matchedUser = (User) org.hibernate.Hibernate.unproxy(userOpt.get());
+        User user = userOpt.get();
+        System.out.println("📥 Input Raw Password: " + inputRawPassword);
+        System.out.println("💾 Database Password String: " + user.getPassword());
+
+        if (!passwordEncoder.matches(inputRawPassword, user.getPassword())) {
+            System.out.println("❌ Login failed: Password match failed!");
+            return Optional.empty();
+        }
+
+        // 2. Safely unproxy the Hibernate entity
+        User matchedUser = (User) org.hibernate.Hibernate.unproxy(user);
+        String className = matchedUser.getClass().getSimpleName();
+        System.out.println("🔍 Unproxied class target detected: " + className);
+
+        // 3. Robust role identification (Better to check explicit flags or properties if instanceof fails)
+        boolean isAdmin = matchedUser instanceof AdminModel || className.contains("AdminModel");
+        String userRole = isAdmin ? "ADMIN" : "TAXPAYER";
+        String classification = null;
         String token = UUID.randomUUID().toString();
 
-        String className = matchedUser.getClass().getSimpleName();
-        boolean isAdmin = className.contains("AdminModel");
-
-        String userRole = isAdmin ? "ADMIN" : "TAXPAYER";
-        UserSession session = new UserSession(token, matchedUser.getEmail(), userRole);
-        userSessionRepo.saveAndFlush(session);
         AuthResponse response;
-        
-        if (matchedUser instanceof AdminModel admin) {
+
+        // 4. Handle response payloads safely
+        if (isAdmin) {
+            AdminModel admin = (AdminModel) matchedUser;
+            classification = (admin.getAdminClass() != null) ? admin.getAdminClass().name() : "STAFF";
+            
             response = new AuthResponse(
                 "Welcome Admin!",
-                "ADMIN",
+                userRole,
                 admin.getFirstName(), 
-                admin.getAdminClass() != null ? admin.getAdminClass().name() : null,
+                classification,
                 token
             );
-        } else if (matchedUser instanceof TaxpayerModel taxpayer) {
+        } else if (matchedUser instanceof TaxpayerModel taxpayer || className.contains("TaxpayerModel")) {
+            TaxpayerModel taxpayer = (TaxpayerModel) matchedUser;
             response = new AuthResponse(
                 "Welcome Client!",
                 "TAXPAYER",
@@ -70,12 +83,17 @@ public class AuthService {
                 token
             );
         } else {
-            System.out.println("⚠️ Warning: Unproxied class name was: " + className);
+            System.out.println("⚠️ Warning: Unproxied class could not be cast. Class name was: " + className);
             return Optional.empty();
         }
 
+        // 5. Build and commit the session data
+        UserSession session = new UserSession(token, matchedUser.getEmail(), userRole, classification);
+        userSessionRepo.saveAndFlush(session);
+
         return Optional.of(response);
     }
+
 
 
     @Transactional 
@@ -118,6 +136,7 @@ public class AuthService {
         throw new IllegalArgumentException("Invalid role specified. Must be 'TAXPAYER' or 'ADMIN'.");
     }
 
+    /* 
     @Transactional
     public Optional<AuthResponse> loginOrRegisterGoogleUser(String email, String name) {
         Optional<User> existingUser = userRepo.findByEmail(email);
@@ -163,5 +182,5 @@ public class AuthService {
         );
 
         return Optional.of(response);
-    }
+    } */
 }
